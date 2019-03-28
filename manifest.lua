@@ -5,20 +5,23 @@ manifest =
 {
     scripts =
     {
-        ['Main.lua'] =
+        ['main.lua'] =
         {
             path = "main.lua"
         },
-        ['example_map.lua'] =
+        ['Map.lua'] = {
+            path = "Map.lua"
+        },
+        ['larger_map.lua'] =
         {
-            path = "maps/example_map.lua"
+            path = "maps/larger_map.lua"
         }
     },
     textures =
     {
-        ['atlas.png'] =
+        ['cave.png'] =
         {
-            path = "sprites/atlas.png",
+            path = "sprites/cave16x16.png",
         },
     }
 }
