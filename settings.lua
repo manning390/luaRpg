@@ -1,5 +1,5 @@
 
-name = "Hello World"
+name = "Lua RPG"
 width = 256*2
 height = 224*2
 manifest = "manifest.lua"
