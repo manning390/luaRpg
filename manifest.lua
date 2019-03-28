@@ -9,24 +9,16 @@ manifest =
         {
             path = "main.lua"
         },
+        ['example_map.lua'] =
+        {
+            path = "maps/example_map.lua"
+        }
     },
-    shaders =
+    textures =
     {
-
-    },
-    -- fonts =
-    -- {
-    --     ['font'] =
-    --     {
-    --         path = "font.ttf"
-    --     }
-    -- },
-    -- textures =
-    -- {
-    --     ['hypnosis_tile_art.png'] =
-    --     {
-    --         path = "hypnosis_tile_art.png",
-    --         scale = "pixelart"
-    --     },
-    -- }
+        ['atlas.png'] =
+        {
+            path = "sprites/atlas.png",
+        },
+    }
 }

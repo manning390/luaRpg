@@ -1,7 +1,7 @@
 
 name = "Hello World"
-width = 740
-height = 480
+width = 256
+height = 224
 manifest = "manifest.lua"
 
 --
@@ -11,4 +11,4 @@ manifest = "manifest.lua"
 main_script = "Main.lua"
 on_update = "update()"
 
-webserver = false
+webserver = true
