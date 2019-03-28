@@ -1,7 +1,7 @@
 
 name = "Hello World"
-width = 256
-height = 224
+width = 256*2
+height = 224*2
 manifest = "manifest.lua"
 
 --

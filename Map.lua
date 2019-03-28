@@ -66,6 +66,17 @@ function Map:GetTile(x, y)
     return self.mTiles[x + y * self.mWidth]
 end
 
+function Map:Goto(x, y)
+    self.mCamX = x - System.ScreenWidth() / 2
+    self.mCamY = -y + System.ScreenHeight() / 2
+end
+
+function Map:GotoTile(x, y)
+    self:Goto(
+        (x * self.mTileWidth) + self.mTileWidth / 2,
+        (y * self.mTileHeight) + self.mTileHeight / 2)
+end
+
 function Map:Render(renderer)
     -- Get the topleft and bottomright pixel of the camera
     -- use to get the tile
