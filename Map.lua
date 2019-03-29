@@ -77,6 +77,11 @@ function Map:GotoTile(x, y)
         (y * self.mTileHeight) + self.mTileHeight / 2)
 end
 
+function Map:GetTileFoot(x, y)
+    return  self.mX + (x * self.mTileWidth),
+            self.mY - (y * self.mTileHeight) - self.mTileHeight / 2
+end
+
 function Map:Render(renderer)
     -- Get the topleft and bottomright pixel of the camera
     -- use to get the tile

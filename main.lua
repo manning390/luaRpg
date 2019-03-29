@@ -4,55 +4,69 @@ LoadLibrary("System")
 LoadLibrary("Texture")
 LoadLibrary("Asset")
 LoadLibrary("Keyboard")
+LoadLibrary("Vector")
 
 Asset.Run("Map.lua")
-Asset.Run("larger_map.lua")
+Asset.Run("Util.lua")
+Asset.Run("Entity.lua")
 
-function GenerateUVs(tileWidth, tileHeight, texture)
-    local uvs = {}
+Asset.Run("StateMachine.lua")
+Asset.Run("MoveState.lua")
+Asset.Run("WaitState.lua")
+Asset.Run("Tween.lua")
 
-    local textureWidth = texture:GetWidth()
-    local textureHeight = texture:GetHeight()
-    local width = tileWidth / textureWidth
-    local height = tileHeight / textureHeight
-    local cols = textureWidth / tileWidth
-    local rows = textureHeight / tileHeight
-
-    local ux = 0
-    local uy = 0
-    local vx = width
-    local vy = height
-
-    for j = 0, rows - 1 do
-        for i = 0, cols - 1 do
-            table.insert(uvs, {ux, uy, vx, vy})
-            ux = ux + width
-            vx = vx + width
-        end
-        ux = 0
-        vx = width
-        uy = uy + height
-        vy = vy + height
-    end
-    return uvs
-end
+Asset.Run("small_room.lua")
 
 local gMap = Map:Create(CreateMap1())
 gRenderer = Renderer:Create()
 
+gMap:GotoTile(5, 5)
+
+local heroDef =
+{
+    texture     = "walk_cycle.png",
+    width       = 16,
+    height      = 24,
+    startFrame  = 9,
+    tileX       = 10,
+    tileY       = 2,
+}
+
+local gHero
+gHero =
+{
+    mEntity = Entity:Create(heroDef),
+    Init =
+    function(self)
+        self.mController = StateMachine:Create
+        {
+            ['wait'] = function() return WaitState:Create(gHero, gMap) end,
+            ['move'] = function() return MoveState:Create(gHero, gMap) end,
+        }
+        self.mWaitState = WaitState:Create(self, gMap)
+        self.mMoveState = MoveState:Create(self, gMap)
+        self.mController:Change('wait')
+    end
+}
+gHero:Init()
+
+function Teleport(entity, map)
+    local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)
+    entity.mSprite:SetPosition(x,
+                            y + entity.mHeight / 2)
+end
+Teleport(gHero.mEntity, gMap)
+
 function update()
+
+    local dt = GetDeltaTime()
+    local playerPos = gHero.mEntity.mSprite:GetPosition()
+    gMap.mCamX = math.floor(playerPos:X())
+    gMap.mCamY = math.floor(playerPos:Y())
+
     gRenderer:Translate(-gMap.mCamX, -gMap.mCamY)
     gMap:Render(gRenderer)
+    gRenderer:DrawSprite(gHero.mEntity.mSprite)
 
-    if Keyboard.Held(KEY_LEFT) then
-        gMap.mCamX = gMap.mCamX - 1
-    elseif Keyboard.Held(KEY_RIGHT) then
-        gMap.mCamX = gMap.mCamX + 1
-    end
-
-    if Keyboard.Held(KEY_UP) then
-        gMap.mCamY = gMap.mCamY + 1
-    elseif Keyboard.Held(KEY_DOWN) then
-        gMap.mCamY = gMap.mCamY -1
-    end
+    gHero.mController:Update(dt)
 end
