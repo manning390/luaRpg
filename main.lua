@@ -29,8 +29,9 @@ local heroDef =
     width       = 16,
     height      = 24,
     startFrame  = 9,
-    tileX       = 10,
-    tileY       = 2,
+    tileX       = 11,
+    tileY       = 3,
+    layer       = 1
 }
 
 local gHero
@@ -70,8 +71,14 @@ function update()
     gMap.mCamY = math.floor(playerPos:Y())
 
     gRenderer:Translate(-gMap.mCamX, -gMap.mCamY)
-    gMap:Render(gRenderer)
-    gRenderer:DrawSprite(gHero.mEntity.mSprite)
+
+    local layerCount = gMap:LayerCount()
+    for i = 1, layerCount do
+        gMap:RenderLayer(gRenderer, i)
+        if i == gHero.mEntity.mLayer then
+            gRenderer:DrawSprite(gHero.mEntity.mSprite)
+        end
+    end
 
     gHero.mController:Update(dt)
 end

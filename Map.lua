@@ -76,7 +76,7 @@ function Map:GetTile(x, y, layer)
 end
 
 function Map:IsBlocked(layer, tileX, tileY)
-    local tile = self:GetTile(tileX, tileY, layer + 1)
+    local tile = self:GetTile(tileX, tileY, layer + 2)
     return tile == self.mBlockingTile
 end
 
@@ -96,7 +96,22 @@ function Map:GetTileFoot(x, y)
             self.mY - (y * self.mTileHeight) - self.mTileHeight / 2
 end
 
+function Map:LayerCount()
+    -- Number of layers should be a factor of 3
+    assert(#self.mMapDef.layers % 3 == 0)
+    return #self.mMapDef.layers / 3
+end
+
 function Map:Render(renderer)
+    self:RenderLayer(renderer, 1)
+end
+
+function Map:RenderLayer(renderer, layer)
+
+    -- Our map layers are made of 3 sections
+    -- We want the index to poitn to the base section of a given later
+    local layerIndex = (layer * 3) - 2
+
     -- Get the topleft and bottomright pixel of the camera
     -- use to get the tile
     local tileLeft, tileBottom =
@@ -105,15 +120,31 @@ function Map:Render(renderer)
     local tileRight, tileTop =
         self:PointToTile(self.mCamX + System.ScreenWidth() / 2,
                          self.mCamY + System.ScreenHeight() / 2)
+
     for j = tileTop, tileBottom do
         for i = tileLeft, tileRight do
-            local tile = self:GetTile(i, j)
-            local uvs = self.mUVs[tile]
 
-            self.mTileSprite:SetUVs(unpack(uvs))
+            local tile = self:GetTile(i, j, layerIndex)
+            local uvs = {}
+
             self.mTileSprite:SetPosition(self.mX + i * self.mTileWidth, self.mY - j * self.mTileHeight)
+            self.mTileSprite:SetUVs(unpack(uvs))
 
-            renderer:DrawSprite(self.mTileSprite)
+            if tile > 0 then
+                uvs = self.mUVs[tile]
+                self.mTileSprite:SetUVs(unpack(uvs))
+                renderer:DrawSprite(self.mTileSprite)
+            end
+
+            -- Decoration layer
+            tile = self:GetTile(i, j, layerIndex + 1)
+
+            -- If the decoration tile exists
+            if tile > 0 then
+                uvs = self.mUVs[tile]
+                self.mTileSprite:SetUVs(unpack(uvs))
+                renderer:DrawSprite(self.mTileSprite)
+            end
         end
     end
 end
