@@ -21,6 +21,10 @@ manifest =
         {
             path = "Entity.lua"
         },
+        ['Animation.lua'] =
+        {
+            path = "Animation.lua"
+        },
         ['Tween.lua'] =
         {
             path = "Tween.lua"
@@ -55,6 +59,10 @@ manifest =
         ['rpg_indoor.png'] =
         {
             path = "sprites/rpg_indoor.png",
+        },
+        ['collision_graphic.png'] =
+        {
+            path = "sprites/collision_graphic.png",
         },
         ['walk_cycle.png'] =
         {

@@ -9,6 +9,7 @@ LoadLibrary("Vector")
 Asset.Run("Map.lua")
 Asset.Run("Util.lua")
 Asset.Run("Entity.lua")
+Asset.Run("Animation.lua")
 
 Asset.Run("StateMachine.lua")
 Asset.Run("MoveState.lua")
@@ -35,6 +36,10 @@ local heroDef =
 local gHero
 gHero =
 {
+    mAnimUp     =   {1, 2, 3, 4},
+    mAnimRight  =   {5, 6, 7, 8},
+    mAnimDown   =   {9, 10, 11, 12},
+    mAnimLeft   =   {13, 14, 15, 16},
     mEntity = Entity:Create(heroDef),
     Init =
     function(self)
