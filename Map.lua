@@ -6,11 +6,6 @@ function Map:Create(mapDef)
     local this = {
         mX = 0,
         mY = 0,
-
-        -- To track the camera position
-        mCamX = 0,
-        mCamY = 0,
-
         mMapDef = mapDef,
         mTextureAtlas = Texture.Find(mapDef.tilesets[1].image),
 
@@ -23,12 +18,18 @@ function Map:Create(mapDef)
         mTileWidth = mapDef.tilesets[1].tilewidth,
         mTileHeight = mapDef.tilesets[1].tileheight,
         mTriggers = {},
+        mEntities = {},
+        mNPCs = {},
     }
     this.mTileSprite:SetTexture(this.mTextureAtlas)
 
     -- Top left corner of the map
     this.mX = -System.ScreenWidth() / 2 + this.mTileWidth / 2
     this.mY = System.ScreenHeight() / 2 - this.mTileHeight / 2
+
+
+    this.mCamX = 0
+    this.mCamY = 0
 
     -- Additional Fields
     this.mWidthPixel = this.mWidth * this.mTileWidth
@@ -44,8 +45,14 @@ function Map:Create(mapDef)
         end
     end
     assert(this.mBlockingTile)
+    print('blocking tile is', this.mBlockingTile)
 
     setmetatable(this, self)
+
+    for _, v in ipairs(mapDef.on_wake or {}) do
+        local action = Actions[v.id]
+        action(this, unpack(v.params))()
+    end
     return this
 end
 
@@ -114,6 +121,38 @@ function Map:GetTileFoot(x, y)
             self.mY - (y * self.mTileHeight) - self.mTileHeight / 2
 end
 
+function Map:GetEntity(x, y, layer)
+    if not self.mEntities[layer] then
+        return nil
+    end
+    local index = self:CoordToIndex(x, y)
+    return self.mEntities[layer][index]
+end
+
+function Map:AddEntity(entity)
+    -- Add the layer if it doesn't exist
+    if not self.mEntities[entity.mLayer] then
+        self.mEntities[entity.mLayer] = {}
+    end
+
+    local layer = self.mEntities[entity.mLayer]
+    local index = self:CoordToIndex(entity.mTileX, entity.mTileY)
+
+    assert(layer[index] == entity or layer[index] == nil)
+    layer[index] = entity
+end
+
+function Map:RemoveEntity(entity)
+    -- The layer should exist!
+    assert(self.mEntities[entity.mLayer])
+    local layer = self.mEntities[entity.mLayer]
+    local index = self:CoordToIndex(entity.mTileX, entity.mTileY)
+
+    -- The entity should be at the position
+    assert(entity == layer[index])
+    layer[index] = nil
+end
+
 function Map:LayerCount()
     -- Number of layers should be a factor of 3
     assert(#self.mMapDef.layers % 3 == 0)
@@ -162,6 +201,18 @@ function Map:RenderLayer(renderer, layer)
                 uvs = self.mUVs[tile]
                 self.mTileSprite:SetUVs(unpack(uvs))
                 renderer:DrawSprite(self.mTileSprite)
+            end
+
+            local entLayer = self.mEntities[layer] or {}
+            local drawList = {hero}
+
+            for _, j in pairs(entLayer) do
+                table.insert(drawList, j)
+            end
+
+            table.sort(drawList, function(a, b) return a.mTileY < b.mTileY end)
+            for _, j in ipairs(drawList) do
+                renderer:DrawSprite(j.mSprite)
             end
         end
     end
