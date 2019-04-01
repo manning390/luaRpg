@@ -21,7 +21,8 @@ function Map:Create(mapDef)
 
         mTiles = layer.data,
         mTileWidth = mapDef.tilesets[1].tilewidth,
-        mTileHeight = mapDef.tilesets[1].tileheight
+        mTileHeight = mapDef.tilesets[1].tileheight,
+        mTriggers = {},
     }
     this.mTileSprite:SetTexture(this.mTextureAtlas)
 
@@ -66,13 +67,30 @@ function Map:PointToTile(x, y)
     return tileX, tileY
 end
 
-function Map:GetTile(x, y, layer)
+function Map:CoordToIndex(x, y)
     -- change from  1 -> rowsize
     -- to           0 -> rowsize - 1
+    x = x + 1
+    return x + y * self.mWidth
+end
+
+function Map:GetTile(x, y, layer)
     local layer = layer or 1
     local tiles = self.mMapDef.layers[layer].data
-    x = x + 1
-    return tiles[x + y * self.mWidth]
+
+    return tiles[self:CoordToIndex(x, y)]
+end
+
+function Map:GetTrigger(layer, x, y)
+    -- Get the triggers on the same layer as the entity
+    local triggers = self.mTriggers[layer]
+
+    if not triggers then
+        return
+    end
+
+    local index = self:CoordToIndex(x, y)
+    return triggers[index]
 end
 
 function Map:IsBlocked(layer, tileX, tileY)

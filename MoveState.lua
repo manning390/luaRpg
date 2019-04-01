@@ -23,14 +23,18 @@ end
 function MoveState:Enter(data)
 
     local frames = nil
-    if data.x == -1 then
-        frames = self.mCharacter.mAnimLeft
-    elseif data.x == 1 then
-        frames = self.mCharacter.mAnimRight
+    if data.x == 1 then
+        frames = self.mCharacter.mAnims.right
+        self.mCharacter.mFacing = "right"
+    elseif data.x == -1 then
+        frames = self.mCharacter.mAnims.left
+        self.mCharacter.mFacing = "left"
     elseif data.y == -1 then
-        frames = self.mCharacter.mAnimUp
+        frames = self.mCharacter.mAnims.up
+        self.mCharacter.mFacing = "up"
     elseif data.y == 1 then
-        frames = self.mCharacter.mAnimDown
+        frames = self.mCharacter.mAnims.down
+        self.mCharacter.mFacing = "down"
     end
 
     self.mAnim:SetFrames(frames)
@@ -48,14 +52,33 @@ function MoveState:Enter(data)
         self.mMoveX = 0
         self.mMoveY = 0
         self.mEntity:SetFrame(self.mAnim:Frame())
-        self.mController:Change("wait")
+        self.mController:Change(self.mCharacter.mDefaultState)
     end
 end
 
 function MoveState:Exit()
+
+    if self.mMoveX ~= 0 or self.mMoveY ~= 0 then
+        local trigger = self.mMap:GetTrigger(self.mEntity.mLayer,
+                                            self.mEntity.mTileX,
+                                            self.mEntity.mTileY)
+        if trigger then
+            trigger:OnExit(self.mEntity)
+        end
+    end
+
     self.mEntity.mTileX = self.mEntity.mTileX + self.mMoveX
     self.mEntity.mTileY = self.mEntity.mTileY + self.mMoveY
     Teleport(self.mEntity, self.mMap)
+
+
+    local trigger = self.mMap:GetTrigger(self.mEntity.mLayer,
+                                         self.mEntity.mTileX,
+                                         self.mEntity.mTileY)
+    if trigger then
+        trigger:OnEnter(self.mEntity)
+    end
+
 end
 
 function MoveState:Render(renderer) end
@@ -74,6 +97,6 @@ function MoveState:Update(dt)
     self.mEntity.mSprite:SetPosition(self.mEntity.mX, self.mEntity.mY)
 
     if self.mTween:IsFinished() then
-        self.mController:Change("wait")
+        self.mController:Change(self.mCharacter.mDefaultState)
     end
 end

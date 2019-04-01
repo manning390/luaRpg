@@ -13,6 +13,10 @@ manifest =
         {
             path = "Map.lua"
         },
+        ['Character.lua'] =
+        {
+            path = "Character.lua"
+        },
         ['Util.lua'] =
         {
             path = "Util.lua"
@@ -21,9 +25,21 @@ manifest =
         {
             path = "Entity.lua"
         },
+        ['EntityDefs.lua'] =
+        {
+            path = "EntityDefs.lua"
+        },
         ['Animation.lua'] =
         {
             path = "Animation.lua"
+        },
+        ['Actions.lua'] =
+        {
+            path = "Actions.lua"
+        },
+        ['Trigger.lua'] =
+        {
+            path = "Trigger.lua"
         },
         ['Tween.lua'] =
         {
@@ -40,6 +56,14 @@ manifest =
         ['MoveState.lua'] =
         {
             path = "MoveState.lua"
+        },
+        ['NPCStandState.lua'] =
+        {
+            path="NPCStandState.lua"
+        },
+        ['PlanStrollState.lua'] =
+        {
+            path="PlanStrollState.lua"
         },
         ['larger_map.lua'] =
         {

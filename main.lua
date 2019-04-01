@@ -6,16 +6,20 @@ LoadLibrary("Asset")
 LoadLibrary("Keyboard")
 LoadLibrary("Vector")
 
+Asset.Run("Animation.lua")
 Asset.Run("Map.lua")
 Asset.Run("Util.lua")
 Asset.Run("Entity.lua")
-Asset.Run("Animation.lua")
-
 Asset.Run("StateMachine.lua")
 Asset.Run("MoveState.lua")
 Asset.Run("WaitState.lua")
+Asset.Run("NPCStandState.lua")
+Asset.Run("PlanStrollState.lua")
 Asset.Run("Tween.lua")
-
+Asset.Run("Actions.lua")
+Asset.Run("Trigger.lua")
+Asset.Run("EntityDefs.lua")
+Asset.Run("Character.lua")
 Asset.Run("small_room.lua")
 
 local gMap = Map:Create(CreateMap1())
@@ -23,45 +27,51 @@ gRenderer = Renderer:Create()
 
 gMap:GotoTile(5, 5)
 
-local heroDef =
+gHero = Character:Create(gCharacters.hero, gMap)
+gNpc = Character:Create(gCharacters.strolling_npc, gMap)
+Actions.Teleport(gMap, 11, 5)(nil, gNpc.mEntity)
+
+gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
+gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)
+gUpDoorTeleport(nil, gHero.mEntity)
+
+gTriggerTop = Trigger:Create
+    {
+        OnEnter = gDownDoorTeleport
+    }
+
+gTriggerBot = Trigger:Create
+    {
+        OnEnter = gUpDoorTeleport
+    }
+gMap.mTriggers =
 {
-    texture     = "walk_cycle.png",
-    width       = 16,
-    height      = 24,
-    startFrame  = 9,
-    tileX       = 11,
-    tileY       = 3,
-    layer       = 1
+    {
+        [gMap:CoordToIndex(10, 12)] = gTriggerBot,
+        [gMap:CoordToIndex(11, 2)] = gTriggerTop,
+    }
 }
 
-local gHero
-gHero =
-{
-    mAnimUp     =   {1, 2, 3, 4},
-    mAnimRight  =   {5, 6, 7, 8},
-    mAnimDown   =   {9, 10, 11, 12},
-    mAnimLeft   =   {13, 14, 15, 16},
-    mEntity = Entity:Create(heroDef),
-    Init =
-    function(self)
-        self.mController = StateMachine:Create
-        {
-            ['wait'] = function() return WaitState:Create(gHero, gMap) end,
-            ['move'] = function() return MoveState:Create(gHero, gMap) end,
-        }
-        self.mWaitState = WaitState:Create(self, gMap)
-        self.mMoveState = MoveState:Create(self, gMap)
-        self.mController:Change('wait')
+function GetFacedTileCoords(character)
+    -- change the facing information into a tile offset
+    local xInc = 0
+    local yInc = 0
+
+    if character.mFacing == "left" then
+        xInc = -1
+    elseif character.mFacing == "right" then
+        xInc = 1
+    elseif character.mFacing == "up" then
+        yInc = -1
+    elseif character.mFacing == "down" then
+        yInc = 1
     end
-}
-gHero:Init()
 
-function Teleport(entity, map)
-    local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)
-    entity.mSprite:SetPosition(x,
-                            y + entity.mHeight / 2)
+    local x = character.mEntity.mTileX + xInc
+    local y = character.mEntity.mTileY + yInc
+
+    return x, y
 end
-Teleport(gHero.mEntity, gMap)
 
 function update()
 
@@ -73,12 +83,25 @@ function update()
     gRenderer:Translate(-gMap.mCamX, -gMap.mCamY)
 
     local layerCount = gMap:LayerCount()
+
     for i = 1, layerCount do
         gMap:RenderLayer(gRenderer, i)
         if i == gHero.mEntity.mLayer then
             gRenderer:DrawSprite(gHero.mEntity.mSprite)
         end
+        if i == gNpc.mEntity.mLayer then
+            gRenderer:DrawSprite(gNpc.mEntity.mSprite)
+        end
     end
 
     gHero.mController:Update(dt)
+    gNpc.mController:Update(dt)
+
+    if Keyboard.JustPressed(KEY_SPACE) then
+        local x, y = GetFacedTileCoords(gHero)
+        local trigger = gMap:GetTrigger(gHero.mEntity.mLayer, x, y)
+        if trigger then
+            trigger:OnUse(gHero)
+        end
+    end
 end
