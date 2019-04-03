@@ -9,6 +9,10 @@ manifest =
         {
             path = "main.lua"
         },
+        ['gui_main.lua'] =
+        {
+            path = "gui_main.lua"
+        },
         ['Map.lua'] =
         {
             path = "Map.lua"
@@ -65,6 +69,18 @@ manifest =
         {
             path="PlanStrollState.lua"
         },
+        ['Panel.lua'] =
+        {
+            path = "Panel.lua"
+        },
+        ['Textbox.lua'] =
+        {
+            path = "Textbox.lua"
+        },
+        ['Selection.lua'] =
+        {
+            path = "Selection.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "maps/larger_map.lua"
@@ -91,6 +107,30 @@ manifest =
         ['walk_cycle.png'] =
         {
             path = "sprites/walk_cycle.png"
-        }
+        },
+        ['simple_panel.png'] =
+        {
+            path = "sprites/simple_panel.png",
+            scale = "pixelart"
+        },
+        ['gradient_panel.png'] =
+        {
+            path = "sprites/gradient_panel.png",
+        },
+        ['avatar.png'] =
+        {
+            path = "sprites/avatar.png",
+            scale = "pixelart"
+        },
+        ['continue_caret.png'] =
+        {
+            path = "sprites/continue_caret.png",
+            scale = "pixelart"
+        },
+        ['cursor.png'] =
+        {
+            path = "sprites/cursor.png",
+            scale = "pixelart"
+        },
     }
 }
