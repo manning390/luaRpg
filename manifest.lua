@@ -81,6 +81,14 @@ manifest =
         {
             path = "Selection.lua"
         },
+        ['ProgressBar.lua'] =
+        {
+            path = "ProgressBar.lua"
+        },
+        ['Scrollbar.lua'] =
+        {
+            path = "Scrollbar.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "maps/larger_map.lua"
@@ -131,6 +139,18 @@ manifest =
         {
             path = "sprites/cursor.png",
             scale = "pixelart"
+        },
+        ['foreground.png'] =
+        {
+            path = "sprites/foreground.png"
+        },
+        ['background.png'] =
+        {
+            path = "sprites/background.png"
+        },
+        ['scrollbar.png'] =
+        {
+            path = "sprites/scrollbar.png",
         },
     }
 }

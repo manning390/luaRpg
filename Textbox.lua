@@ -19,7 +19,8 @@ function Textbox:Create(params)
         mBounds = params.textbounds,
         mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
         mWrap = params.wrap or -1,
-        mChildren = params.children or {}
+        mChildren = params.children or {},
+        mSelectionMenu = params.selectionMenu
     }
     this.mContinueMark:SetTexture(Texture.Find("continue_caret.png"))
 
@@ -87,6 +88,17 @@ function Textbox:Render(renderer)
         Vector.Create(1,1,1,1),
         self.mWrap * scale)
 
+    if self.mSelectionMenu then
+        renderer:AlignText("left", "center")
+        local menuX = textLeft
+        local menuY = bottom + self.mSelectionMenu:GetHeight()
+        menuY = menuY + self.mBounds.bottom
+        self.mSelectionMenu.mX = menuX
+        self.mSelectionMenu.mY = menuY
+        self.mSelectionMenu.mScale = scale
+        self.mSelectionMenu:Render(renderer)
+    end
+
     if self.mChunkIndex < #self.mChunks then
         -- There are more chunks to come
         local offset = 12 + math.floor(math.sin(self.mTime*10)) * scale
@@ -109,5 +121,15 @@ function Textbox:Render(renderer)
             v.sprite:SetScale(scale, scale)
             renderer:DrawSprite(v.sprite)
         end
+    end
+end
+
+function Textbox:HandleInput()
+    if self.mSelectionMenu then
+        self.mSelectionMenu:HandleInput()
+    end
+
+    if Keyboard.JustPressed(KEY_SPACE) then
+        self:OnClick()
     end
 end

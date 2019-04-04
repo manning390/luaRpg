@@ -10,11 +10,15 @@ Asset.Run("Util.lua")
 Asset.Run("Tween.lua")
 Asset.Run("Panel.lua")
 Asset.Run("Textbox.lua")
+Asset.Run("Selection.lua")
+Asset.Run("ProgressBar.lua")
+Asset.Run("Scrollbar.lua")
 
 function CreateFixed(renderer, x, y, width, height, text, params)
     params = params or {}
     local avatar = params.avatar
     local title = params.title
+    local choices = params.choices
 
     local padding = 10
     local textScale = 1.5
@@ -42,6 +46,17 @@ function CreateFixed(renderer, x, y, width, height, text, params)
         })
     end
 
+    local selectionMenu = nil
+    if choices then
+        -- options and callback
+        selectionMenu = Selection:Create
+        {
+            data = choices.options,
+            OnSelect = choices.OnSelection,
+        }
+        boundsBottom = boundsBottom - padding * 0.5
+    end
+
     if title then
         -- Adjust the top
         local size = renderer:MeasureText(title, wrap)
@@ -52,7 +67,7 @@ function CreateFixed(renderer, x, y, width, height, text, params)
             type = "text",
             text = title,
             x = 0,
-            y = size:Y() + padding
+            y = size:Y() + padding * 0.5
         })
     end
 
@@ -109,39 +124,76 @@ function CreateFixed(renderer, x, y, width, height, text, params)
             size = panelTileSize
         },
         children = children,
-        wrap = wrap
+        wrap = wrap,
+        selectionMenu = selectionMenu
     }
 end
 
+function CreateFitted(renderer, x, y, text, wrap, params)
+    local params = params or {}
+    local choices = params.choices
+    local title = params.title
+    local avatar = params.avatar
+
+    local padding = 10
+    local panelTileSize = 3
+    local textScale = 1.5
+
+    renderer:ScaleText(textScale, textScale)
+
+    local size = renderer:MeasureText(text, wrap)
+    local width = size:X() + padding * 2
+    local height = size:Y() + padding * 2
+
+    if choices then
+        -- options and callback
+        local selectionMenu = Selection:Create
+        {
+            data = choices.options,
+            displayrows = #choices.options,
+            columns = 1,
+        }
+        height = height + selectionMenu:GetHeight() + padding * 4
+        width = math.max(width, selectionMenu:GetWidth() + padding * 2)
+    end
+
+    if title then
+        local size = renderer:MeasureText(title, wrap)
+        height = height + size:Y() + padding
+        width = math.max(width, size:X() + padding * 2)
+    end
+
+    if avatar then
+        local avatarWidth = avatar:GetWidth()
+        local avatarHeight = avatar:GetHeight()
+        width = width + avatarWidth + padding
+        height = math.max(height, avatarHeight + padding)
+    end
+
+    return CreateFixed(renderer, x, y, width, height, text, params)
+end
+
+
 gRenderer = Renderer.Create()
 
-local width = System.ScreenWidth() - 4
-local height = 102
-local x = 0
-local y = -System.ScreenHeight()/2 + height / 2
+local bar1 = Scrollbar:Create(Texture.Find("scrollbar.png"), 100)
+local bar2 = Scrollbar:Create(Texture.Find("scrollbar.png"), 200)
+local bar3 = Scrollbar:Create(Texture.Find("scrollbar.png"), 75)
 
-local text = [["A nation can survive its fools, and even the ambitious. But it cannot survive
-treason from within. An enemy at the gates is less formidable, for he is
-known and carries his banner openly. But the traitor moves amongst those
-within the gate freely, his sly whispers rustling through all the alleys, heard
-in the very halls of government itself. For the traitor appears not a traitor;
-he speaks in accents familiar to his victims, and he wears their face and
-their arguments, he appeals to the baseness that lies deep in the hearts
-of all men. He rots the soul of a nation, he works secretly and unknown in
-the night to undermine the pillars of the city, he infects the body politic so
-that it can no longer resist. A murderer is less to fear. The traitor is the
-plague."]]
-local title = "NPC:"
-local avatar = Texture.Find("avatar.png")
-local textbox = CreateFixed(gRenderer, x, y, width, height, text, title, avatar)
+bar1:SetScrollCaretScale(0.5)
+bar1:SetNormalValue(0.5)
+bar1:SetPosition(-50, 10)
+
+bar2:SetScrollCaretScale(0.3)
+bar2:SetNormalValue(0)
+bar2:SetPosition(0, 0)
+
+bar3:SetScrollCaretScale(0.1)
+bar3:SetNormalValue(1)
+bar3:SetPosition(50, -10)
 
 function update()
-    if not textbox:IsDead() then
-        textbox:Update(GetDeltaTime())
-        textbox:Render(gRenderer)
-    end
-
-    if Keyboard.JustPressed(KEY_SPACE) then
-        textbox:OnClick()
-    end
+    bar1:Render(gRenderer)
+    bar2:Render(gRenderer)
+    bar3:Render(gRenderer)
 end
