@@ -37,3 +37,25 @@ function Character:Create(def, map)
 
     return this
 end
+
+function Character:GetFacedTileCoords()
+
+    -- Change the facing information into a tile offset
+    local xInc = 0
+    local yInc = 0
+
+    if self.mFacing == "left" then
+        xInc = -1
+    elseif self.mFacing == "right" then
+        xInc = 1
+    elseif self.mFacing == "up" then
+        yInc = -1
+    elseif self.mFacing == "down" then
+        yInc = 1
+    end
+
+    local x = self.mEntity.mTileX + xInc
+    local y = self.mEntity.mTileY + yInc
+
+    return x, y
+end

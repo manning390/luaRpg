@@ -9,6 +9,10 @@ manifest =
         {
             path = "scripts/main.lua"
         },
+        ['Dependencies.lua'] =
+        {
+            path = "scripts/Dependencies.lua"
+        },
         ['gui_main.lua'] =
         {
             path = "scripts/gui_main.lua"
@@ -92,6 +96,10 @@ manifest =
         ['StateStack.lua'] =
         {
             path = "scripts/StateStack.lua"
+        },
+        ['ExploreState.lua'] =
+        {
+            path = "scripts/ExploreState.lua"
         },
         ['larger_map.lua'] =
         {
