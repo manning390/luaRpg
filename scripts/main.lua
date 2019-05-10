@@ -35,8 +35,17 @@ stack:PushFit(gRenderer, -50, 50, "My head hurts!")
 stack:Push(CreateBlock(stack))
 stack:PushFit(gRenderer, -100, 100, "Uh...")
 
+local layout = Layout:Create()
+
+layout:Contract('screen', 118, 40)
+layout:SplitHorz('screen', 'top', 'bottom', 0.12, 2)
+layout:SplitVert('bottom', 'left', 'party', 0.726, 2)
+layout:SplitHorz('left', 'menu', 'gold', 0.7, 2)
+
+
 function update()
     local dt = GetDeltaTime()
-    stack:Update(dt)
-    stack:Render(gRenderer)
+    layout:DebugRender(gRenderer)
+    -- stack:Update(dt)
+    -- stack:Render(gRenderer)
 end

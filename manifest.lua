@@ -105,6 +105,10 @@ manifest =
         {
             path = "scripts/ExploreState.lua"
         },
+        ['Layout.lua'] =
+        {
+            path = "scripts/Layout.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "assets/larger_map.lua"
