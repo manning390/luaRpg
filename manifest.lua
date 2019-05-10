@@ -109,6 +109,14 @@ manifest =
         {
             path = "scripts/Layout.lua"
         },
+        ['InGameMenuState.lua'] =
+        {
+            path = "scripts/InGameMenuState.lua"
+        },
+        ['FrontMenuState.lua'] =
+        {
+            path = "scripts/FrontMenuState.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "assets/larger_map.lua"

@@ -1,7 +1,7 @@
 
 name = "Lua RPG"
-width = 640
-height = 512
+width = 1280/2
+height = 720/2
 manifest = "manifest.lua"
 
 --
