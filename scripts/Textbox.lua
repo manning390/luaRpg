@@ -9,6 +9,8 @@ function Textbox:Create(params)
 
     local this =
     {
+        mStack = params.stack,
+        mDoClickCallback = false,
         mChunks = params.text,
         mChunkIndex = 1,
         mContinueMark = Sprite.Create(),
@@ -36,7 +38,12 @@ function Textbox:Create(params)
 end
 
 function Textbox:Update(dt)
+    self.mTime = self.mTime + dt
     self.mAppearTween:Update(dt)
+    if self:IsDead() then
+        self.mStack:Pop()
+    end
+    return true
 end
 
 function Textbox:IsDead()
@@ -45,6 +52,9 @@ function Textbox:IsDead()
 end
 
 function Textbox:OnClick()
+    if self.mSelectionMenu then
+        self.mDoClickCallback = true
+    end
 
     if self.mChunkIndex >= #self.mChunks then
         --
@@ -58,6 +68,23 @@ function Textbox:OnClick()
         self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.EaseOutCirc)
     else
         self.mChunkIndex = self.mChunkIndex + 1
+    end
+end
+
+function Textbox:HandleInput()
+    if self.mSelectionMenu then
+        self.mSelectionMenu:HandleInput()
+    end
+
+    if Keyboard.JustPressed(KEY_SPACE) then
+        self:OnClick()
+    end
+end
+
+function Textbox:Enter() end
+function Textbox:Exit()
+    if self.mDoClickCallback then
+        self.mSelectionMenu:OnClick()
     end
 end
 
@@ -121,15 +148,5 @@ function Textbox:Render(renderer)
             v.sprite:SetScale(scale, scale)
             renderer:DrawSprite(v.sprite)
         end
-    end
-end
-
-function Textbox:HandleInput()
-    if self.mSelectionMenu then
-        self.mSelectionMenu:HandleInput()
-    end
-
-    if Keyboard.JustPressed(KEY_SPACE) then
-        self:OnClick()
     end
 end

@@ -12,6 +12,7 @@ mapDef.triggers = {}
 local stack = StateStack:Create()
 local state = ExploreState:Create(stack, mapDef, Vector.Create(11, 3, 1))
 stack:Push(state)
+stack:PushFit(gRenderer, 0, 0, "You're trapped in a small room.")
 
 function update()
     local dt = GetDeltaTime()
