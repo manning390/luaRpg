@@ -7,99 +7,99 @@ manifest =
     {
         ['main.lua'] =
         {
-            path = "main.lua"
+            path = "scripts/main.lua"
         },
         ['gui_main.lua'] =
         {
-            path = "gui_main.lua"
+            path = "scripts/gui_main.lua"
         },
         ['Map.lua'] =
         {
-            path = "Map.lua"
+            path = "scripts/Map.lua"
         },
         ['Character.lua'] =
         {
-            path = "Character.lua"
+            path = "scripts/Character.lua"
         },
         ['Util.lua'] =
         {
-            path = "Util.lua"
+            path = "scripts/Util.lua"
         },
         ['Entity.lua'] =
         {
-            path = "Entity.lua"
+            path = "scripts/Entity.lua"
         },
         ['EntityDefs.lua'] =
         {
-            path = "EntityDefs.lua"
+            path = "scripts/EntityDefs.lua"
         },
         ['Animation.lua'] =
         {
-            path = "Animation.lua"
+            path = "scripts/Animation.lua"
         },
         ['Actions.lua'] =
         {
-            path = "Actions.lua"
+            path = "scripts/Actions.lua"
         },
         ['Trigger.lua'] =
         {
-            path = "Trigger.lua"
+            path = "scripts/Trigger.lua"
         },
         ['Tween.lua'] =
         {
-            path = "Tween.lua"
+            path = "scripts/Tween.lua"
         },
         ['StateMachine.lua'] =
         {
-            path = "StateMachine.lua"
+            path = "scripts/StateMachine.lua"
         },
         ['WaitState.lua'] =
         {
-            path = "WaitState.lua"
+            path = "scripts/WaitState.lua"
         },
         ['MoveState.lua'] =
         {
-            path = "MoveState.lua"
+            path = "scripts/MoveState.lua"
         },
         ['NPCStandState.lua'] =
         {
-            path="NPCStandState.lua"
+            path = "scripts/NPCStandState.lua"
         },
         ['PlanStrollState.lua'] =
         {
-            path="PlanStrollState.lua"
+            path = "scripts/PlanStrollState.lua"
         },
         ['Panel.lua'] =
         {
-            path = "Panel.lua"
+            path = "scripts/Panel.lua"
         },
         ['Textbox.lua'] =
         {
-            path = "Textbox.lua"
+            path = "scripts/Textbox.lua"
         },
         ['Selection.lua'] =
         {
-            path = "Selection.lua"
+            path = "scripts/Selection.lua"
         },
         ['ProgressBar.lua'] =
         {
-            path = "ProgressBar.lua"
+            path = "scripts/ProgressBar.lua"
         },
         ['Scrollbar.lua'] =
         {
-            path = "Scrollbar.lua"
+            path = "scripts/Scrollbar.lua"
         },
         ['StateStack.lua'] =
         {
-            path = "StateStack.lua"
+            path = "scripts/StateStack.lua"
         },
         ['larger_map.lua'] =
         {
-            path = "maps/larger_map.lua"
+            path = "assets/larger_map.lua"
         },
         ['small_room.lua'] =
         {
-            path = "maps/small_room.lua"
+            path = "assets/small_room.lua"
         }
     },
     textures =
@@ -114,7 +114,7 @@ manifest =
         },
         ['collision_graphic.png'] =
         {
-            path = "sprites/collision_graphic.png",
+            path = "assets/collision_graphic.png",
         },
         ['walk_cycle.png'] =
         {

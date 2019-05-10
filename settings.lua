@@ -8,7 +8,7 @@ manifest = "manifest.lua"
 -- This script is expected to be an asset in the manifest file.
 -- It's executed at the start
 --
-main_script = "gui_main.lua"
+main_script = "main.lua"
 on_update = "update()"
 
 webserver = true
