@@ -38,5 +38,6 @@ Apply(function(v) Asset.Run(v) end,
     "Textbox.lua",
     "StateStack.lua",
     "ExploreState.lua",
+    "FadeState.lua",
     "small_room.lua",
 })

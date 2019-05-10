@@ -65,6 +65,10 @@ manifest =
         {
             path = "scripts/MoveState.lua"
         },
+        ['FadeState.lua'] =
+        {
+            path = "scripts/FadeState.lua"
+        },
         ['NPCStandState.lua'] =
         {
             path = "scripts/NPCStandState.lua"
