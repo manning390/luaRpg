@@ -89,6 +89,10 @@ manifest =
         {
             path = "Scrollbar.lua"
         },
+        ['StateStack.lua'] =
+        {
+            path = "StateStack.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "maps/larger_map.lua"
