@@ -9,12 +9,12 @@ mapDef.actions = {}
 mapDef.trigger_types = {}
 mapDef.triggers = {}
 
--- 11, 3, 1 == x, y, layer
-local state = ExploreState:Create(nil, mapDef, Vector.Create(11, 3, 1))
+local stack = StateStack:Create()
+local state = ExploreState:Create(stack, mapDef, Vector.Create(11, 3, 1))
+stack:Push(state)
 
 function update()
     local dt = GetDeltaTime()
-    state:Update(dt)
-    state:HandleInput()
-    state:Render(gRenderer)
+    stack:Update(dt)
+    stack:Render(gRenderer)
 end
