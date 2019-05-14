@@ -27,7 +27,7 @@ function FrontMenuState:Create(parent, world)
                 -- "Status",
                 -- "Save",
             },
-            OnSelection = function(...) this:OnMenuclick(...) end
+            OnSelection = function(...) this:OnMenuClick(...) end
         },
 
         mPanels =
@@ -78,8 +78,8 @@ function FrontMenuState:Render(renderer)
     renderer:DrawText2d(goldX, goldY, "GP:")
     renderer:DrawText2d(goldX, goldY - 25, "TIME:")
     renderer:AlignText("left", "top")
-    renderer:DrawText2d(goldX + 10, goldY, "0")
-    renderer:DrawText2d(goldX + 10, goldY - 25, "0")
+    renderer:DrawText2d(goldX + 10, goldY, gWorld:GoldAsString())
+    renderer:DrawText2d(goldX + 10, goldY - 25, gWorld:TimeAsString())
 end
 
 function FrontMenuState:OnMenuClick(index)

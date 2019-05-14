@@ -27,7 +27,7 @@ function Selection:Create(params)
 
     setmetatable(this, self)
 
-    this.RenderItem = params.renderItem or this.RenderItem
+    this.RenderItem = params.RenderItem or this.RenderItem
     this.mWidth = this:CalcWidth(gRenderer)
     this.mHeight = this:CalcHeight()
 

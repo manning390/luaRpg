@@ -117,6 +117,22 @@ manifest =
         {
             path = "scripts/FrontMenuState.lua"
         },
+        ['World.lua'] =
+        {
+            path = "scripts/World.lua"
+        },
+        ['ItemDB.lua'] =
+        {
+            path = "scripts/ItemDB.lua"
+        },
+        ['Icons.lua'] =
+        {
+            path = "scripts/Icons.lua"
+        },
+        ['ItemMenuState.lua'] =
+        {
+            path = "scripts/ItemMenuState.lua"
+        },
         ['larger_map.lua'] =
         {
             path = "assets/larger_map.lua"
@@ -179,6 +195,10 @@ manifest =
         ['scrollbar.png'] =
         {
             path = "sprites/scrollbar.png",
+        },
+        ['inventory_icons.png'] =
+        {
+            path = "sprites/inventory_icons.png",
         },
     }
 }
