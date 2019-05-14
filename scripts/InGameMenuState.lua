@@ -48,6 +48,6 @@ function InGameMenuState:Render(renderer)
     self.mStateMachine:Render(renderer)
 end
 
-function EquipMenuState:Enter() end
-function EquipMenuState:Exit() end
-function EquipMenuState:HandleInput() end
+function InGameMenuState:Enter() end
+function InGameMenuState:Exit() end
+function InGameMenuState:HandleInput() end

@@ -41,5 +41,6 @@ Apply(function(v) Asset.Run(v) end,
     "FadeState.lua",
     "Layout.lua",
     "InGameMenuState.lua",
+    "FrontMenuState.lua",
     "small_room.lua",
 })
