@@ -37,6 +37,9 @@ manifest = {
         ["default"] = { path = "fonts/junction.ttf" },
         ["title"] = { path = "fonts/contra_italic.ttf" }
     },
+    ['sounds'] = {
+        ['rain'] = { path = "sounds/rain.wav" }
+    },
     scripts = {
         ['main.lua'] = { path = "scripts/main.lua" },
         ['Dependencies.lua'] = { path = "scripts/Dependencies.lua" },

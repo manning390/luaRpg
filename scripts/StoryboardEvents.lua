@@ -138,3 +138,34 @@ function KillState(id)
         return EmptyEvent
     end
 end
+
+function Play(soundName, name, volume)
+    name = name or soundName
+    volume = volume or 1
+    return function(storyboard)
+        local id = Sound.Play(soundName)
+        Sound.SetVolume(id, volume)
+        storyboard:AddSound(name, id)
+        return EmptyEvent
+    end
+end
+
+function Stop(name)
+    return function(storyboard)
+        storyboard:StopSound(name)
+        return EmptyEvent
+    end
+end
+
+function FadeSound(name, start, finish, duration)
+    return function(storyboard)
+        local id = storyboard.mPlayingSounds[name]
+        return TweenEvent:Create(
+            Tween:Create(start, finish, duration),
+            id,
+            function(target, value)
+                Sound.SetVolume(target, value)
+            end
+        )
+    end
+end

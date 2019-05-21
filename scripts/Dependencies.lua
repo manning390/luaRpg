@@ -13,6 +13,7 @@ Apply(function(v) LoadLibrary(v) end,
     "Texture",
     "Vector",
     "Keyboard",
+    "Sound",
 })
 
 Apply(function(v) Asset.Run(v) end,

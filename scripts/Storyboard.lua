@@ -6,7 +6,8 @@ function Storyboard:Create(stack, events)
         mStack = stack,
         mEvents = events,
         mStates = {},
-        mSubStack = StateStack:Create()
+        mSubStack = StateStack:Create(),
+        mPlayingSounds = {},
     }
 
     setmetatable(this, self)
@@ -14,9 +15,14 @@ function Storyboard:Create(stack, events)
 end
 
 function Storyboard:Enter() end
-function Storyboard:Exit() end
 function Storyboard:HandleInput() end
 function Storyboard:CleanUp() end
+
+function Storyboard:Exit()
+    for k, v in pairs(self.mPlayingSounds) do
+        Sound.Stop(v)
+    end
+end
 
 function Storyboard:Update(dt)
     self.mSubStack:Update(dt)
@@ -67,4 +73,15 @@ function Storyboard:RemoveState(id)
             table.remove(self.mSubStack.mStates, i)
         end
     end
+end
+
+function Storyboard:AddSound(name, id)
+    assert(self.mPlayingSounds[name] == nil)
+    self.mPlayingSounds[name] = id
+end
+
+function Storyboard:StopSound(name)
+    local id = self.mPlayingSounds[name]
+    self.mPlayingSounds[name] = nil
+    Sound.Stop(id)
 end
