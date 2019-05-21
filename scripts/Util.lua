@@ -41,3 +41,11 @@ function Teleport(entity, map)
     entity.mSprite:SetPosition(x,
                             y + entity.mHeight / 2)
 end
+
+function ShallowClone(t)
+    local clone = {}
+    for k, v in pairs(t) do
+        clone[k] = v
+    end
+    return clone
+end
