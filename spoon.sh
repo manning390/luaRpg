@@ -1,9 +1,9 @@
 #!/bin/bash
 # Takes a CamelCase class name to generate a lua class for DinoDeck engine
+PROJECT='/d/Railalis/Documents/Code/lua/luaRpg'
+SCRIPTS='scripts'
+DEP='Dependencies.lua'
 NAME=$1
-PROJECT="/d/Railalis/Documents/Code/lua/luaRpg"
-SCRIPTS="scripts"
-DEP="Dependencies.lua"
 FILE=$PROJECT/$SCRIPTS/$NAME.lua
 
 # echo "Creating $NAME.lua file.."
