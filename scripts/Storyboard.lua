@@ -57,3 +57,14 @@ function Storyboard:PushState(id, state)
     self.mStates[id] = state
     self.mSubStack:Push(state)
 end
+
+function Storyboard:RemoveState(id)
+    local state = self.mStates[id]
+    self.mStates[id] = nil
+    for i = #self.mSubStack.mStates, 1, -1 do
+        local v = self.mSubStack.mStates[i]
+        if v == state then
+            table.remove(self.mSubStack.mStates, i)
+        end
+    end
+end

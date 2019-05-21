@@ -14,9 +14,14 @@ local intro =
     BlackScreen(),
     Caption("place", "title", "Village of Sontos"),
     Caption("time", "subtitle", "MIDNIGHT"),
-    FadeOutCaption("place"),
-    FadeOutCaption("time"),
-    Wait(10)
+    Wait(1),
+    NoBlock(
+        FadeOutCaption("place", 3)
+    ),
+    FadeOutCaption("time", 3),
+    KillState("place"),
+    KillState("time"),
+    FadeOutScreen()
 }
 local storyboard = Storyboard:Create(stack, intro)
 stack:Push(storyboard)

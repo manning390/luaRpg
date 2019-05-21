@@ -121,3 +121,20 @@ function FadeOutCaption(id, duration)
         )
     end
 end
+
+function NoBlock(f)
+    return function(...)
+        local event = f(...)
+        event.IsBlocking = function()
+            return false
+        end
+        return event
+    end
+end
+
+function KillState(id)
+    return function(storyboard)
+        storyboard:RemoveState(id)
+        return EmptyEvent
+    end
+end
