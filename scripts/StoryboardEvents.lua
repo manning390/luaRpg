@@ -169,3 +169,24 @@ function FadeSound(name, start, finish, duration)
         )
     end
 end
+
+function Scene(params)
+    return function(storyboard)
+        local id = params.name or params.map
+        local map = MapDB[params.map]()
+        local focus = Vector.Create(
+            params.focusX or 1,
+            params.focusY or 1,
+            params.focusZ or 1)
+        local state = ExploreState:Create(nil, map, focus)
+        if params.hideHero then
+            state:HideHero()
+        end
+        storyboard:PushState(id, state)
+
+        -- Allows the following operation to run
+        -- on the same frame
+        return NoBlock(Wait(0))()
+    end
+end
+

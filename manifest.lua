@@ -32,6 +32,8 @@ manifest = {
         ['background.png'] = { path = "sprites/background.png"},
         ['scrollbar.png'] = { path = "sprites/scrollbar.png" },
         ['inventory_icons.png'] = { path = "sprites/inventory_icons.png" },
+        ['tileset_sontos_house.png'] = { path = "sprites/tileset_sontos_house.png" },
+        ['SleepState.lua'] = { path = "code/SleepState.lua" }
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -78,7 +80,7 @@ manifest = {
         ['ScreenState.lua'] = { path = "scripts/ScreenState.lua" },
 		['CaptionState.lua'] = { path = 'scripts/CaptionState.lua' },
 		['CaptionStyles.lua'] = { path = 'scripts/CaptionStyles.lua' },
-        ['larger_map.lua'] = { path = "assets/larger_map.lua" },
-        ['small_room.lua'] = { path = "assets/small_room.lua" }
+        ['map_sontos_house.lua'] = { path = 'assets/map_sontos_house.lua' },
+        ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
     },
 }
