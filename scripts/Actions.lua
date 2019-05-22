@@ -8,6 +8,7 @@ Actions =
             end
         end,
     AddNPC = function(map, npc)
+        assert(npc.id ~= "hero") -- reserved npc name
         return function(trigger, entity)
             local charDef = gCharacters[npc.def]
             assert(charDef)

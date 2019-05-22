@@ -46,7 +46,7 @@ function Map:Create(mapDef)
         end
     end
     assert(this.mBlockingTile)
-    print('blocking tile is', this.mBlockingTile)
+    -- print('blocking tile is', this.mBlockingTile)
 
     --
     -- Create the Actions from the def

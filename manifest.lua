@@ -33,6 +33,7 @@ manifest = {
         ['scrollbar.png'] = { path = "sprites/scrollbar.png" },
         ['inventory_icons.png'] = { path = "sprites/inventory_icons.png" },
         ['tileset_sontos_house.png'] = { path = "sprites/tileset_sontos_house.png" },
+        ['tileset_jail.png'] = { path = "sprites/tileset_jail.png" },
         ['sleeping.png'] = { path = "sprites/sleeping.png" }
     },
     ['fonts'] = {
@@ -40,7 +41,11 @@ manifest = {
         ["title"] = { path = "fonts/contra_italic.ttf" }
     },
     ['sounds'] = {
-        ['rain'] = { path = "sounds/rain.wav" }
+        ['rain'] = { path = "sounds/rain.wav" },
+        ['door_break'] = { path = "sounds/door_break.wav" },
+        ['wagon'] = { path = "sounds/wagon.wav" },
+        ['wind'] = { path = "sounds/wind.wav" },
+        ['bell'] = { path = "sounds/bell.wav" },
     },
     scripts = {
         ['main.lua'] = { path = "scripts/main.lua" },
@@ -83,6 +88,7 @@ manifest = {
 		['SleepState.lua'] = { path = 'scripts/SleepState.lua' },
 		['FollowPathState.lua'] = { path = 'scripts/FollowPathState.lua' },
         ['map_sontos_house.lua'] = { path = 'assets/map_sontos_house.lua' },
+        ['map_jail.lua'] = { path = 'assets/map_jail.lua' },
         ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
     },
 }

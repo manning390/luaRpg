@@ -290,6 +290,9 @@ function Say(mapId, npcId, text, time, params)
     return function(storyboard)
         local map = GetMapRef(storyboard, mapId)
         local npc = map.mNPCbyId[npcId]
+        if npcId == "hero" then
+            npc = storyboard.mStates[mapId].mHero
+        end
         local pos = npc.mEntity.mSprite:GetPosition()
         storyboard.mStack:PushFit(
             gRenderer,
@@ -297,5 +300,45 @@ function Say(mapId, npcId, text, time, params)
             text, -1, params)
         local box = storyboard.mStack:Top()
         return TimedTextboxEvent:Create(box, time)
+    end
+end
+
+function ReplaceScene(name, params)
+    return function(storyboard)
+        local state = storyboard.mStates[name]
+
+        -- give the state an updated name
+        local id = params.name or params.map
+        storyboard.mStates[name] = nil
+        storyboard.mStates[id] = state
+        local mapDef = MapDB[params.map]()
+        state.mMap = Map:Create(mapDef)
+
+        state.mMap:GotoTile(params.focusX, params.focusY)
+        state.mHero = Character:Create(gCharacters.hero, state.mMap)
+        state.mHero.mEntity:SetTilePos(
+            params.focusX,
+            params.focusY,
+            params.focusZ or 1,
+            state.mMap)
+
+        if params.hideHero then
+            state:HideHero()
+        else
+            state:ShowHero()
+        end
+
+        return NoBlock(Wait(0))()
+    end
+end
+
+function HandOff(mapId)
+    return function(storyboard)
+        local exploreState = storyboard.mStates[mapId]
+        -- Remove storyboard form the top of the stack
+        storyboard.mStack:Pop()
+        storyboard.mStack:Push(exploreState)
+        exploreState.mStack = gStack
+        return EmptyEvent
     end
 end

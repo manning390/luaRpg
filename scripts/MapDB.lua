@@ -1,3 +1,4 @@
 MapDB = {
-    ["player_house"] = CreateHouseMap
+    ["player_house"] = CreateHouseMap,
+    ["jail"] = CreateJailMap
 }
