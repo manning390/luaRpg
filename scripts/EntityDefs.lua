@@ -1,6 +1,8 @@
 -- WaitState, MoveState must already be loaded.
 assert(WaitState)
 assert(MoveState)
+assert(SleepState)
+assert(FollowPathState)
 
 -- Text Id -> Controller State
 gCharacterStates =
@@ -9,6 +11,8 @@ gCharacterStates =
     move = MoveState,
     npc_stand = NPCStandState,
     plan_stroll = PlanStrollState,
+    sleep = SleepState,
+    follow_path = FollowPathState,
 }
 
 gEntities =
@@ -22,7 +26,26 @@ gEntities =
         tileX       = 11,
         tileY       = 3,
         layer       = 1
-    }
+    },
+    sleep =
+    {
+        texture = "sleeping.png",
+        width = 32,
+        height = 32,
+        startFrame = 3,
+        x = 18,
+        y = 32,
+    },
+    guard =
+    {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 89,
+        tileX = 1,
+        tileY = 1,
+        layer = 1,
+    },
 }
 
 gCharacters =
@@ -62,5 +85,30 @@ gCharacters =
         facing = "down",
         controller = {"wait", "move"},
         state = "wait"
+    },
+    sleeper =
+    {
+        entity = "hero",
+        anims =
+        {
+            left = {13},
+        },
+        facing = "left",
+        controller = {"sleep"},
+        state = "sleep"
+    },
+    guard =
+    {
+        entity = "guard",
+        anims =
+        {
+            up =     {81, 82, 83, 84},
+            right =  {85, 86, 87, 88},
+            down =   {89, 90, 91, 92},
+            left =   {93, 94, 95, 96},
+        },
+        facing = "up",
+        controller = {"npc_stand", "follow_path", "move"},
+        state = "npc_stand"
     }
 }

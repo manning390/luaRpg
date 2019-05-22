@@ -20,6 +20,7 @@ function Map:Create(mapDef)
         mTriggers = {},
         mEntities = {},
         mNPCs = {},
+        mNPCbyId = {},
     }
     this.mTileSprite:SetTexture(this.mTextureAtlas)
 
@@ -258,7 +259,7 @@ function Map:RenderLayer(renderer, layer)
 
             table.sort(drawList, function(a, b) return a.mTileY < b.mTileY end)
             for _, j in ipairs(drawList) do
-                renderer:DrawSprite(j.mSprite)
+                j:Render(renderer)
             end
         end
     end

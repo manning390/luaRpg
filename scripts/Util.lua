@@ -36,12 +36,6 @@ function GenerateUVs(tileWidth, tileHeight, texture)
     return uvs
 end
 
-function Teleport(entity, map)
-    local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)
-    entity.mSprite:SetPosition(x,
-                            y + entity.mHeight / 2)
-end
-
 function ShallowClone(t)
     local clone = {}
     for k, v in pairs(t) do

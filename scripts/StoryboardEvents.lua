@@ -48,6 +48,55 @@ function TweenEvent:IsBlocking()
     return true
 end
 
+BlockUntilEvent = {}
+BlockUntilEvent.__index = BlockUntilEvent
+function BlockUntilEvent:Create(UntilFunc)
+    local this =
+    {
+        mUntilFunc = UntilFunc,
+    }
+    setmetatable(this, self)
+    return this
+end
+
+function BlockUntilEvent:Update(dt) end
+function BlockUntilEvent:Render() end
+
+function BlockUntilEvent:IsBlocking()
+    return not self.mUntilFunc()
+end
+
+function BlockUntilEvent:IsFinished()
+    return not self:IsBlocking()
+end
+
+TimedTextboxEvent = {}
+TimedTextboxEvent.__index = TimedTextboxEvent
+function TimedTextboxEvent:Create(box, time)
+    local this =
+    {
+        mTextbox = box,
+        mCountDown = time,
+    }
+
+    setmetatable(this, self)
+    return this
+end
+
+function TimedTextboxEvent:Update(dt, storyboard)
+    self.mCountDown = self.mCountDown - dt
+    if self.mCountDown <= 0 then
+        self.mTextbox:OnClick()
+    end
+end
+function TimedTextboxEvent:Render() end
+function TimedTextboxEvent:IsBlocking()
+    return self.mCountDown > 0
+end
+function TimedTextboxEvent:IsFinished()
+    return not self:IsBlocking()
+end
+
 function Wait(seconds)
     return function(storyboard)
         return WaitEvent:Create(seconds)
@@ -190,3 +239,63 @@ function Scene(params)
     end
 end
 
+function GetMapRef(storyboard, stateId)
+    local exploreState = storyboard.mStates[stateId]
+    assert(exploreState and exploreState.mMap)
+    return exploreState.mMap
+end
+
+function RunAction(actionId, actionParams, paramOps)
+
+    local action = Actions[actionId]
+    assert(action)
+
+    return function(storyboard)
+        --
+        -- Look up references required by action.
+        --
+        paramOps = paramOps or {}
+
+        for k, op in pairs(paramOps) do
+            if op then
+                actionParams[k] = op(storyboard, actionParams[k])
+            end
+        end
+
+        local actionFunc = action(unpack(actionParams))
+        actionFunc()
+
+        return EmptyEvent
+    end
+end
+
+function MoveNPC(id, mapId, path)
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        local npc = map.mNPCbyId[id]
+        npc:FollowPath(path)
+        return BlockUntilEvent:Create(
+            function()
+                return npc.mPathIndex > #npc.mPath
+            end
+        )
+    end
+end
+
+function Say(mapId, npcId, text, time, params)
+
+    time = time or 1
+    params = params or {textScale = 0.8}
+
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        local npc = map.mNPCbyId[npcId]
+        local pos = npc.mEntity.mSprite:GetPosition()
+        storyboard.mStack:PushFit(
+            gRenderer,
+            -map.mCamX + pos:X(), -map.mCamY + pos:Y() + 32,
+            text, -1, params)
+        local box = storyboard.mStack:Top()
+        return TimedTextboxEvent:Create(box, time)
+    end
+end
