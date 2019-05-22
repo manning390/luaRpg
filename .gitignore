@@ -1,3 +1,5 @@
 tutFiles
 *.exe
 *.dll
+*.bak
+*.7z
