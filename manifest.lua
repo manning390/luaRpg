@@ -46,6 +46,7 @@ manifest = {
         ['wagon'] = { path = "sounds/wagon.wav" },
         ['wind'] = { path = "sounds/wind.wav" },
         ['bell'] = { path = "sounds/bell.wav" },
+        ['crumble'] = { path = "sounds/crumble.wav" },
     },
     scripts = {
         ['main.lua'] = { path = "scripts/main.lua" },

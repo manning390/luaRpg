@@ -62,7 +62,7 @@ for k, v in ipairs(ItemDB) do
         v.stats = v.stats or {}
         local stats = v.stats
         for k, v in ipairs(EmptyItem) do
-            stats[key] = stat[key] or v.stats
+            stats[key] = stats[key] or v.stats
         end
     end
 end

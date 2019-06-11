@@ -1,3 +1,4 @@
+
 StateStack = {}
 StateStack.__index = StateStack
 
@@ -12,6 +13,7 @@ function StateStack:Create()
 end
 
 function StateStack:Push(state)
+    print(state)
     table.insert(self.mStates, state)
     state:Enter()
 end
@@ -53,15 +55,19 @@ function StateStack:Render(renderer)
 end
 
 function StateStack:PushFix(renderer, x, y, width, height, text, params)
+
     params = params or {}
     local avatar = params.avatar
     local title = params.title
     local choices = params.choices
 
     local padding = 10
-    local textScale = 1.5
+    local textScale = params.textScale or 1.5
     local panelTileSize = 3
 
+    --
+    -- This a fixed dialog so the wrapping value is calculated here.
+    --
     local wrap = width - padding
     local boundsTop = padding
     local boundsLeft = padding
@@ -80,7 +86,6 @@ function StateStack:PushFix(renderer, x, y, width, height, text, params)
             sprite = sprite,
             x = avatar:GetWidth() / 2 + padding,
             y = -avatar:GetHeight() / 2
-
         })
     end
 
@@ -90,13 +95,15 @@ function StateStack:PushFix(renderer, x, y, width, height, text, params)
         selectionMenu = Selection:Create
         {
             data = choices.options,
-            OnSelect = choices.OnSelection,
+            OnSelection = choices.OnSelection,
+            displayRows = #choices.options,
+            columns = 1,
         }
-        boundsBottom = boundsBottom - padding * 0.5
+        boundsBottom = boundsBottom - padding*0.5
     end
 
     if title then
-        -- Adjust the top
+        -- adjust the top
         local size = renderer:MeasureText(title, wrap)
         boundsTop = size:Y() + padding * 2
 
@@ -105,13 +112,14 @@ function StateStack:PushFix(renderer, x, y, width, height, text, params)
             type = "text",
             text = title,
             x = 0,
-            y = size:Y() + padding * 0.5
+            y = size:Y() + padding
         })
     end
 
     renderer:ScaleText(textScale)
+
     --
-    -- Section text into box-sized chunks.
+    -- Section text into box size chunks.
     --
     local faceHeight = math.ceil(renderer:MeasureText(text):Y())
     local start, finish = gRenderer:NextLine(text, 1, wrap)
@@ -134,6 +142,7 @@ function StateStack:PushFix(renderer, x, y, width, height, text, params)
         currentHeight = currentHeight + faceHeight
     end
 
+    -- Make each textbox be represented by one string.
     for k, v in ipairs(chunks) do
         chunks[k] = table.concat(v)
     end
@@ -154,23 +163,23 @@ function StateStack:PushFix(renderer, x, y, width, height, text, params)
             left = boundsLeft,
             right = -padding,
             top = -boundsTop,
-            bottom = padding
+            bottom = boundsBottom
         },
         panelArgs =
         {
             texture = Texture.Find("gradient_panel.png"),
-            size = panelTileSize
+            size = panelTileSize,
         },
         children = children,
         wrap = wrap,
         selectionMenu = selectionMenu,
-        stack = self
+        stack = self,
     }
-
     table.insert(self.mStates, textbox)
 end
 
 function StateStack:PushFit(renderer, x, y, text, wrap, params)
+
     local params = params or {}
     local choices = params.choices
     local title = params.title
@@ -178,7 +187,7 @@ function StateStack:PushFit(renderer, x, y, text, wrap, params)
 
     local padding = 10
     local panelTileSize = 3
-    local textScale = 1.5
+    local textScale = params.textScale or 1.5
 
     renderer:ScaleText(textScale, textScale)
 
@@ -191,10 +200,10 @@ function StateStack:PushFit(renderer, x, y, text, wrap, params)
         local selectionMenu = Selection:Create
         {
             data = choices.options,
-            displayrows = #choices.options,
+            displayRows = #choices.options,
             columns = 1,
         }
-        height = height + selectionMenu:GetHeight() + padding * 4
+        height = height + selectionMenu:GetHeight() + padding
         width = math.max(width, selectionMenu:GetWidth() + padding * 2)
     end
 

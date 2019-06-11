@@ -72,13 +72,11 @@ function Textbox:OnClick()
 end
 
 function Textbox:HandleInput()
-    if self.mSelectionMenu then
-        self.mSelectionMenu:HandleInput()
-    end
-
     if Keyboard.JustPressed(KEY_SPACE) then
-        self:OnClick()
-    end
+       self:OnClick()
+   elseif self.mSelectionMenu then
+       self.mSelectionMenu:HandleInput()
+   end
 end
 
 function Textbox:Enter() end

@@ -56,9 +56,9 @@ function MoveState:Enter(data)
     end
 
     if self.mMoveX ~= 0 or self.mMoveY ~= 0 then
-        local trigger = self.mMap:GetTrigger(self.mEntity.mLayer,
-            self.mEntity.mTileX,
-            self.mEntity.mTileY)
+        local trigger = self.mMap:GetTrigger(self.mEntity.mTileX,
+            self.mEntity.mTileY,
+            self.mEntity.mLayer)
 
         if trigger then
             trigger:OnExit(self.mEntity)

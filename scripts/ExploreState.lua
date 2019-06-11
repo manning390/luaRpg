@@ -85,7 +85,7 @@ function ExploreState:HandleInput()
         -- which way is the player facing?
         local x, y = self.mHero:GetFacedTileCoords()
         local layer = self.mHero.mEntity.mLayer
-        local trigger = self.mMap:GetTrigger(layer, x, y)
+        local trigger = self.mMap:GetTrigger(x, y, layer)
         if trigger then
             trigger:OnUse(self.mHero)
         end
