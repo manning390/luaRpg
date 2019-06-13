@@ -13,7 +13,6 @@ function StateStack:Create()
 end
 
 function StateStack:Push(state)
-    print(state)
     table.insert(self.mStates, state)
     state:Enter()
 end

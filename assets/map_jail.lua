@@ -15,7 +15,7 @@ function CreateJailMap()
                 },
                 OnSelection = function(index)
                     if index == 1 then
-                        OnPush(map)
+                      OnPush(map)
                     end
                 end
             },
@@ -29,7 +29,6 @@ function CreateJailMap()
 
         -- 2. OnYes erase wall
         OnPush = function(map)
-            print(x, y)
             -- The player's pushing the wall.
             gStack:PushFit(gRenderer, 0,0,
                     "The wall crumbles.",
@@ -95,7 +94,7 @@ function CreateJailMap()
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "../original_assets/collision_graphic.png",
+      image = "../assets/collision_graphic.png",
       imagewidth = 32,
       imageheight = 32,
       properties = {},

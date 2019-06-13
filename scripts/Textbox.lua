@@ -9,8 +9,6 @@ function Textbox:Create(params)
 
     local this =
     {
-        mStack = params.stack,
-        mDoClickCallback = false,
         mChunks = params.text,
         mChunkIndex = 1,
         mContinueMark = Sprite.Create(),
@@ -22,7 +20,9 @@ function Textbox:Create(params)
         mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
         mWrap = params.wrap or -1,
         mChildren = params.children or {},
-        mSelectionMenu = params.selectionMenu
+        mSelectionMenu = params.selectionMenu,
+        mStack = params.stack,
+        mDoClickCallback = false,
     }
     this.mContinueMark:SetTexture(Texture.Find("continue_caret.png"))
 
@@ -73,10 +73,10 @@ end
 
 function Textbox:HandleInput()
     if Keyboard.JustPressed(KEY_SPACE) then
-       self:OnClick()
-   elseif self.mSelectionMenu then
-       self.mSelectionMenu:HandleInput()
-   end
+        self:OnClick()
+    elseif self.mSelectionMenu then
+        self.mSelectionMenu:HandleInput()
+    end
 end
 
 function Textbox:Enter() end

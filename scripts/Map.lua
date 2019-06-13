@@ -5,6 +5,7 @@ function Map:Create(mapDef)
     local layer = mapDef.layers[1]
     local this =
     {
+
         mX = 0,
         mY = 0,
         mMapDef = mapDef,
@@ -184,7 +185,6 @@ function Map:GetTrigger(x, y, layer)
 end
 
 function Map:RemoveTrigger(x, y, layer)
-    -- print("removing trigger", x, y, layer)
     layer = layer or 1
     assert(self.mTriggers[layer])
     local triggers = self.mTriggers[layer]

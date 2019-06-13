@@ -29,11 +29,10 @@ Actions =
             map.mNPCbyId[npc.id] = char
         end
     end,
-   RunScript = function(map, Func)
-       return function(trigger, entity, tX, tY, tLayer)
-            print(tX, tY)
-            Func(map, trigger, entity, tX, tY, tLayer)
-       end
+   RunScript = function(map, func)
+        return function(trigger, entity, tX, tY, tLayer)
+            func(map, trigger, entity, tX, tY, tLayer)
+        end
    end
 
 

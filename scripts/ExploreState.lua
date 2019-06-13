@@ -87,7 +87,7 @@ function ExploreState:HandleInput()
         local layer = self.mHero.mEntity.mLayer
         local trigger = self.mMap:GetTrigger(x, y, layer)
         if trigger then
-            trigger:OnUse(self.mHero)
+            trigger:OnUse(self.mHero, x, y, layer)
         end
     end
 
