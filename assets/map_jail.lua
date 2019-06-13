@@ -1,32 +1,155 @@
 function CreateJailMap()
 
 	local BoneItemId = 4
-	local BoneScript =
-	function(map, trigger, entity, x, y, layer)
-		local GiveBone = function()
-			gStack:PushFit(gRenderer, 0, 0,
-			   'Found key item: "Calcified bone"',
-			   255,
-			   {textScale=1})
-			gWorld:AddKey(BoneItemId)
-			Sound.Play("key_item")
-		end
+	local EnterGrate = function() end
+	local UseGrate =
+		function(map, trigger, entity, x, y, layer)
+			if gWorld:HasKey(BoneItemId) then
+				local OnOpen
+				local dialogParams =
+				{
+					textScale = 1,
+					choices =
+					{
+						options =
+						{
+							"Prize open the grate",
+							"Leave it alone"
+						},
+						OnSelection = function(index)
+							if index == 1 then
+								OnOpen(map)
+							end
+						end
+					},
+				}
 
-		-- 1. The skeleton collapsed into dust
-		gStack:PushFit(gRenderer, 0, 0, "The skeleton collapsed into dust.", 255,
-			{textScale=1, OnFinish=GiveBone})
-		Sound.Play("skeleton_destroy")
-		map:RemoveTrigger(73,11,layer)
-		map:RemoveTrigger(74,11,layer)
-		map:WriteTile
-		{
-			x = 74,
-			y = 11,
-			layer = layer,
-			tile = 136,
-			collision = true
-		}
-	end
+				gStack:PushFit(gRenderer,
+				    0, 0,
+				    "There's a tunnel behind the grate. "..
+				    "Prize it open using the bone?",
+				    300,
+				    dialogParams)
+				OnOpen = function()
+					Sound.Play("grate")
+					map:WriteTile
+					{
+						x = 57,
+						y = 6,
+						layer = layer,
+						tile = 151,
+						collision = false
+					}
+					map:WriteTile
+					{
+						x = 58,
+						y = 6,
+						layer = layer,
+						tile = 152,
+						collision = false
+					}
+					map:AddTrigger
+					{
+						x = 57,
+						y = 6,
+						layer = layer,
+						trigger = "grate_open"
+					}
+					map:AddTrigger
+					{
+						x = 58,
+						y = 6,
+						layer = layer,
+						trigger = "grate_open"
+					}
+				end
+			else
+				gStack:PushFit(gRenderer, 0, 0,
+	               "there's a tunnel behind the grate. " ..
+	               "But you can't move the grate with your bare hands",
+	               300,
+	               {textScale=1})
+			end
+		end
+	local TalkGregor =
+		function(map, trigger, entity, x, y, layer)
+			local gregor = map.mNPCbyId["gregor"]
+			if gregor.mEntity.mTileX == x and gregor.mEntity.mTileY - 1 then
+				gregor.mTalkIndex = gregor.mTalkIndex or 1
+
+				local speech =
+				{
+					"You're another black blood aren't you?",
+					"Come the morning, they'll kill you just like the others.",
+					"If I was you, I'd try to escape.",
+					"Pry the drain open, with that big bone you're holding."
+				}
+
+				local text = speech[gregor.mTalkIndex]
+				local height = 102
+				local width = 500
+				local x = 0
+				local y = -System.ScreenHeight()/2 + height / 2
+				gStack:PushFix(gRenderer, x, y, width, height, text,
+				{
+					textScale = 1,
+					title = "Prisoner:"
+				})
+				gregor.mTalkIndex = gregor.mTalkIndex + 1
+				if gregor.mTalkIndex > #speech then
+					gregor.mTalkIndex = 1
+				end
+			end
+		end
+	local MoveGregor =
+		function(map, trigger, entity, x, y, layer)
+			if gWorld:HasKey(BoneItemId) then
+				local gregor = map.mNPCbyId["gregor"]
+				assert(gregor)
+				gregor:FollowPath
+				{
+					"up",
+					"up",
+					"up",
+					"right",
+					"right",
+					"right",
+					"right",
+					"right",
+					"right",
+					"down",
+					"down",
+					"down",
+				}
+				map:RemoveTrigger(x, y, layer)
+			end
+		end
+	local BoneScript =
+		function(map, trigger, entity, x, y, layer)
+			local GiveBone = function()
+				gStack:PushFit(gRenderer, 0, 0,
+				   'Found key item: "Calcified bone"',
+				   255,
+				   {textScale=1})
+				gWorld:AddKey(BoneItemId)
+				Sound.Play("key_item")
+			end
+
+			-- 1. The skeleton collapsed into dust
+			gStack:PushFit(gRenderer, 0, 0, "The skeleton collapsed into dust.", 255,
+				{textScale=1, OnFinish=GiveBone})
+			Sound.Play("skeleton_destroy")
+			map:RemoveTrigger(73,11,layer)
+			map:RemoveTrigger(74,11,layer)
+			map:WriteTile
+			{
+				x = 74,
+				y = 11,
+				layer = layer,
+				tile = 136,
+				collision = true
+			}
+		end
 	local CrumbleScript =
 		function(map, trigger, entity, x, y, layer)
 			local OnPush
@@ -83,7 +206,12 @@ function CreateJailMap()
 	tilewidth = 16,
 	tileheight = 16,
 	properties = {},
-	on_wake = {},
+	on_wake = {
+		{
+			id ="AddNPC",
+			params = {{ def = "prisoner", id ="gregor", x = 44, y = 12}},
+		}
+	},
 	actions =
 	{
 		break_wall_script =
@@ -95,18 +223,46 @@ function CreateJailMap()
 		{
 			id = "RunScript",
 			params = { BoneScript }
-		}
+		},
+		move_gregor =
+		{
+			id = "RunScript",
+			params = { MoveGregor }
+		},
+		talk_gregor =
+		{
+			id = "RunScript",
+			params = { TalkGregor }
+		},
+		use_grate =
+		{
+			id = "RunScript",
+			params = { UseGrate }
+		},
+		enter_grate =
+		{
+			id = "RunScript",
+			params = { EnterGrate }
+		},
 	},
 	trigger_types =
 	{
 		cracked_stone = { OnUse = "break_wall_script" },
-		skeleton = { OnUse = "bone_script" }
+		skeleton = { OnUse = "bone_script" },
+		gregor_trigger = { OnExit = "move_gregor" },
+		gregor_talk_trigger = { OnUse = "talk_gregor" },
+		grate_close = { OnUse = "use_grate" },
+		grate_open = { OnEnter = "enter_grate" },
 	},
 	triggers =
 	{
 	    { trigger = "cracked_stone", x = 60, y = 11},
 		{ trigger = "skeleton", x = 73, y = 11},
 		{ trigger = "skeleton", x = 74, y = 11},
+		{ trigger = "gregor_trigger", x = 59, y = 11},
+		{ trigger = "gregor_talk_trigger", x = 50, y = 13},
+		{ trigger = "grate_close", x = 57, y = 6},
+		{ trigger = "grate_close", x = 58, y = 6},
 	},
 	tilesets = {
 		{

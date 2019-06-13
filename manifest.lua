@@ -48,7 +48,9 @@ manifest = {
         ['bell'] = { path = "sounds/bell.wav" },
         ['crumble'] = { path = "sounds/crumble.wav" },
         ['key_item'] = { path = "sounds/key_item.wav" },
-        ['skeleton_destroy'] = { path = "sounds/skeleton_destroy.wav" }
+        ['skeleton_destroy'] = { path = "sounds/skeleton_destroy.wav" },
+        ['grate'] = { path = "sounds/grate.wav" },
+        ['reveal'] = { path = "sounds/reveal.wav" },
     },
     scripts = {
         ['main.lua'] = { path = "scripts/main.lua" },
