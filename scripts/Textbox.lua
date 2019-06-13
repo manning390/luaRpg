@@ -23,6 +23,7 @@ function Textbox:Create(params)
         mSelectionMenu = params.selectionMenu,
         mStack = params.stack,
         mDoClickCallback = false,
+        mOnFinish = params.OnFinish or function() end,
     }
     this.mContinueMark:SetTexture(Texture.Find("continue_caret.png"))
 
@@ -83,6 +84,9 @@ function Textbox:Enter() end
 function Textbox:Exit()
     if self.mDoClickCallback then
         self.mSelectionMenu:OnClick()
+    end
+    if self.mOnFinish then
+        self.mOnFinish()
     end
 end
 
