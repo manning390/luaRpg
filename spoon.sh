@@ -19,3 +19,6 @@ tac $PROJECT/$SCRIPTS/$DEP | sed "2 i \\\t\"$NAME.lua\"," | tac > $PROJECT/$SCRI
 
 # now open it
 subl $FILE
+
+# Command for line count
+# find . -name '*.lua' -not -path './tutFiles/*' | xargs wc -l | sort
