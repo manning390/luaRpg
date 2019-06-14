@@ -59,4 +59,5 @@ Apply(function(v) Asset.Run(v) end,
     "MapDB.lua",
 	"GameOverState.lua",
 	"TitleScreenState.lua",
+	"Stats.lua",
 })
