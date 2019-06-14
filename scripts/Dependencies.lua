@@ -58,4 +58,5 @@ Apply(function(v) Asset.Run(v) end,
     "map_sewer.lua",
     "MapDB.lua",
 	"GameOverState.lua",
+	"TitleScreenState.lua",
 })

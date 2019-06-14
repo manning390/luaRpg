@@ -1,7 +1,6 @@
 function CreateJailMap()
 
 	local BoneItemId = 4
-	gWorld:AddKey(BoneItemId)
 	local EnterGrate =
 	function(map, trigger, entity, x, y, layer)
 		Sound.Play("reveal")

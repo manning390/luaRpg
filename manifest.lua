@@ -36,6 +36,7 @@ manifest = {
         ['tileset_jail.png'] = { path = "sprites/tileset_jail.png" },
         ['sleeping.png'] = { path = "sprites/sleeping.png" },
         ['tileset_sewer.png'] = { path = "sprites/tileset_sewer.png" },
+        ['title_screen.png'] = { path = "sprites/title_screen.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -99,5 +100,6 @@ manifest = {
 		['map_sewer.lua'] = { path = 'assets/map_sewer.lua' },
         ['map_jail.lua'] = { path = 'assets/map_jail.lua' },
         ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
+        ['TitleScreenState.lua'] = { path = 'scripts/TitleScreenState.lua' },
     },
 }
