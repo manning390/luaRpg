@@ -55,5 +55,7 @@ Apply(function(v) Asset.Run(v) end,
     "CaptionState.lua",
     "map_sontos_house.lua",
     "map_jail.lua",
+    "map_sewer.lua",
     "MapDB.lua",
+	"GameOverState.lua",
 })

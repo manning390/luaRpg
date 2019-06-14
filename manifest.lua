@@ -34,7 +34,8 @@ manifest = {
         ['inventory_icons.png'] = { path = "sprites/inventory_icons.png" },
         ['tileset_sontos_house.png'] = { path = "sprites/tileset_sontos_house.png" },
         ['tileset_jail.png'] = { path = "sprites/tileset_jail.png" },
-        ['sleeping.png'] = { path = "sprites/sleeping.png" }
+        ['sleeping.png'] = { path = "sprites/sleeping.png" },
+        ['tileset_sewer.png'] = { path = "sprites/tileset_sewer.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -51,6 +52,7 @@ manifest = {
         ['skeleton_destroy'] = { path = "sounds/skeleton_destroy.wav" },
         ['grate'] = { path = "sounds/grate.wav" },
         ['reveal'] = { path = "sounds/reveal.wav" },
+        ['unlock'] = { path = "sounds/unlock.wav" },
     },
     scripts = {
         ['main.lua'] = { path = "scripts/main.lua" },
@@ -93,6 +95,8 @@ manifest = {
 		['SleepState.lua'] = { path = 'scripts/SleepState.lua' },
 		['FollowPathState.lua'] = { path = 'scripts/FollowPathState.lua' },
         ['map_sontos_house.lua'] = { path = 'assets/map_sontos_house.lua' },
+		['GameOverState.lua'] = { path = 'scripts/GameOverState.lua' },
+		['map_sewer.lua'] = { path = 'assets/map_sewer.lua' },
         ['map_jail.lua'] = { path = 'assets/map_jail.lua' },
         ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
     },

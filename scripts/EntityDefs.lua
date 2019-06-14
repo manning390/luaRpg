@@ -27,15 +27,6 @@ gEntities =
         tileY       = 3,
         layer       = 1
     },
-    sleep =
-    {
-        texture = "sleeping.png",
-        width = 32,
-        height = 32,
-        startFrame = 3,
-        x = 18,
-        y = 32,
-    },
     guard =
     {
         texture = "walk_cycle.png",
@@ -45,6 +36,15 @@ gEntities =
         tileX = 1,
         tileY = 1,
         layer = 1,
+    },
+    sleep =
+    {
+        texture = "sleeping.png",
+        width = 32,
+        height = 32,
+        startFrame = 3,
+        x = 18,
+        y = 32,
     },
     prisoner =
     {

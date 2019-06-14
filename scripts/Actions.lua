@@ -16,7 +16,7 @@ Actions =
 
             -- use npc def location by default
             -- Drop back to entities locations if missing
-            local x= npc.x or char.mEntity.mTileX
+            local x = npc.x or char.mEntity.mTileX
             local y = npc.y or char.mEntity.mTileY
             local layer = npc.layer or char.mEntity.mLayer
 

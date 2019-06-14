@@ -5,7 +5,7 @@ gRenderer = Renderer:Create()
 gStack = StateStack:Create()
 gWorld = World:Create()
 gIcons = Icons:Create(Texture.Find("inventory_icons.png"))
--- CaptionStyles['default']:Render(gRenderer, "test")
+CaptionStyles['default']:Render(gRenderer, "test")
 
 local intro =
 {

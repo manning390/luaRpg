@@ -6,6 +6,12 @@ function ExploreState:Create(stack, mapDef, startPos)
     {
         mStack = stack,
         mMapDef = mapDef,
+
+        mFollowCam = true,
+        mFollowChar = nil,
+        mManualCamX = 0,
+        mManualCamY = 0,
+
     }
     this.mMap = Map:Create(this.mMapDef)
     this.mHero = Character:Create(gCharacters.hero, this.mMap)
@@ -16,7 +22,7 @@ function ExploreState:Create(stack, mapDef, startPos)
         this.mMap
     )
     this.mMap:GotoTile(startPos:X(), startPos:Y())
-
+    this.mFollowChar = this.mHero
     setmetatable(this, self)
     return this
 end
@@ -42,15 +48,33 @@ end
 function ExploreState:Enter() end
 function ExploreState:Exit() end
 
+function ExploreState:UpdateCamera(map)
+    if self.mFollowCam then
+        local pos = self.mHero.mEntity.mSprite:GetPosition()
+        map.mCamX = math.floor(pos:X())
+        map.mCamY = math.floor(pos:Y())
+    else
+        map.mCamX = math.floor(self.mManualCamX)
+        map.mCamY = math.floor(self.mManualCamY)
+    end
+end
+
+function ExploreState:SetFollowCam(flag, character)
+    self.mFollowChar = character or self.mFollowChar
+    self.mFollowCam = flag
+    if not self.mFollowCam then
+        local pos = self.mFollowChar.mEntity.mSprite:GetPosition()
+        self.mManualCamX = pos:X()
+        self.mManualCamY = pos:Y()
+    end
+end
+
 function ExploreState:Update(dt)
 
     local hero = self.mHero
     local map = self.mMap
 
-    -- Update the camera according to player position
-    local playerPos = hero.mEntity.mSprite:GetPosition()
-    map.mCamX = math.floor(playerPos:X())
-    map.mCamY = math.floor(playerPos:Y())
+    self:UpdateCamera(map)
 
     for k, v in ipairs(map.mNPCs) do
         v.mController:Update(dt)

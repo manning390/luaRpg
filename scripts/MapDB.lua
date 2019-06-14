@@ -1,4 +1,8 @@
+assert(CreateHouseMap)
+assert(CreateJailMap)
+assert(CreateSewerMap)
 MapDB = {
     ["player_house"] = CreateHouseMap,
-    ["jail"] = CreateJailMap
+    ["jail"] = CreateJailMap,
+    ["sewer"] = CreateSewerMap,
 }

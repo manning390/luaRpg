@@ -1,7 +1,125 @@
 function CreateJailMap()
 
 	local BoneItemId = 4
-	local EnterGrate = function() end
+	gWorld:AddKey(BoneItemId)
+	local EnterGrate =
+	function(map, trigger, entity, x, y, layer)
+		Sound.Play("reveal")
+		map:RemoveTrigger(57, 6, layer)
+		map:RemoveTrigger(58, 6, layer)
+        local cutscene =
+        {
+            SOP.BlackScreen("blackscreen", 0),
+            SOP.NoBlock(
+                SOP.FadeOutChar("handin", "hero")
+            ),
+            SOP.RunAction("AddNPC",
+               {"handin", { def = "guard", id="guard1", x = 35, y = 20}},
+               {GetMapRef}),
+            SOP.Wait(2),
+            SOP.NoBlock(
+                SOP.MoveNPC("gregor", "handin",
+                    {
+                        "up",
+                        "up",
+                        "up",
+                        "left",
+                        "left",
+                        "left",
+                        "left",
+                        "left",
+                        "left",
+                        "down",
+                        "down",
+                    })
+            ),
+            SOP.Wait(1),
+            SOP.NoBlock(
+                SOP.MoveCamToTile("handin", 43, 15, 3)
+            ),
+            SOP.MoveNPC("guard1", "handin",
+                {
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "right",
+                    "up",
+                }),
+            SOP.Wait(1),
+            SOP.Play("unlock"),
+            SOP.NoBlock(
+                SOP.WriteTile("handin", {x = 44, y = 18, tile = 134, detail = 120})
+            ),
+            SOP.WriteTile("handin", {x = 44, y = 17, tile = 134, detail = 104}),
+            SOP.NoBlock(
+                SOP.MoveNPC("guard1", "handin",
+                    {
+                        "up",
+                        "up",
+                        "up",
+                        "up",
+                        "up",
+                        "up",
+                    })
+            ),
+            SOP.Wait(2),
+            SOP.Say("handin", "guard1", "Has the black blood gone?", 3),
+            SOP.Wait(1),
+            SOP.Say("handin", "gregor", "Yeh.", 1),
+            SOP.Wait(1),
+            SOP.Say("handin", "guard1", "Good.", 1),
+            SOP.Wait(0.25),
+            SOP.Say("handin", "guard1",
+                    "Marmil will want to see you in the tower.", 3.5),
+            SOP.Wait(1),
+            SOP.Say("handin", "gregor", "Let's go.", 1.5),
+            SOP.Wait(1),
+            SOP.NoBlock(
+                SOP.MoveNPC("gregor", "handin",
+                {
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                })
+            ),
+            SOP.NoBlock(
+                SOP.MoveNPC("guard1", "handin",
+                {
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "down",
+                    "left",
+                    "left",
+                })
+            ),
+            SOP.FadeInScreen(),
+            SOP.ReplaceScene(
+                "handin",
+                {
+                    map = "sewer",
+                    focusX = 35,
+                    focusY = 15,
+                    hideHero = false
+                }),
+            SOP.FadeOutScreen(),
+            SOP.HandOff("sewer")
+        }
+		local storyboard = Storyboard:Create(gStack, cutscene, true)
+		gStack:Push(storyboard)
+	end
 	local UseGrate =
 		function(map, trigger, entity, x, y, layer)
 			if gWorld:HasKey(BoneItemId) then
