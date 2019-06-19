@@ -100,6 +100,7 @@ manifest = {
 		['map_sewer.lua'] = { path = 'assets/map_sewer.lua' },
         ['map_jail.lua'] = { path = 'assets/map_jail.lua' },
         ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
+		['Dice.lua'] = { path = 'scripts/Dice.lua' },
         ['Stats.lua'] = { path = 'scripts/Stats.lua' },
         ['TitleScreenState.lua'] = { path = 'scripts/TitleScreenState.lua' },
     },

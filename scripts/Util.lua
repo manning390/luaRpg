@@ -43,3 +43,17 @@ function ShallowClone(t)
     end
     return clone
 end
+
+function round(n)
+    if n < 0 then
+        return math.ceil(n - 0.5)
+    else
+        return math.floor(n + 0.5)
+    end
+end
+
+function NextLevel(level)
+    local exponent = 1.5
+    local baseXP = 1000
+    return math.floor(baseXP * (level ^ exponent))
+end

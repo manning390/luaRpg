@@ -60,4 +60,5 @@ Apply(function(v) Asset.Run(v) end,
 	"GameOverState.lua",
 	"TitleScreenState.lua",
 	"Stats.lua",
+	"Dice.lua",
 })
