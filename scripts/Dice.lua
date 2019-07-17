@@ -1,5 +1,6 @@
 Dice = {}
 Dice.__index = Dice
+-- math.randomseed(os.time())
 
 function Dice:Create(diceStr)
     local this =
@@ -79,7 +80,7 @@ function Dice:ParseNumber(str, index)
 end
 
 -- method, not static
-function Dice.RollDice(rolls, faces, modifier)
+function Dice.RollDie(rolls, faces, modifier)
     local total = 0
     for i = 1, rolls do
         total = total + math.random(1, faces)

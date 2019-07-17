@@ -7,33 +7,20 @@ manifest = {
         ['rpg_indoor.png'] = { path = "sprites/rpg_indoor.png" },
         ['collision_graphic.png'] = { path = "assets/collision_graphic.png" },
         ['walk_cycle.png'] = { path = "sprites/walk_cycle.png" },
-        ['simple_panel.png'] =
-        {
-            path = "sprites/simple_panel.png",
-            scale = "pixelart"
-        },
+        ['simple_panel.png'] = { path = "sprites/simple_panel.png", scale = "pixelart" },
         ['gradient_panel.png'] = { path = "sprites/gradient_panel.png" },
-        ['avatar.png'] =
-        {
-            path = "sprites/avatar.png",
-            scale = "pixelart"
-        },
-        ['continue_caret.png'] =
-        {
-            path = "sprites/continue_caret.png",
-            scale = "pixelart"
-        },
-        ['cursor.png'] =
-        {
-            path = "sprites/cursor.png",
-            scale = "pixelart"
-        },
+        ['hero_portrait.png'] =  { path = "sprites/hero_portrait.png",  scale = "pixelart" },
+        ['mage_portrait.png'] =  { path = "sprites/mage_portrait.png",  scale = "pixelart" },
+        ['thief_portrait.png'] = { path = "sprites/thief_portrait.png", scale = "pixelart" },
+        ['continue_caret.png'] = { path = "sprites/continue_caret.png", scale = "pixelart" },
+        ['cursor.png'] = { path = "sprites/cursor.png", scale = "pixelart" },
         ['foreground.png'] = { path = "sprites/foreground.png"},
         ['background.png'] = { path = "sprites/background.png"},
         ['scrollbar.png'] = { path = "sprites/scrollbar.png" },
         ['inventory_icons.png'] = { path = "sprites/inventory_icons.png" },
         ['tileset_sontos_house.png'] = { path = "sprites/tileset_sontos_house.png" },
         ['tileset_jail.png'] = { path = "sprites/tileset_jail.png" },
+        ['tileset_arena.png'] = { path = "sprites/tileset_arena.png" },
         ['sleeping.png'] = { path = "sprites/sleeping.png" },
         ['tileset_sewer.png'] = { path = "sprites/tileset_sewer.png" },
         ['title_screen.png'] = { path = "sprites/title_screen.png" },
@@ -99,9 +86,11 @@ manifest = {
 		['GameOverState.lua'] = { path = 'scripts/GameOverState.lua' },
 		['map_sewer.lua'] = { path = 'assets/map_sewer.lua' },
         ['map_jail.lua'] = { path = 'assets/map_jail.lua' },
+        ['map_arena.lua'] = { path = 'assets/map_arena.lua' },
         ['MapDB.lua'] = { path = 'scripts/MapDB.lua' },
 		['Dice.lua'] = { path = 'scripts/Dice.lua' },
         ['Stats.lua'] = { path = 'scripts/Stats.lua' },
+        ['Actor.lua'] = { path = 'scripts/Actor.lua' },
         ['TitleScreenState.lua'] = { path = 'scripts/TitleScreenState.lua' },
     },
 }
