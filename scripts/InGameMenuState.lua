@@ -30,8 +30,7 @@ function InGameMenuState:Create(stack)
         end,
         ["status"] =
         function()
-            -- return StatusMenuState:Create(this)
-            return this.mStateMachine.mEmpty
+            return StatusMenuState:Create(this)
         end,
     }
     this.mStateMachine:Change("frontmenu")

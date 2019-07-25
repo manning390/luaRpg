@@ -102,5 +102,6 @@ manifest = {
 		['ActorSummary.lua'] = { path = 'scripts/ActorSummary.lua' },
         ['StatDefs.lua'] = { path = 'scripts/StatDefs.lua' },
         ['TitleScreenState.lua'] = { path = 'scripts/TitleScreenState.lua' },
+        ['StatusMenuState.lua'] = { path = 'scripts/StatusMenuState.lua' },
     },
 }

@@ -64,5 +64,5 @@ Apply(function(v) Asset.Run(v) end,
     "Actor.lua",
     "LevelFunction.lua",
     "ActorSummary.lua",
-    -- "StatusMenuState.lua",
+	"StatusMenuState.lua",
 })

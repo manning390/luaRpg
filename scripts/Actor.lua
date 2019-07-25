@@ -1,4 +1,50 @@
-Actor = {}
+Actor = {
+    EquipSlotLabels =
+    {
+        "Weapon:",
+        "Armor:",
+        "Accessory:",
+        "Accessory:"
+    },
+    EquipSlotId =
+    {
+        "weapon",
+        "armor",
+        "acces1",
+        "acces2"
+    },
+    ActorStats =
+    {
+        "strength",
+        "speed",
+        "intelligence"
+    },
+    ItemStats =
+    {
+        "attack",
+        "defense",
+        "magic",
+        "resist"
+    },
+    ActorStatLabels =
+    {
+        "Strength",
+        "Speed",
+        "Intelligence"
+    },
+    ItemStatLabels =
+    {
+        "Attack",
+        "Defense",
+        "Magic",
+        "Resist"
+    },
+    ActionLabels =
+    {
+        ["attack"] = "Attack",
+        ["item"] = "Item",
+    },
+}
 Actor.__index = Actor
 
 function Actor:Create(def)
@@ -13,7 +59,7 @@ function Actor:Create(def)
         mPortrait = Sprite.Create(),
         mStats = Stats:Create(def.stats),
         mStatGrowth = growth,
-        mXp = def.xp or 0,
+        mXP = def.xp or 0,
         mLevel = def.level or 1,
         mEquipment =
         {
@@ -21,7 +67,8 @@ function Actor:Create(def)
             armor = def.armor,
             acces1 = def.acces1,
             acces2 = def.acces2,
-        }
+        },
+        mActiveEquipSlots = def.equipslots or { 1, 2, 3 },
     }
 
     if def.portrait then
@@ -36,11 +83,11 @@ function Actor:Create(def)
 end
 
 function Actor:ReadyToLevelUp()
-    return self.mXp >= self.mNextLevelXP
+    return self.mXP >= self.mNextLevelXP
 end
 
 function Actor:AddXP(xp)
-    self.mXp = self.mXp + xp
+    self.mXP = self.mXP + xp
     return self:ReadyToLevelUp()
 end
 
@@ -65,15 +112,33 @@ function Actor:CreateLevelUp()
 end
 
 function Actor:ApplyLevel(levelup)
-    self.mXp = self.mXp + levelup.xp
+    self.mXP = self.mXP + levelup.xp
     self.mLevel = self.mLevel + levelup.level
     self.mNextLevelXP = NextLevel(self.mLevel)
 
-    assert(self.mXp >= 0)
+    assert(self.mXP >= 0)
 
     for k, v in pairs(levelup.stats) do
         self.mStats.mBase[k] = self.mStats.mBase[k] + v
     end
 
     -- Unlock any special abilities etc.
+end
+
+function Actor:RenderEquipment(menu, renderer, x, y, index)
+    x = x + 100
+    local label = self.EquipSlotLabels[index]
+    renderer:AlignText("right", "center")
+    renderer:DrawText2d(x, y, label)
+
+    local slotId = self.EquipSlotId[index]
+    local text = "none"
+    if self.mEquipment[slotId] then
+        local itemId = self.mEquipment[slotId]
+        local item = ItemDB[itemId]
+        text = item.name
+    end
+
+    renderer:AlignText("left", "center")
+    renderer:DrawText2d(x + 10, y, text)
 end
