@@ -2,14 +2,32 @@ Actor = {}
 Actor.__index = Actor
 
 function Actor:Create(def)
+
+    local growth = def.statGrowth or {}
+
     local this =
     {
-        mDef = def,
+        mName = def.name,
+        mId = def.id,
+        mActions = def.actions,
+        mPortrait = Sprite.Create(),
         mStats = Stats:Create(def.stats),
-        mStatGrowth = def.statGrowth,
-        mXp = 0,
-        mLevel = 1,
+        mStatGrowth = growth,
+        mXp = def.xp or 0,
+        mLevel = def.level or 1,
+        mEquipment =
+        {
+            weapon = def.weapon,
+            armor = def.armor,
+            acces1 = def.acces1,
+            acces2 = def.acces2,
+        }
     }
+
+    if def.portrait then
+        this.mPortraitTexture = Texture.Find(def.portrait)
+        this.mPortrait:SetTexture(this.mPortraitTexture)
+    end
 
     this.mNextLevelXP = NextLevel(this.mLevel)
 

@@ -1,8 +1,6 @@
 -- WaitState, MoveState must already be loaded.
 assert(WaitState)
 assert(MoveState)
-assert(SleepState)
-assert(FollowPathState)
 
 -- Text Id -> Controller State
 gCharacterStates =
@@ -11,7 +9,6 @@ gCharacterStates =
     move = MoveState,
     npc_stand = NPCStandState,
     plan_stroll = PlanStrollState,
-    sleep = SleepState,
     follow_path = FollowPathState,
 }
 
