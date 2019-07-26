@@ -11,10 +11,16 @@ function Icons:Create(texture)
             usable = 1,
             accessory = 2,
             weapon = 3,
-            armor = 4,
-            uparrow = 4,
-            downarrow = 6
-        }
+            sword = 4,
+            dagger = 5,
+            stave = 6,
+            armor = 7,
+            plate = 8,
+            leather = 9,
+            robe = 10,
+            uparrow = 11,
+            downarrow = 12
+         }
     }
     this.mUVs = GenerateUVs(18, 18, this.mTexture)
 
