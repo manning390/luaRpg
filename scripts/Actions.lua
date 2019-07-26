@@ -4,9 +4,9 @@ Actions =
     Teleport = function(map, tileX, tileY, layer)
         layer = layer or 1
         return function(trigger, entity)
-                entity:SetTilePos(tileX, tileY, layer, map)
-            end
-        end,
+            entity:SetTilePos(tileX, tileY, layer, map)
+        end
+    end,
     AddNPC = function(map, npc)
         assert(npc.id ~= "hero") -- reserved npc name
         return function(trigger, entity)
@@ -29,11 +29,37 @@ Actions =
             map.mNPCbyId[npc.id] = char
         end
     end,
-   RunScript = function(map, func)
+    RunScript = function(map, func)
         return function(trigger, entity, tX, tY, tLayer)
             func(map, trigger, entity, tX, tY, tLayer)
         end
-   end
-
+    end,
+    RemoveNPC = function(map, id)
+        return function(trigger, entity, tX, tY, tLayer)
+            local npc = map.mNPCbyId[id].mEntity
+            assert(npc)
+            map:RemoveNPC(npc.mX, npc.mY, npc.mLayer)
+        end
+    end,
+    AddPartyMember = function(actorId)
+        return function(trigger, entity, tX, tY, tLayer)
+            local actorDef = gPartyMemberDefs[actorId]
+            assert(actorDef)
+            gWorld.mParty:Add(Actor:Create(actorDef))
+        end
+    end,
+    OnRecruit = function()
+        local fadeout =
+        {
+            SOP.FadeOutchar("handin", npc.mId),
+            SOP.RunAction("RemoveNPC",
+                {"handin", npc.mId },
+                { GetMapRef }),
+            SOP.RunAction("AddPartyMember", { npc.mDef.actorId }),
+            SOP.HandOff("handin")
+        }
+        local storyboard = Storyboard:Create(gStack, fadeout, true)
+        gStack:Push(storyboard)
+    end
 
 }

@@ -55,6 +55,7 @@ function Entity:SetTilePos(x, y, layer, map)
 
     map:AddEntity(self)
     local x, y = map:GetTileFoot(self.mTileX, self.mTileY)
+
     self.mSprite:SetPosition(x, y + self.mHeight / 2)
     self.mX = x
     self.mY = y

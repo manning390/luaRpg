@@ -7,6 +7,7 @@ function Character:Create(def, map)
 
     local this =
     {
+        mDef = def,
         mEntity = Entity:Create(entityDef),
         mAnims = def.anims,
         mFacing = def.facing,

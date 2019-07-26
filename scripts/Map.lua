@@ -212,8 +212,8 @@ function Map:IsBlocked(layer, tileX, tileY)
 end
 
 function Map:GetTileFoot(x, y)
-    return  self.mX + (x * self.mTileWidth),
-            self.mY - (y * self.mTileHeight) - self.mTileHeight / 2
+    return self.mX + (x * self.mTileWidth),
+           self.mY - (y * self.mTileHeight) - self.mTileHeight / 2
 end
 
 function Map:GotoTile(x, y)
@@ -313,4 +313,35 @@ function Map:RenderLayer(renderer, layer, hero)
             j:Render(renderer)
         end
     end
+end
+
+function Map:GetNPC(x, y, layer)
+    layer = layer or 1
+    for _, npc in ipairs(self.mNPCs) do
+        if npc.mEntity.mTileX == x
+            and npc.mEntity.mTileY == y
+            and npc.mEntity.mLayer == layer then
+            return npc
+        end
+    end
+
+    return nil
+end
+
+function Map:RemoveNPC(x, y, layer)
+    layer = layer or 1
+
+    for i = #self.mNPCs, 1, -1 do
+        local npc = self.mNPCs[i]
+        if npc.mEntity.mTileX == x
+            and npc.mEntity.mTileY == y
+            and npc.mEntity.mLayer == layer then
+            table.remove(self.mNPCs, i)
+            self:RemoveEntity(npc.mEntity)
+            self.mNPCbyId[npc.mId] = nil
+            return true
+        end
+    end
+
+    return false
 end

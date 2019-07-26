@@ -1,4 +1,41 @@
 function CreateArenaMap()
+  local RecruitNPC =
+  function(map, trigger, entity, x, y, layer)
+    local npc = map:GetNPC(x, y, layer)
+    local actorId = npc.mDef.actorId
+    local actorDef = gPartyMemberDefs[actorId]
+    local name = actorDef.name
+
+    local OnRecruit
+    local dialogParams =
+    {
+      textScale = 1.2,
+      choices =
+      {
+        options =
+        {
+          "Recruit",
+          "Leave"
+        },
+        OnSelection = function(index)
+          if index == 1 then
+            OnRecruit()
+          end
+        end
+      },
+    }
+
+    gStack:PushFit(gRenderer,
+      0, 0,
+      string.format("Recruit %s?", name),
+      300,
+      dialogParams)
+
+    OnRecruit = function()
+      gWorld.mParty:Add(Actor:Create(actorDef))
+      map:RemoveNPC(x, y, layer)
+    end
+  end
 
 return
 {
@@ -12,15 +49,31 @@ return
   properties = {},
   on_wake =
   {
+    {
+      id ="AddNPC",
+      params = {{ def = "mage", id = "mage", x = 21, y = 14 }}
+    },
+    {
+      id ="AddNPC",
+      params = {{ def = "thief", id ="thief", x = 35, y = 14 }}
+    }
   },
   actions =
   {
+    talk_recruit =
+    {
+      id ="RunScript",
+      params = { RecruitNPC }
+    },
   },
   trigger_types =
   {
+    recruit = { OnUse = "talk_recruit" }
   },
   triggers =
   {
+    { trigger = "recruit", x = 21, y = 14 },
+    { trigger = "recruit", x = 35, y = 14 },
   },
   tilesets = {
     {
