@@ -69,6 +69,13 @@ function Actor:Create(def)
             acces2 = def.acces2,
         },
         mActiveEquipSlots = def.equipslots or { 1, 2, 3 },
+        mSlotTypes =
+        {
+            "weapon",
+            "armor",
+            "accessory",
+            "accessory",
+        }
     }
 
     if def.portrait then
@@ -217,4 +224,18 @@ function Actor:PredictStats(slot, item)
     end
 
     return diff
+end
+
+function Actor:CanUse(item)
+    if item.restriction == nil then
+        return true
+    end
+
+    for _, v in pairs(item.restriction) do
+        if v == self.mId then
+            return true
+        end
+    end
+
+    return false
 end

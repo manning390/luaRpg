@@ -25,8 +25,7 @@ function InGameMenuState:Create(stack)
         end,
         ["equip"] =
         function()
-            -- return EquipMenuState:Create(this)
-            return this.mStateMachine.mEmpty
+            return EquipMenuState:Create(this)
         end,
         ["status"] =
         function()

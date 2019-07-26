@@ -24,7 +24,7 @@ function FrontMenuState:Create(parent, world)
                 "Items",
                 "Status",
                 -- "Magic",
-                -- "Equipment",
+                "Equipment",
                 -- "Status",
                 -- "Save",
             },
@@ -154,7 +154,8 @@ end
 function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
     local indexToStateId =
     {
-        [2] = "status"
+        [2] = "status",
+        [3] = "equip"
     }
 
     local actor = actorSummary.mActor
