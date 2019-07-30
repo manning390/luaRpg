@@ -23,7 +23,7 @@ manifest = {
         ['xpforeground.png'] = { path = "sprites/xpforeground.png" },
         ['xpbackground.png'] = { path = "sprites/xpbackground.png" },
         ['scrollbar.png'] = { path = "sprites/scrollbar.png" },
-        ['inventory_icons.png'] = { path = "sprites/inventory_icons.png" },
+        ['inventory_icons.png'] = { path = "sprites/inventory_icons.png", scale = "pixelart" },
         ['tileset_sontos_house.png'] = { path = "sprites/tileset_sontos_house.png" },
         ['tileset_jail.png'] = { path = "sprites/tileset_jail.png" },
         ['tileset_arena.png'] = { path = "sprites/tileset_arena.png" },

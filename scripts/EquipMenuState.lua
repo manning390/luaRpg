@@ -113,6 +113,28 @@ function EquipMenuState:Exit()
 end
 
 function EquipMenuState:Update(dt)
+    local menu = self.mFilterMenus[self.mMenuIndex]
+
+    if self.mInList then
+        menu:HandleInput()
+        if Keyboard.JustReleased(KEY_BACKSPACE) or
+           Keyboard.JustReleased(KEY_ESCAPE) then
+            self:FocusSlotMenu()
+        end
+    else
+        local prevEquipIndex = self.mSlotMenu:GetIndex()
+        self.mSlotMenu:HandleInput()
+        if prevEquipIndex ~= self.mSlotMenu:GetIndex() then
+            self:OnEquipMenuChanged()
+        end
+        if Keyboard.JustReleased(KEY_BACKSPACE) or
+           Keyboard.JustReleased(KEY_ESCAPE) then
+            self.mStateMachine:Change("frontmenu")
+        end
+    end
+
+    local scrolled = menu:PercentageScrolled()
+    self.mScrollbar:SetNormalValue(scrolled)
 end
 
 function EquipMenuState:Render(renderer)
@@ -156,7 +178,28 @@ function EquipMenuState:Render(renderer)
     self.mScrollbar:SetPosition(scrollX, scrollY)
     self.mScrollbar:Render(renderer)
 
+    local slot = self:GetSelectedSlot()
+    local itemId = self:GetSelectedItem() or -1
 
+    local diffs = self.mActor:PredictStats(slot, ItemDB[itemId])
+    local x = self.mLayout:MidX("stats") - 10
+    local y = self.mLayout:Top("stats") - 14
+    renderer:ScaleText(1, 1)
+
+    local statList = self.mActor:CreateStatNameList()
+    local statLabels = self.mActor:CreateStatLabelList()
+
+    for k, v in ipairs(statList) do
+        self:DrawStat(renderer, x, y, statLabels[k], v, diffs[v])
+        y = y - 14
+    end
+
+    -- Description panel
+    local descX = self.mLayout:Left("desc") + 10
+    local descY = self.mLayout:MidY("desc")
+    renderer:ScaleText(1, 1)
+    local item = ItemDB[itemId]
+    renderer:DrawText2d(descX, descY, item.description)
 end
 
 function EquipMenuState:OnSelectMenu(index, item)
@@ -164,4 +207,62 @@ function EquipMenuState:OnSelectMenu(index, item)
     self.mSlotMenu:HideCursor()
     self.mMenuIndex = self.mSlotMenu:GetIndex()
     self.mFilterMenus[self.mMenuIndex]:ShowCursor()
+end
+
+function EquipMenuState:GetSelectedSlot()
+    local i = self.mSlotMenu:GetIndex()
+    return Actor.EquipSlotId[i]
+end
+
+function EquipMenuState:GetSelectedItem()
+    if self.mInList then
+        local menu = self.mFilterMenus[self.mMenuIndex]
+        local item = menu:SelectedItem() or {id = nil}
+        return item.id
+    else
+        local slot = self:GetSelectedSlot()
+        return self.mActor.mEquipment[slot]
+    end
+end
+
+function EquipMenuState:FocusSlotMenu()
+    self.mInList = false
+    self.mSlotMenu:ShowCursor()
+    self.mMenuIndex = self.mSlotMenu:GetIndex()
+    self.mFilterMenus[self.mMenuIndex]:HideCursor()
+end
+
+function EquipMenuState:OnEquipMenuChanged()
+    self.mMenuIndex = self.mSlotMenu:GetIndex()
+
+    -- Equip menu only changes, when list isn't in focus
+    self.mFilterMenus[self.mMenuIndex]:HideCursor()
+end
+
+function EquipMenuState:OnDoEquip(index, item)
+    -- Let the character handle this.
+    self.mActor:Equip(self:GetSelectedSlot(), item)
+    self:RefreshFilteredMenus()
+    self:FocusSlotMenu()
+end
+
+function EquipMenuState:DrawStat(renderer, x, y, label, stat, diff)
+    renderer:AlignText("right", "center")
+    renderer:DrawText2d(x, y, label)
+    renderer:AlignText("left", "center")
+
+    local current = self.mActor.mStats:Get(stat)
+    local changed = current + diff
+
+    renderer:DrawText2d(x + 15, y, string.format("%d", current))
+
+    if diff > 0 then
+        renderer:DrawText2d(x + 60, y, string.format("%d", changed), Vector.Create(0,1,0,1))
+        self.mBetterSprite:SetPosition(x + 80, y)
+        renderer:DrawSprite(self.mBetterSprite)
+    elseif diff < 0 then
+        renderer:DrawText2d(x + 60, y, string.format("%d", changed), Vector.Create(1,0,0,1))
+        self.mWorseSprite:SetPosition(x + 80, y)
+        renderer:DrawSprite(self.mWorseSprite)
+    end
 end

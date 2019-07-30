@@ -239,3 +239,20 @@ function Actor:CanUse(item)
 
     return false
 end
+
+function Actor:CreateStatLabelList()
+    local list = {}
+
+    for _, v in ipairs(Actor.ActorStatLabels) do
+        table.insert(list, v)
+    end
+
+    for _, v in ipairs(Actor.ItemStatLabels) do
+        table.insert(list, v)
+    end
+
+    table.insert(list, "HP:")
+    table.insert(list, "MP:")
+
+    return list
+end
