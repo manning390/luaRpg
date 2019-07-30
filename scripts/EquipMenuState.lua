@@ -43,6 +43,51 @@ function EquipMenuState:Create(parent)
     return this
 end
 
+function EquipMenuState:RefreshFilteredMenus()
+    -- Get a list of filters by slot type
+    -- Items will be sorted into these lists
+    local filterList = {}
+    local slotCount = #self.mActor.mActiveEquipSlots
+
+    for i = 1, slotCount do
+        local slotType = self.mActor.mSlotTypes[i]
+        filterList[i] = { type = slotType, list = {} }
+    end
+
+    -- Actually sort inventory items into lists.
+    for k, v in ipairs(gWorld.mItems) do
+
+        local item = ItemDB[v.id]
+
+        for i, filter in ipairs(filterList) do
+
+            if item.type == filter.type
+                and self.mActor:CanUse(item) then
+                table.insert(filter.list, v)
+            end
+
+        end
+    end
+
+    self.mFilterMenus = {}
+    for k, v in ipairs(filterList) do
+        local menu = Selection:Create
+        {
+            data = v.list,
+            columns = 1,
+            spacingX = 256,
+            displayRows = 5,
+            spacingY = 26,
+            rows = 20,
+            RenderItem = function(self, renderer, x, y, item)
+                gWorld:DrawItem(self, renderer, x, y, item)
+            end,
+            OnSelection = function(...) self:OnDoEquip(...) end
+        }
+        table.insert(self.mFilterMenus, menu)
+    end
+end
+
 function EquipMenuState:Enter(actor)
     self.mActor = actor
     self.mActorSummary = ActorSummary:Create(actor)
@@ -52,6 +97,7 @@ function EquipMenuState:Enter(actor)
 
     self.mMenuIndex = 1
     self.mFilterMenus[self.mMenuIndex]:HideCursor()
+
     self.mSlotMenu = Selection:Create
     {
         data = self.mActor.mActiveEquipSlots,
@@ -79,7 +125,7 @@ function EquipMenuState:Render(renderer)
     renderer:AlignText("center", "center")
     local titleX = self.mLayout:MidX("title")
     local titleY = self.mLayout:MidY("title")
-    renderer:DrawText2d(tileX, titleY, "Equip")
+    renderer:DrawText2d(titleX, titleY, "Equip")
 
     -- Char summary
     local titleHeight = self.mLayout.mPanels["title"].height
@@ -111,48 +157,6 @@ function EquipMenuState:Render(renderer)
     self.mScrollbar:Render(renderer)
 
 
-end
-
-function EquipMenuState:RefreshFilteredMenus()
-    -- Get a list of filters by slot type
-    -- Items will be sorted into these lists
-    local filterList = {}
-    local slotCount = #self.mActor.mActiveEquipSlots
-
-    for i = 1, slotCount do
-        local slotType = self.mActor.mSlotTypes[i]
-        filterList[i] = { type = slotType, list = {} }
-    end
-
-    -- Actually sort inventory items into lists.
-    for k, v in ipairs(gWorld.mItems) do
-        local item = ItemDB[v.id]
-
-        for i, filter in ipairs(filterList) do
-            if item.type == filter.type
-                and self.mActor:CanUse(item) then
-                table.insert(filter.list, v)
-            end
-        end
-    end
-
-    self.mFilterMenus = {}
-    for k, v in ipairs(filterList) do
-        local menu = Selection:Create
-        {
-            data = v.list,
-            columns = 1,
-            spacingX = 256,
-            displayRows = 5,
-            spacingY = 26,
-            rows = 20,
-            RenderItem = function(self, renderer, x, y, item)
-                gWorld:DrawItem(self, renderer, x, y, item)
-            end,
-            OnSelection = function(...) self:OnDoEquip(...) end
-        },
-        table.insert(self.mFilterMenus, menu)
-    end
 end
 
 function EquipMenuState:OnSelectMenu(index, item)
