@@ -1,4 +1,23 @@
 function CreateArenaMap()
+  local loot = {
+    hero = {
+      { id = 1 },
+      { id = 2 },
+      { id = 3 },
+    },
+    mage = {
+      { id = 4 },
+      { id = 5 },
+      { id = 6 },
+    },
+    thief =
+    {
+      { id = 7 },
+      { id = 8 },
+      { id = 9 },
+    }
+  }
+
   local RecruitNPC =
   function(map, trigger, entity, x, y, layer)
     local npc = map:GetNPC(x, y, layer)
@@ -56,7 +75,19 @@ return
     {
       id ="AddNPC",
       params = {{ def = "thief", id ="thief", x = 35, y = 14 }}
-    }
+    },
+    {
+      id = "AddChest",
+      params = { "chest", loot.hero, 27, 14}
+    },
+    {
+      id = "AddChest",
+      params = { "chest", loot.mage, 20, 14}
+    },
+    {
+      id = "AddChest",
+      params = { "chest", loot.thief, 34, 14}
+    },
   },
   actions =
   {

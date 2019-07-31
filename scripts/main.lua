@@ -9,14 +9,6 @@ gWorld.mParty:Add(Actor:Create(gPartyMemberDefs.hero))
 
 gStack:Push(ExploreState:Create(gStack, CreateArenaMap(), Vector.Create(30, 18, 1)))
 
-print("Adding chest")
-local exploreState = gStack:Top()
-local map = exploreState.mMap
-local loot = {}
-
-addChestAction = Actions.AddChest(map, "chest", loot, 27, 14)
-addChestAction()
-
 function update()
     local dt = GetDeltaTime()
     gStack:Update(dt)

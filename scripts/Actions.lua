@@ -72,8 +72,24 @@ Actions =
             chest:SetTilePos(x, y, layer, map)
 
             local OnOpenChest = function()
-                gStack:PushFit(gRenderer, 0, 0,
-                    "The chest is empty!", 300)
+                if loot == nil or #loot == 0 then
+                    gStack:PushFit(gRenderer, 0, 0, "The chest is empty!", 300)
+                else
+                    gWorld:AddLoot(loot)
+                    for _, item in ipairs(loot) do
+                        local count = item.count or 1
+                        local name = ItemDB[item.id].name
+                        local message = string.format("Got %s", name)
+
+                        if count > 1 then
+                            message = message .. string.format(" x%d", count)
+                        end
+
+                        gStack:PushFit(gRenderer, 0, 0, message, 300)
+                    end
+                end
+
+                -- Remove the trigger
                 map:RemoveTrigger(chest.mTileX, chest.mTileY, chest.mLayer)
                 chest:SetFrame(entityDef.openFrame)
             end

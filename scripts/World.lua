@@ -58,6 +58,12 @@ function World:AddItem(itemId, count)
     })
 end
 
+function World:AddLoot(loot)
+    for k, v in ipairs(loot) do
+        self:AddItem(v.id, v.count)
+    end
+end
+
 function World:RemoveItem(itemId, amount)
     assert(ItemDB[itemId].type ~= "key")
     amount = amount or 1
