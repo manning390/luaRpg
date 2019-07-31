@@ -105,5 +105,6 @@ manifest = {
         ['TitleScreenState.lua'] = { path = 'scripts/TitleScreenState.lua' },
         ['StatusMenuState.lua'] = { path = 'scripts/StatusMenuState.lua' },
         ['EquipMenuState.lua'] = { path = 'scripts/EquipMenuState.lua' },
+        ['EventQueue.lua'] = { path = 'scripts/EventQueue.lua' },
     },
 }

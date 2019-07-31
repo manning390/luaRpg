@@ -66,4 +66,5 @@ Apply(function(v) Asset.Run(v) end,
     "ActorSummary.lua",
 	"StatusMenuState.lua",
 	"EquipMenuState.lua",
+    "EventQueue.lua",
 })
