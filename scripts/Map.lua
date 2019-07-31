@@ -345,3 +345,14 @@ function Map:RemoveNPC(x, y, layer)
 
     return false
 end
+
+function Map:AddFullTrigger(trigger, x, y, layer)
+    layer = layer or 1
+
+    if not self.mTriggers[layer] then
+        self.mTriggers[mLayer] = {}
+    end
+
+    local targetLayer = self.mTriggers[layer]
+    targetLayer[self:CoordToIndex(x, y)] = trigger
+end

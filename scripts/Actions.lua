@@ -60,6 +60,26 @@ Actions =
         }
         local storyboard = Storyboard:Create(gStack, fadeout, true)
         gStack:Push(storyboard)
-    end
+    end,
+    AddChest = function(map, entityId, loot, x, y, layer)
+        layer = layer or 1
 
+        return function(trigger, entity, tX, tY, tLayer)
+            local entityDef = gEntities[entityId]
+            assert(entityDef ~= nil)
+            local chest = Entity:Create(entityDef)
+
+            chest:SetTilePos(x, y, layer, map)
+
+            local OnOpenChest = function()
+                gStack:PushFit(gRenderer, 0, 0,
+                    "The chest is empty!", 300)
+                map:RemoveTrigger(chest.mTileX, chest.mTileY, chest.mLayer)
+                chest:SetFrame(entityDef.openFrame)
+            end
+
+            local trigger = Trigger:Create( { OnUse = OnOpenChest } )
+            map:AddFullTrigger(trigger, chest.mTileX, chest.mTileY, chest.mLayer)
+        end
+    end,
 }

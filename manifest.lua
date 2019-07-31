@@ -30,6 +30,7 @@ manifest = {
         ['sleeping.png'] = { path = "sprites/sleeping.png" },
         ['tileset_sewer.png'] = { path = "sprites/tileset_sewer.png" },
         ['title_screen.png'] = { path = "sprites/title_screen.png" },
+        ['chest.png'] = { path = "sprites/chest.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
