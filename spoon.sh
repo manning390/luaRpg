@@ -12,7 +12,7 @@ echo "$NAME = {}" >> $FILE
 echo "$NAME.__index = $NAME" >> $FILE
 
 # echo "Adding to manifest.."
-tac $PROJECT/manifest.lua | sed "5 i \\\t\t['$NAME.lua'] = { path = '$SCRIPTS/$NAME.lua' }," | tac > $PROJECT/manifest.lua
+tac $PROJECT/manifest.lua | sed "3 i \\\t\t['$NAME.lua'] = { path = '$SCRIPTS/$NAME.lua' }," | tac > $PROJECT/manifest.lua
 
 # echo "Adding to $DEP.."
 tac $PROJECT/$SCRIPTS/$DEP | sed "2 i \\\t\"$NAME.lua\"," | tac > $PROJECT/$SCRIPTS/$DEP

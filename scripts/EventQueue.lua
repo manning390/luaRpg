@@ -96,3 +96,28 @@ function EventQueue:Print()
         print(out)
     end
 end
+
+function EventQueue:Update()
+
+    if self.mCurrentEvent ~= nil then
+        self.mCurrentEvent:Update()
+
+        if self.mCurrentEvent:IsFinished() then
+            self.mCurrentEvent = nil
+        else
+            return
+        end
+
+    elseif self:IsEmpty() then
+        return
+    else
+        --  Need to chose an event
+        local front = table.remove(self.mQueue, 1)
+        front:Execute(self)
+        self.mCurrentEvent = front
+    end
+
+    for _, v in ipairs(self.mQueue) do
+        v.mCountDown = math.max(0, v.mCountDown - 1)
+    end
+end

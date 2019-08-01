@@ -106,5 +106,8 @@ manifest = {
         ['StatusMenuState.lua'] = { path = 'scripts/StatusMenuState.lua' },
         ['EquipMenuState.lua'] = { path = 'scripts/EquipMenuState.lua' },
         ['EventQueue.lua'] = { path = 'scripts/EventQueue.lua' },
+        ['CETurn.lua'] = { path = 'scripts/CETurn.lua' },
+        ['CEAttack.lua'] = { path = 'scripts/CEAttack.lua' },
+        ['CombatScene.lua'] = { path = 'scripts/CombatScene.lua' },
     },
 }

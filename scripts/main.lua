@@ -20,14 +20,40 @@ LoadLibrary("System")
 LoadLibrary("Renderer")
 LoadLibrary("Asset")
 
+Asset.Run("CombatScene.lua")
 Asset.Run("EventQueue.lua")
+Asset.Run("CETurn.lua")
+Asset.Run("CEAttack.lua")
 
-eventQueue = EventQueue:Create()
+gRenderer = Renderer.Create()
 
-eventQueue:Add({ mName = "Msg: Welcome to the Arena"}, -1)
-eventQueue:Add({ mName = "Take Turn Goblin" }, 5)
-eventQueue:Add({ mName = "Take Turn Hero"}, 4)
+gCombatScene = CombatScene:Create(
+    {
+        {
+            mName = "hero",
+            mSpeed = 3,
+            mAttack = 2,
+            mHP = 5,
+            IsPlayer = function() return true end,
+            IsKOed = function(self) return self.mHP <= 0 end,
+        },
+    },
+    {
+        {
+            mName = "goblin",
+            mSpeed = 2,
+            mAttack = 2,
+            mHP = 5,
+            IsPlayer = function() return false end,
+            IsKOed = function(self) return self.mHP <= 0 end,
+        },
+    }
+)
 
-eventQueue:Print()
+print("--start--")
 
-function update() end
+function update()
+    gRenderer:AlignText("center", "center")
+    gRenderer:DrawText2d(0, 0, "Testing Combat")
+    gCombatScene:Update()
+end
