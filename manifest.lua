@@ -31,6 +31,10 @@ manifest = {
         ['tileset_sewer.png'] = { path = "sprites/tileset_sewer.png" },
         ['title_screen.png'] = { path = "sprites/title_screen.png" },
         ['chest.png'] = { path = "sprites/chest.png" },
+        ['arena_background.png'] = { path = "sprites/arena_background.png" },
+        ['combat_hero.png'] = { path = "sprites/combat_hero.png" },
+        ['combat_thief.png'] = { path = "sprites/combat_thief.png" },
+        ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -109,5 +113,6 @@ manifest = {
         ['CETurn.lua'] = { path = 'scripts/CETurn.lua' },
         ['CEAttack.lua'] = { path = 'scripts/CEAttack.lua' },
         ['CombatScene.lua'] = { path = 'scripts/CombatScene.lua' },
+        ['CombatState.lua'] = { path = 'scripts/CombatState.lua' },
     },
 }

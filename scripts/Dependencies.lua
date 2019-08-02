@@ -70,4 +70,5 @@ Apply(function(v) Asset.Run(v) end,
 	"CETurn.lua",
 	"CEAttack.lua",
 	"CombatScene.lua",
+	"CombatState.lua",
 })
