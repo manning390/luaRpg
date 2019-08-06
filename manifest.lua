@@ -35,6 +35,7 @@ manifest = {
         ['combat_hero.png'] = { path = "sprites/combat_hero.png" },
         ['combat_thief.png'] = { path = "sprites/combat_thief.png" },
         ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
+        ['goblin.png'] = { path = "sprites/goblin.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -114,5 +115,10 @@ manifest = {
         ['CEAttack.lua'] = { path = 'scripts/CEAttack.lua' },
         ['CombatScene.lua'] = { path = 'scripts/CombatScene.lua' },
         ['CombatState.lua'] = { path = 'scripts/CombatState.lua' },
+		['EnemyDefs.lua'] = { path = 'scripts/EnemyDefs.lua' },
+        ['CSRunAnim.lua'] = { path = 'scripts/CSRunAnim.lua' },
+		['CSHurt.lua'] = { path = 'scripts/CSHurt.lua' },
+		['CSMove.lua'] = { path = 'scripts/CSMove.lua' },
+        ['CSStandby.lua'] = { path = 'scripts/CSStandby.lua' },
     },
 }

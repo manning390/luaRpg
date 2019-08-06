@@ -14,7 +14,9 @@ gCombatDef = {
     actors =
     {
         party = gWorld.mParty:ToArray(),
-        enemy = {}
+        enemy = {
+            Actor:Create(gEnemyDefs.goblin)
+        }
     }
 }
 
