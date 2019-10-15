@@ -5,34 +5,37 @@ function CETurn:Create(scene, owner)
     {
         mScene = scene,
         mOwner = owner,
-        mName = string.format("CETurn(_, %s)", owner.mName)
+        mIsFinished = false
     }
+
+    this.mName = string.format("Turn for %s", this.mOwner.mName)
 
     setmetatable(this, self)
     return this
 end
 
 function CETurn:TimePoints(queue)
-    local speed = self.mOwner.mSpeed
+    local speed = self.mOwner.mStats:Get("speed")
     return queue:SpeedToTimePoints(speed)
 end
 
 function CETurn:Execute(queue)
 
-    -- Choose a random enemy target.
-    local target = self.mScene:GetTarget(self.mOwner)
-
-    local msg = string.format("%s decides to attack %s", self.mOwner.mName, target.mName)
-
-    print(msg)
-    local event = CEAttack:Create(self.mScene, self.mOwner, target)
-
-    local tp = event:TimePoints(queue)
-    queue:Add(event, tp)
+    if self.mState:IsPartMember(self.mOwner) then
+        local state = CombatChoiceState:Create(self.mState, self.mOwner)
+        self.mState.mStack:Push(state)
+        self.mIsFinished = true
+        return
+    else
+        -- 2. Am I an enemy
+        -- Skip turn, we'll add AI later
+        self.mIsFinished = true
+        return
+    end
 end
 
 function CETurn:Update() end
 
 function CETurn:IsFinished()
-    return true
+    return self.mIsFinished
 end

@@ -76,4 +76,5 @@ Apply(function(v) Asset.Run(v) end,
     "EventQueue.lua",
 	"CombatScene.lua",
 	"EnemyDefs.lua",
+	"CombatChoiceState.lua",
 })

@@ -120,5 +120,6 @@ manifest = {
 		['CSHurt.lua'] = { path = 'scripts/CSHurt.lua' },
 		['CSMove.lua'] = { path = 'scripts/CSMove.lua' },
         ['CSStandby.lua'] = { path = 'scripts/CSStandby.lua' },
+        ['CombatChoiceState.lua'] = { path = 'scripts/CombatChoiceState.lua' },
     },
 }

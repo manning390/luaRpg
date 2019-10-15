@@ -4,52 +4,52 @@ CombatState = {
         ["party"] =
         {
             {
-                Vector.Create(0.25, -0.056),
+                Vector.Create(0.25, -0.056, 0, 0),
             },
             {
-                Vector.Create(0.23, 0.024),
-                Vector.Create(0.27, -0.136),
+                Vector.Create(0.23, 0.024, 0, 0),
+                Vector.Create(0.27, -0.136, 0, 0),
             },
             {
-                Vector.Create(0.23, 0.024),
-                Vector.Create(0.25, -0.056),
-                Vector.Create(0.27, -0.136),
+                Vector.Create(0.23, 0.024, 0, 0),
+                Vector.Create(0.25, -0.056, 0, 0),
+                Vector.Create(0.27, -0.136, 0, 0),
             },
         },
         ["enemy"] =
         {
             {
-                Vector.Create(-0.25, -0.056),
+                Vector.Create(-0.25, -0.056, 0, 0),
             },
             {
-                Vector.Create(-0.23, 0.024),
-                Vector.Create(-0.27, -0.136),
+                Vector.Create(-0.23, 0.024, 0, 0),
+                Vector.Create(-0.27, -0.136, 0, 0),
             },
             {
-                Vector.Create(-0.21, -0.056),
-                Vector.Create(-0.23, 0.024),
-                Vector.Create(-0.27, -0.136),
+                Vector.Create(-0.21, -0.056, 0, 0),
+                Vector.Create(-0.23, 0.024, 0, 0),
+                Vector.Create(-0.27, -0.136, 0, 0),
             },
             {
-                Vector.Create(-0.18, -0.056),
-                Vector.Create(-0.23,  0.056),
-                Vector.Create(-0.25, -0.056),
-                Vector.Create(-0.27, -0.168),
+                Vector.Create(-0.18, -0.056, 0, 0),
+                Vector.Create(-0.23,  0.056, 0, 0),
+                Vector.Create(-0.25, -0.056, 0, 0),
+                Vector.Create(-0.27, -0.168, 0, 0),
             },
             {
-                Vector.Create(-0.28, 0.032),
-                Vector.Create(-0.3, -0.056),
-                Vector.Create(-0.32,-0.144),
-                Vector.Create(-0.2, 0.004),
-                Vector.Create(-0.24, 0.116),
+                Vector.Create(-0.28, 0.032, 0, 0),
+                Vector.Create(-0.3, -0.056, 0, 0),
+                Vector.Create(-0.32,-0.144, 0, 0),
+                Vector.Create(-0.2, 0.004, 0, 0),
+                Vector.Create(-0.24, 0.116, 0, 0),
             },
             {
-                Vector.Create(-0.28,  0.032),
-                Vector.Create(-0.3,  -0.056),
-                Vector.Create(-0.32, -0.144),
-                Vector.Create(-0.16,  0.032),
-                Vector.Create(-0.205,-0.056),
-                Vector.Create(-0.225, -0.144),
+                Vector.Create(-0.28,  0.032, 0, 0),
+                Vector.Create(-0.3,  -0.056, 0, 0),
+                Vector.Create(-0.32, -0.144, 0, 0),
+                Vector.Create(-0.16,  0.032, 0, 0),
+                Vector.Create(-0.205,-0.056, 0, 0),
+                Vector.Create(-0.225, -0.144, 0, 0),
             },
         }
     }
@@ -82,7 +82,9 @@ function CombatState:Create(stack, def)
         mStatsYCol = 208,
 
         mBars = {},
-        mStatList = nil
+        mStatList = nil,
+
+        mEventQueue = EventQueue:Create()
     }
 
     -- Setup layout panel
@@ -195,7 +197,11 @@ function CombatState:Create(stack, def)
     return this
 end
 
-function CombatState:Enter() end
+function CombatState:Enter()
+    self.mStack:Push(CombatChoiceState:Create(
+        self,
+        self.mActors.party[1]))
+end
 
 function CombatState:Exit() end
 
@@ -206,6 +212,23 @@ function CombatState:Update(dt)
 
     for k, v in ipairs(self.mCharacters['enemy']) do
         v.mController:Update(dt)
+    end
+
+    if self.mStack:Top() ~= nil then
+        self.mStack:Update(dt)
+    else
+        self.mEventQueue:Update()
+
+        self:AddTurns(self.mActors.enemy)
+        self:AddTurns(self.mActors.party)
+
+        if self:PartyWins() then
+            self.mEventQueue:Clear()
+            -- deal with win
+        elseif self:EnemyWins() then
+            self.mEventQueue:Clear()
+            -- deal with lost
+        end
     end
 end
 
@@ -236,8 +259,11 @@ function CombatState:Render(renderer)
     end
 
     renderer:ScaleText(1.25, 1.25)
+    renderer:AlignText("left", "center")
     self.mPartyList:Render(renderer)
     self.mStatList:Render(renderer)
+
+    self.mStack:Render(renderer)
 end
 
 function CombatState:RenderPartyNames(renderer, x, y, item)
@@ -326,4 +352,46 @@ function CombatState:CreateCombatCharacters(side)
         -- Change to standby because it's combat time
         char.mController:Change(CSStandby.mName)
     end
+end
+
+function CombatState:AddTurns(actorList)
+    for _, v in ipairs(actorList) do
+        local alive = v.mStats:Get("hp_now") > 0
+
+        if alive and not self.mEventQueue:ActorHasEvent(v) then
+            -- what?
+            local event = CETurn:Create(self, v)
+            local tp = event:TimePoints(self.mEventQueue)
+            self.mEventQueue:Add(event)
+        end
+    end
+end
+
+function CombatState:HasLiveActors(actor)
+
+    for _, actor in ipairs(actorList) do
+        local stats = actor.mStats
+        if stats:Get("hp_now") > 0 then
+            return true
+        end
+    end
+
+    return false
+end
+
+function CombatState:EnemyWins()
+    return not self:HasLiveActors(self.mActors.party)
+end
+
+function CombatState:PartyWins()
+    return not self:HasLiveActors(self.mActors.enemy)
+end
+
+function CombatState:IsPartyMember(actor)
+    for _, v in ipairs(self.mActors.party) do
+        if actor == v then
+            return true
+        end
+    end
+    return false
 end

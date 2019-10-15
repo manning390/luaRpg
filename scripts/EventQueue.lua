@@ -4,7 +4,6 @@ function EventQueue:Create()
     local this =
     {
         mQueue = {},
-        mCurrentEvent = nil
     }
 
     setmetatable(this, self)
@@ -20,6 +19,8 @@ end
 
 function EventQueue:Add(event, timePoints)
     local queue = self.mQueue
+    print(count)
+    print(table_print(event))
 
     -- Instant event
     if timePoints == -1 then

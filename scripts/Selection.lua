@@ -8,7 +8,7 @@ function Selection:Create(params)
         mDataSource = params.data,
         mColumns = params.columns or 1,
         mFocusX = 1,
-        mFocusY =1,
+        mFocusY = 1,
         mSpacingY = params.spacingY or 24,
         mSpacingX = params.spacingX or 128,
         mCursor = Sprite.Create(),
@@ -188,4 +188,12 @@ end
 
 function Selection:SelectedItem()
     return self.mDataSource[self:GetIndex()]
+end
+
+function Selection:CanScrollUp()
+    return self.mDisplayStart > 1
+end
+
+function Selection:CanScrollDown()
+    return self.mDisplayStart <= (self.mMaxRows - self.mDisplayRows)
 end
