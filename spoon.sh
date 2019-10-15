@@ -12,13 +12,13 @@ echo "$NAME = {}" >> $FILE
 echo "$NAME.__index = $NAME" >> $FILE
 
 # echo "Adding to manifest.."
-tac $PROJECT/manifest.lua | sed "3 i \\\t\t['$NAME.lua'] = { path = '$SCRIPTS/$NAME.lua' }," | tac > $PROJECT/manifest.lua
+sed -i "$(expr $(wc -l < $PROJECT/manifest.lua) - 1)i\\\t\t['$NAME.lua'] = { path = '$SCRIPTS/$NAME.lua' }," $PROJECT/manifest.lua
 
 # echo "Adding to $DEP.."
-tac $PROJECT/$SCRIPTS/$DEP | sed "2 i \\\t\"$NAME.lua\"," | tac > $PROJECT/$SCRIPTS/$DEP
+sed -i "$(wc -l < $PROJECT/$SCRIPTS/$DEP)i\\\t\"$NAME.lua\"," $PROJECT/$SCRIPTS/$DEP
 
 # now open it
 subl $FILE
 
-# Command for line count
+# Command for total line count
 # find . -name '*.lua' -not -path './tutFiles/*' | xargs wc -l | sort
