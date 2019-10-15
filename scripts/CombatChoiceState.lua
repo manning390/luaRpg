@@ -27,7 +27,7 @@ function CombatChoiceState:Create(context, actor)
         displayRows = 3,
         spacingX = 0,
         spacingY = 19,
-        OnSelection = function(...) this.OnSelect(...) end,
+        OnSelection = function(...) this:OnSelect(...) end,
         RenderItem = this.RenderAction,
     }
 
@@ -92,7 +92,38 @@ function CombatChoiceState:RenderAction(renderer, x, y, item)
 end
 
 function CombatChoiceState:OnSelect(index, data)
-    -- Needs implementing
+    print("on select", index, data)
+    if data == "attack" then
+        print("character attacks")
+        self.mSelection:HideCursor()
+        local state = CombatTargetState:Create(
+            self.mCombatState,
+            self,
+            {
+                targetType = CombatTargetType.One,
+                OnSelect = function(targets)
+                    self:TakeAction(data, targets)
+                end,
+                OnExit = function()
+                    self.mSelection:ShowCursor()
+                end
+            })
+        self.mStack:Push(state)
+    end
+end
+
+function CombatChoiceState:TakeAction(id, targets)
+    self.mStack:Pop() -- select state
+    self.mStack:Pop() -- action state
+
+    local queue = self.mCombatState.mEventQueue
+
+    if id == "attack" then
+        print("Entered attack state")
+        local attack = CEAttack:Create(self.mActor, targets)
+        queue:Push(attack)
+    end
+
 end
 
 function CombatChoiceState:Enter()
