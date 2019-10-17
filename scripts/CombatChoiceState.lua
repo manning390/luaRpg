@@ -119,9 +119,10 @@ function CombatChoiceState:TakeAction(id, targets)
     local queue = self.mCombatState.mEventQueue
 
     if id == "attack" then
-        print("Entered attack state")
-        local attack = CEAttack:Create(self.mActor, targets)
-        queue:Push(attack)
+        local def = {}
+        local event = CEAttack:Create(self.mCombatState, self.mActor, def, targets)
+        local tp = event:TimePoints(queue)
+        queue:Push(event, tp)
     end
 
 end

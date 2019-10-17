@@ -84,7 +84,8 @@ function CombatState:Create(stack, def)
         mBars = {},
         mStatList = nil,
 
-        mEventQueue = EventQueue:Create()
+        mEventQueue = EventQueue:Create(),
+        mDeathList = {}
     }
 
     -- Setup layout panel
@@ -214,6 +215,16 @@ function CombatState:Update(dt)
         v.mController:Update(dt)
     end
 
+    for i = #self.mDeathList, 1, -1 do
+        local character = self.mDeathList[i]
+        character.mController:Update(dt)
+        local state = character.mController.mCurrent
+
+        if state:IsFinished() then
+            table.remove(self.mDeathList, i)
+        end
+    end
+
     if self.mStack:Top() ~= nil then
         self.mStack:Update(dt)
     else
@@ -243,6 +254,10 @@ function CombatState:Render(renderer)
     end
 
     for k, v in ipairs(self.mCharacters['enemy']) do
+        v.mEntity:Render(renderer)
+    end
+
+    for k, v in ipairs(self.mDeathList) do
         v.mEntity:Render(renderer)
     end
 
@@ -394,4 +409,57 @@ function CombatState:IsPartyMember(actor)
         end
     end
     return false
+end
+
+function CombatState:HandleDeath()
+    self:HandlePartyDeath()
+    self:HandleEnemyDeath()
+end
+
+function CombatState:HandlePartyDeath()
+    -- Deal with the actors
+    for _, actor in ipairs(self.mActors['party']) do
+        local character = self.mActorCharMap[actor]
+        local controller = character.mController
+        local state = controller.mCurrent
+        local stats = actor.mStats
+
+        -- is the character already dead?
+        if state.mAnimId ~= "death" then
+            -- Alive
+
+            -- Is the HP above 0?
+            local hp = stats:Get("hp_now")
+            if hp <= 0 then
+                -- Dead party actor we need to deal with
+                controller:Change(CSRunAnim.mName, {'death', false})
+                self.mEventQueue:RemoveEventsOwnedBy(actor)
+            end
+        end
+    end
+end
+
+function CombatState:HandleEnemyDeath()
+    -- Revese through list as we're going to remove them
+    local enemyList = self.mActors['enemy']
+    for i = #enemyList, 1, -1 do
+        local actor = enemyList[i]
+        local character = self.mActorCharMap[actor]
+        local controller = character.mController
+        local stats = actor.mStats
+        local hp = stats:Get("hp_now")
+
+        if hp <= 0 then
+            -- Remove all references
+            table.remove(enemyList, i)
+            table.remove(self.mCharacters['enemy'], i)
+            self.mActorCharMap[actor] = nil
+
+            controller:Change("cs_die")
+            self.mEventQueue:RemoveEventsOwnedBy(actor)
+
+            -- Add to effects
+            table.insert(self.mDeathList, character)
+        end
+    end
 end

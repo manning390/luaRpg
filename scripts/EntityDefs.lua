@@ -14,6 +14,7 @@ gCharacterStates =
     cs_hurt = CSHurt,
     cs_move = CSMove,
     cs_standby = CSStandby,
+    cs_die_enemy = CSEnemyDie,
 }
 
 gEntities =
@@ -188,10 +189,10 @@ gCharacters =
     {
         entity = "goblin",
         controller = {
-            "cs_move",
             "cs_run_anim",
             "cs_hurt",
-            "cs_standby"
+            "cs_standby",
+            "cs_die_enemy"
         },
         state = "cs_standby"
     }

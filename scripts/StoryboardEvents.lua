@@ -400,3 +400,20 @@ function SOP.MoveCamToTile(stateId, tileX, tileY, duration)
             end)
     end
 end
+
+function SOP.Function(func)
+    return function(storyboard)
+        func()
+        return EmptyEvent
+    end
+end
+
+function SOP.RunState(statemachine, id, params)
+    return function(storyboard)
+        statemachine:Change(id, params)
+        return BlockUntilEvent:Create(
+          function()
+            return statemachine.mCurrent:IsFinished()
+        end)
+    end
+end
