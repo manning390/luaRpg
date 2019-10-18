@@ -6,7 +6,7 @@ function CombatChoiceState:Create(context, actor)
     {
         mStack = context.mStack,
         mCombatState = context,
-        mActors = actor,
+        mActor = actor,
         mCharacter = context.mActorCharMap[actor],
         mUpArrow = gWorld.mIcons:Get('uparrow'),
         mDownArrow = gWorld.mIcons:Get('downarrow'),
@@ -21,8 +21,7 @@ function CombatChoiceState:Create(context, actor)
 
     this.mSelection = Selection:Create
     {
-        -- data = this.mActor.mActions,
-        data = {"attack", "item", "attack", "item", "attack"},
+        data = this.mActor.mActions,
         columns = 1,
         displayRows = 3,
         spacingX = 0,
@@ -72,7 +71,7 @@ function CombatChoiceState:CreateChoiceDialog()
         textbounds =
         {
             left = -20,
-            right = -0,
+            right = 0,
             top = 0,
             bottom = 2
         },
@@ -94,11 +93,9 @@ end
 function CombatChoiceState:OnSelect(index, data)
     print("on select", index, data)
     if data == "attack" then
-        print("character attacks")
         self.mSelection:HideCursor()
         local state = CombatTargetState:Create(
             self.mCombatState,
-            self,
             {
                 targetType = CombatTargetType.One,
                 OnSelect = function(targets)
@@ -119,10 +116,11 @@ function CombatChoiceState:TakeAction(id, targets)
     local queue = self.mCombatState.mEventQueue
 
     if id == "attack" then
+        print("Entered attack state")
         local def = {}
         local event = CEAttack:Create(self.mCombatState, self.mActor, def, targets)
         local tp = event:TimePoints(queue)
-        queue:Push(event, tp)
+        queue:Add(event, tp)
     end
 
 end

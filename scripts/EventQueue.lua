@@ -19,8 +19,6 @@ end
 
 function EventQueue:Add(event, timePoints)
     local queue = self.mQueue
-    print(count)
-    print(table_print(event))
 
     -- Instant event
     if timePoints == -1 then
@@ -100,6 +98,10 @@ end
 
 function EventQueue:Update()
 
+    for _, v in ipairs(self.mQueue) do
+        v.mCountDown = math.max(0, v.mCountDown - 1)
+    end
+
     if self.mCurrentEvent ~= nil then
         self.mCurrentEvent:Update()
 
@@ -112,13 +114,35 @@ function EventQueue:Update()
     elseif self:IsEmpty() then
         return
     else
-        --  Need to chose an event
+        -- Need to chose an event
         local front = table.remove(self.mQueue, 1)
+        print("removing from front", front.mName, front.mCountDown)
         front:Execute(self)
         self.mCurrentEvent = front
     end
+end
 
-    for _, v in ipairs(self.mQueue) do
-        v.mCountDown = math.max(0, v.mCountDown - 1)
+function EventQueue:Render(x, y, renderer)
+
+    local yInc = 15
+
+    renderer:ScaleText(1, 1)
+    renderer:AlignText("left", "top")
+    renderer:DrawText2d(x, y, "EVENT QUEUE")
+    local current = self.mCurrentEvent or {}
+    y = y - yInc
+    renderer:DrawText2d(x, y, string.format("CURRENT: %s", tostring(current.mName or "None")))
+
+    y = y - yInc * 1.5
+
+    if not next(self.mQueue) then
+        renderer:DrawText2d(x, y, "EMPTY!")
+    end
+
+    for k, v in ipairs(self.mQueue) do
+        local out = string.format("[%d] Event: [%d][%s]",
+                                  k, v.mCountDown, v.mName)
+        renderer:DrawText2d(x, y, out)
+        y = y - yInc
     end
 end

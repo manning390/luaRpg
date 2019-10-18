@@ -1,11 +1,12 @@
 CETurn = {}
 CETurn.__index = CETurn
-function CETurn:Create(scene, owner)
+function CETurn:Create(state, owner)
     local this =
     {
-        mScene = scene,
+        mState = state,
         mOwner = owner,
-        mIsFinished = false
+        mFinished = false,
+        mName = nil,
     }
 
     this.mName = string.format("Turn for %s", this.mOwner.mName)
@@ -15,21 +16,21 @@ function CETurn:Create(scene, owner)
 end
 
 function CETurn:TimePoints(queue)
-    local speed = self.mOwner.mStats:Get("speed")
+    local speed = self.mOwner.mStats:Get('speed')
     return queue:SpeedToTimePoints(speed)
 end
 
 function CETurn:Execute(queue)
 
-    if self.mState:IsPartMember(self.mOwner) then
+    if self.mState:IsPartyMember(self.mOwner) then
         local state = CombatChoiceState:Create(self.mState, self.mOwner)
         self.mState.mStack:Push(state)
-        self.mIsFinished = true
+        self.mFinished = true
         return
     else
         -- 2. Am I an enemy
         -- Skip turn, we'll add AI later
-        self.mIsFinished = true
+        self.mFinished = true
         return
     end
 end
@@ -37,5 +38,5 @@ end
 function CETurn:Update() end
 
 function CETurn:IsFinished()
-    return self.mIsFinished
+    return self.mFinished
 end

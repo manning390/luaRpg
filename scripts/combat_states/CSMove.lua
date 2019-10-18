@@ -32,12 +32,12 @@ function CSMove:Enter(params)
     local frames = anims.advance
     local dir = -1
     if self.mCharacter.mFacing == "right" then
-        frames = anim.retreat
+        frames = anims.retreat
         dir = 1
     end
     dir = dir * backforth
 
-    self.mAnims = Animation:Create(frames)
+    self.mAnim = Animation:Create(frames)
 
     -- Store current position
     local pixelPos = self.mEntity.mSprite:GetPosition()

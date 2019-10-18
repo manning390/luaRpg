@@ -31,7 +31,8 @@ CombatSelector =
         return targets
     end,
 }
-CombatTargetType = {
+CombatTargetType =
+{
     One = "One",
     Side = "Side",
     All = "All",
@@ -40,14 +41,14 @@ CombatTargetState = {}
 CombatTargetState.__index = CombatTargetState
 function CombatTargetState:Create(context, params)
     if params.switchSides == nil then
-        params.switchSides = tue
+        params.switchSides = true
     end
 
     local this =
     {
         mCombatState = context,
         mStack = context.mStack,
-        mDefaultSelector = params.mDefaultSelector,
+        mDefaultSelector = params.defaultSelector,
         mCanSwitchSide = params.switchSides,
         mTargetType = params.targetType or CombatTargetType.One,
         mOnSelect = params.OnSelect,
@@ -143,38 +144,6 @@ function CombatTargetState:GetIndex(list, item)
     return -1
 end
 
-function CombatTargetState:Left()
-    if not self.mCanSwitchSide then
-        return
-    end
-
-    if not self.mCombatState:IsPartyMember(self.mTargets[1]) then
-        return
-    end
-
-    if self.mTargetType == CombatTargetType.One then
-        self.mTargets = { self.mEnemy[1] }
-    elseif self.mTargetType == CombatTargetType.Side then
-        self.mTargets = self.mEnemy
-    end
-end
-
-function CombatTargetState:Right()
-    if not self.mCanSwitchSide then
-        return
-    end
-
-    if self.mCombatState:IsPartyMember(self.mTargets[1]) then
-        return
-    end
-
-    if self.mTargetType == CombatTargetType.One then
-        self.mTargets = { self.mParty[1] }
-    elseif self.mTargetType == CombatTargetType.Side then
-        self.mTargets = self.mParty
-    end
-end
-
 function CombatTargetState:Up()
     if self.mTargetType ~= CombatTargetType.One then
         return
@@ -205,4 +174,40 @@ function CombatTargetState:Down()
         index = 1
     end
     self.mTargets = { side[index] }
+end
+
+function CombatTargetState:Left()
+    if not self.mCanSwitchSide then
+        return
+    end
+
+    if not self.mCombatState:IsPartyMember(self.mTargets[1]) then
+        return
+    end
+
+    if self.mTargetType == CombatTargetType.One then
+        self.mTargets = { self.mEnemy[1] }
+    end
+
+    if self.mTargetType == CombatTargetType.Side then
+        self.mTargets = self.mEnemy
+    end
+end
+
+function CombatTargetState:Right()
+    if not self.mCanSwitchSide then
+        return
+    end
+
+    if self.mCombatState:IsPartyMember(self.mTargets[1]) then
+        return
+    end
+
+    if self.mTargetType == CombatTargetType.One then
+        self.mTargets = { self.mParty[1] }
+    end
+
+    if self.mTargetType == CombatTargetType.Side then
+        self.mTargets = self.mParty
+    end
 end

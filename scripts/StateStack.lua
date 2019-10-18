@@ -19,6 +19,7 @@ end
 
 function StateStack:Pop()
     local top = self.mStates[#self.mStates]
+    print("pop called", top)
     table.remove(self.mStates)
     top:Exit()
     return top

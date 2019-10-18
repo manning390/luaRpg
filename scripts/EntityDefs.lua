@@ -75,7 +75,7 @@ gEntities =
         texture = "combat_mage.png",
         width = 64,
         height = 64,
-        startFrame = 37
+        startFrame = 37,
     },
     goblin =
     {
@@ -95,7 +95,6 @@ gCharacters =
         combatEntity = "combat_hero",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up      = {1, 2, 3, 4},
             right   = {5, 6, 7, 8},
             down    = {9, 10, 11, 12},
@@ -117,7 +116,7 @@ gCharacters =
             "cs_run_anim",
             "cs_hurt",
             "cs_move",
-            "cs_standby"
+            "cs_standby",
         },
         state = "wait",
     },
@@ -128,7 +127,6 @@ gCharacters =
         combatEntity = "combat_thief",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up      = {33, 34, 35, 36},
             right   = {37, 38, 39, 40},
             down    = {41, 42, 43, 44},
@@ -160,7 +158,6 @@ gCharacters =
         combatEntity = "combat_mage",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up      = {17, 18, 19, 20},
             right   = {21, 22, 23, 24},
             down    = {25, 26, 27, 28},

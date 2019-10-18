@@ -5,14 +5,14 @@ function CSRunAnim:Create(character, context)
     {
         mCharacter = character,
         mCombatScene = context,
-        mEntity = character.mEntity
+        mEntity = character.mEntity,
     }
 
     setmetatable(this, self)
     return this
 end
 
-function CSRunAnim:Enter()
+function CSRunAnim:Enter(params)
     local anim, loop, spf = unpack(params)
     self.mAnimId = anim
     local frames = self.mCharacter:GetCombatAnim(anim)

@@ -1,7 +1,7 @@
 CEAttack = {}
 CEAttack.__index = CEAttack
-function CEAttack:Create(state, owner, def, target)
-    print("target", target)
+function CEAttack:Create(state, owner, def, targets)
+    print("Target", target)
 
     local this =
     {
@@ -10,7 +10,7 @@ function CEAttack:Create(state, owner, def, target)
         mDef = def,
         mIsFinished = false,
         mCharacter = state.mActorCharMap[owner],
-        mTarget = target,
+        mTargets = targets,
     }
 
     this.mController = this.mCharacter.mController

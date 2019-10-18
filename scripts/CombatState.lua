@@ -41,7 +41,7 @@ CombatState = {
                 Vector.Create(-0.3, -0.056, 0, 0),
                 Vector.Create(-0.32,-0.144, 0, 0),
                 Vector.Create(-0.2, 0.004, 0, 0),
-                Vector.Create(-0.24, 0.116, 0, 0),
+                Vector.Create(-0.24, -0.116, 0, 0),
             },
             {
                 Vector.Create(-0.28,  0.032, 0, 0),
@@ -56,7 +56,8 @@ CombatState = {
 }
 CombatState.__index = CombatState
 function CombatState:Create(stack, def)
-    local this = {
+    local this =
+    {
         mGameStack = stack,
         mStack = StateStack:Create(),
         mDef = def,
@@ -187,7 +188,7 @@ function CombatState:Create(stack, def)
         rows = #this.mActors.party,
         RenderItem =
             function(self, renderer, x, y, item)
-                this.RenderPartyStats(this, renderer, x, y, item)
+                this:RenderPartyStats(renderer, x, y, item)
             end,
         OnSelection = this.OnPartyMemberSelect,
     }
@@ -198,11 +199,7 @@ function CombatState:Create(stack, def)
     return this
 end
 
-function CombatState:Enter()
-    self.mStack:Push(CombatChoiceState:Create(
-        self,
-        self.mActors.party[1]))
-end
+function CombatState:Enter() end
 
 function CombatState:Exit() end
 
@@ -279,6 +276,10 @@ function CombatState:Render(renderer)
     self.mStatList:Render(renderer)
 
     self.mStack:Render(renderer)
+
+    self.mEventQueue:Render(-System.ScreenWidth()/2,
+                            System.ScreenHeight()/2,
+                            renderer)
 end
 
 function CombatState:RenderPartyNames(renderer, x, y, item)
@@ -326,7 +327,7 @@ function CombatState:RenderPartyStats(renderer, x, y, item)
 
     x = x + self.mStatsYCol
 
-    local mpStr = string.format('%d', stats:Get('mp_now'))
+    local mpStr = string.format("%d", stats:Get('mp_now'))
     renderer:DrawText2d(x, y, mpStr)
     bars.mMP:SetPosition(x + barOffset * 0.7, y)
     bars.mMP:SetValue(stats:Get('mp_now'))
@@ -377,12 +378,12 @@ function CombatState:AddTurns(actorList)
             -- what?
             local event = CETurn:Create(self, v)
             local tp = event:TimePoints(self.mEventQueue)
-            self.mEventQueue:Add(event)
+            self.mEventQueue:Add(event, tp)
         end
     end
 end
 
-function CombatState:HasLiveActors(actor)
+function CombatState:HasLiveActors(actorList)
 
     for _, actor in ipairs(actorList) do
         local stats = actor.mStats

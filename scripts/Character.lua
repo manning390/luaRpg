@@ -30,7 +30,7 @@ function Character:Create(def, map)
         states[state.mName] = function() return instance end
     end
 
-    this.mController.states = states
+    this.mController.mStates = states
 
     -- Change the statemachine to the initial state
     -- as defined in the def
