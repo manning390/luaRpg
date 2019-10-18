@@ -123,5 +123,6 @@ manifest = {
         ['CombatChoiceState.lua'] = { path = 'scripts/CombatChoiceState.lua' },
         ['CombatTargetState.lua'] = { path = 'scripts/CombatTargetState.lua' },
 		['CSEnemyDie.lua'] = { path = 'scripts/combat_states/CSEnemyDie.lua' },
+        ['CSEnemyHurt.lua'] = { path = 'scripts/combat_states/CSEnemyHurt.lua' },
     },
 }

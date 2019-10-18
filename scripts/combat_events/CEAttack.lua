@@ -82,6 +82,16 @@ function CEAttack:AttackTarget(target)
     local hp = enemyStats:Get("hp_now") - damage
     enemyStats:Set("hp_now", math.max(0, hp))
 
+    -- change actor's character to hurt state
+    local character = self.mState.mActorCharMap[target]
+    local controller = character.mController
+    if damage > 0 then
+        local state = controller.mCurrent
+        if state.mName ~= "cs_hurt" then
+            controller:Change("cs_hurt", state)
+        end
+    end
+
     self.mState:HandleDeath()
 end
 
