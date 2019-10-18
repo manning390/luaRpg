@@ -86,7 +86,8 @@ function CombatState:Create(stack, def)
         mStatList = nil,
 
         mEventQueue = EventQueue:Create(),
-        mDeathList = {}
+        mDeathList = {},
+        mEffectList = {},
     }
 
     -- Setup layout panel
@@ -222,6 +223,14 @@ function CombatState:Update(dt)
         end
     end
 
+    for i = #self.mEffectList, 1, -1 do
+        local v= self.mEffectList[i]
+        if v:IsFinished() then
+            table.remove(self.mEffectList, i)
+        end
+        v:Update(dt)
+    end
+
     if self.mStack:Top() ~= nil then
         self.mStack:Update(dt)
     else
@@ -256,6 +265,10 @@ function CombatState:Render(renderer)
 
     for k, v in ipairs(self.mDeathList) do
         v.mEntity:Render(renderer)
+    end
+
+    for k, v in ipairs(self.mEffectList) do
+        v:Render(renderer)
     end
 
     for k, v in ipairs(self.mPanels) do
@@ -463,4 +476,17 @@ function CombatState:HandleEnemyDeath()
             table.insert(self.mDeathList, character)
         end
     end
+end
+
+function CombatState:AddEffect(effect)
+    for i = 1, #self.mEffectList do
+        local priority = self.mEffectList[i].mPriority
+
+        if effect.mPriority > priority then
+            table.insert(self.mEffectList, i, effect)
+            return
+        end
+    end
+
+    table.insert(self.mEffectList, effect)
 end

@@ -80,4 +80,5 @@ Apply(function(v) Asset.Run(v) end,
     "CEAttack.lua",
 	"CombatChoiceState.lua",
 	"CombatTargetState.lua",
+	"JumpingNumbers.lua",
 })
