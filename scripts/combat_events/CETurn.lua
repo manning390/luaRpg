@@ -28,8 +28,12 @@ function CETurn:Execute(queue)
         self.mFinished = true
         return
     else
-        -- 2. Am I an enemy
-        -- Skip turn, we'll add AI later
+        local targets = CombatSelector.RandomAlivePlayer(self.mState)
+        local def = { player = false }
+        local queue = self.mState.mEventQueue
+        local event = CEAttack:Create(self.mState, self.mOwner, def, targets)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
         self.mFinished = true
         return
     end

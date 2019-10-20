@@ -30,6 +30,16 @@ CombatSelector =
 
         return targets
     end,
+    RandomAlivePlayer = function(state)
+        local aliveList = {}
+        for k, v in ipairs(state.mActors["party"]) do
+            if v.mStats:Get("hp_now") > 0 then
+                table.insert(aliveList, v)
+            end
+        end
+        local target = aliveList[math.random(#aliveList)]
+        return { target }
+    end,
 }
 CombatTargetType =
 {
