@@ -36,6 +36,7 @@ manifest = {
         ['combat_thief.png'] = { path = "sprites/combat_thief.png" },
         ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
         ['goblin.png'] = { path = "sprites/goblin.png" },
+        ['combat_slash.png'] = { path = "sprites/combat_slash.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -125,5 +126,6 @@ manifest = {
 		['CSEnemyDie.lua'] = { path = 'scripts/combat_states/CSEnemyDie.lua' },
         ['CSEnemyHurt.lua'] = { path = 'scripts/combat_states/CSEnemyHurt.lua' },
 		['JumpingNumbers.lua'] = { path = 'scripts/fx/JumpingNumbers.lua' },
+		['AnimEntityFx.lua'] = { path = 'scripts/fx/AnimEntityFx.lua' },
     },
 }

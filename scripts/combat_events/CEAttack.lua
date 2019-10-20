@@ -92,6 +92,16 @@ function CEAttack:AttackTarget(target)
         end
     end
 
+    local entity = character.mEntity
+    local x = entity.mX
+    local y = entity.mY
+
+    local dmsEffect = JumpingNumbers:Create(x, y, damage)
+    local slashEffect = AnimEntityFx:Create(x, y, gEntities.slash, gEntities.slash.frames)
+
+    self.mState:AddEffect(dmsEffect)
+    self.mState:AddEffect(slashEffect)
+
     self.mState:HandleDeath()
 end
 

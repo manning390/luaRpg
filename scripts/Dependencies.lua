@@ -81,4 +81,5 @@ Apply(function(v) Asset.Run(v) end,
 	"CombatChoiceState.lua",
 	"CombatTargetState.lua",
 	"JumpingNumbers.lua",
+	"AnimEntityFx.lua",
 })
