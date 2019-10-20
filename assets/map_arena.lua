@@ -61,13 +61,17 @@ return
   version = "1.1",
   luaversion = "5.1",
   orientation = "orthogonal",
-  width = 64,
-  height = 64,
+  width = 30,
+  height = 30,
   tilewidth = 16,
   tileheight = 16,
   properties = {},
   on_wake =
   {
+    -- {
+    --   id = "RunScript",
+    --   params = { EnterArena }
+    -- },
     {
       id ="AddNPC",
       params = {{ def = "mage", id = "mage", x = 21, y = 14 }}

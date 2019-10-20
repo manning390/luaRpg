@@ -33,7 +33,7 @@ CaptionStyles =
     },
     ["title"] =
     {
-        font = "title",
+        -- font = "title",
         scale = 3,
         y = 75,
         Render = DefaultRenderer,
