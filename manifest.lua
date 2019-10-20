@@ -129,5 +129,8 @@ manifest = {
 		['JumpingNumbers.lua'] = { path = 'scripts/fx/JumpingNumbers.lua' },
 		['AnimEntityFx.lua'] = { path = 'scripts/fx/AnimEntityFx.lua' },
 		['Formula.lua'] = { path = 'scripts/Formula.lua' },
+		['XPPopUp.lua'] = { path = 'scripts/XPPopUp.lua' },
+		['ActorXPSummary.lua'] = { path = 'scripts/ActorXPSummary.lua' },
+		['XPSummaryState.lua'] = { path = 'scripts/XPSummaryState.lua' },
     },
 }

@@ -25,6 +25,7 @@ gCombatDef = {
 
 gStack:Push(ExploreState:Create(gStack, CreateArenaMap(), Vector.Create(30, 18, 1)))
 gStack:Push(CombatState:Create(gStack, gCombatDef))
+gStack:Push(XPSummaryState:Create(gStack, gWorld.mParty, {xp = 9999}))
 
 function update()
     local dt = GetDeltaTime()

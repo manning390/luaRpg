@@ -83,4 +83,7 @@ Apply(function(v) Asset.Run(v) end,
 	"JumpingNumbers.lua",
 	"AnimEntityFx.lua",
 	"Formula.lua",
+	"XPPopUp.lua",
+	"ActorXPSummary.lua",
+	"XPSummaryState.lua",
 })

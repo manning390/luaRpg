@@ -95,3 +95,9 @@ function Panel:Render(renderer)
         renderer:DrawSprite(v)
     end
 end
+
+function Panel:SetColor(color)
+    for k, v in ipairs(self.mTiles) do
+        v:SetColor(color)
+    end
+end
