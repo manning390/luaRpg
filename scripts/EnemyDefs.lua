@@ -10,7 +10,7 @@ gEnemyDefs =
             ["mp_now"] = 0,
             ["mp_max"] = 0,
             ["strength"] = 8,
-            ["speed"] = 20,
+            ["speed"] = 5,
             ["intelligence"] = 2,
         },
         name = "Arena Goblin",

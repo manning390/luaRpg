@@ -62,9 +62,6 @@ function XPSummaryState:Enter()
     self.mXPCounter = 0
 end
 function XPSummaryState:Exit() end
-function XPSummaryState:Update(dt) end
-function XPSummaryState:Render(renderer) end
-function XPSummaryState:HandleInput() end
 
 function XPSummaryState:ApplyXpToParty(xp)
     for k, actor in pairs(self.mParty) do
@@ -145,8 +142,24 @@ function XPSummaryState:HandleInput()
             return
         end
 
-        self.mStack:Pop()
+        -- self.mStack:Pop()
+        self:GotoLootSummary()
     end
+end
+
+function XPSummaryState:GotoLootSummary()
+    local lootSummaryState = LootSummaryState:Create(self.mStack, gWorld, self.mCombatData)
+
+    local storyboard =
+    {
+        SOP.BlackScreen("black", 0),
+        SOP.FadeInScreen("black", 0.2),
+        SOP.ReplaceState(self, lootSummaryState),
+        SOP.Wait(0, 1),
+        SOP.FadeOutScreen("black", 0.2),
+    }
+    local storyboard = Storyboard.Create(self.mStack, storyboard)
+    self.mStack:Push(storyboard)
 end
 
 function XPSummaryState:Render(renderer)
