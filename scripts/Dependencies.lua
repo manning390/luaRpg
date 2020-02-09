@@ -86,4 +86,5 @@ Apply(function(v) Asset.Run(v) end,
 	"XPPopUp.lua",
 	"ActorXPSummary.lua",
 	"XPSummaryState.lua",
+	"LootSummaryState.lua",
 })
