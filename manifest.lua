@@ -133,5 +133,7 @@ manifest = {
 		['ActorXPSummary.lua'] = { path = 'scripts/ActorXPSummary.lua' },
 		['XPSummaryState.lua'] = { path = 'scripts/XPSummaryState.lua' },
 		['LootSummaryState.lua'] = { path = 'scripts/LootSummaryState.lua' },
+		['OddmentTable.lua'] = { path = 'scripts/OddmentTable.lua' },
+        ['Inspect.lua'] = { path = 'scripts/Inspect.lua' },
     },
 }

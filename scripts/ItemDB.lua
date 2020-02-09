@@ -120,6 +120,31 @@ ItemDB =
             target_default = "friendly_dead",
             hint = "Choose target to revive",
         }
+    },
+    {
+        name = "Mana Potion",
+        type ="usable",
+        description = "Heals a small amount of MP.",
+        use =
+        {
+            action = "small_mp_restore",
+            target = "any",
+            target_default = "friendly_lowest_mana",
+            hint ="Choose target to restore mana."
+        }
+    },
+    {
+        name = "Mysterious Torque",
+        type ="accessory",
+        description = "A goldten torque that glitters.",
+        stats =
+        {
+            add =
+            {
+                strength = 10,
+                speed = 10
+            }
+        }
     }
 }
 

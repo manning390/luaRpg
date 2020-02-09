@@ -43,7 +43,7 @@ function XPSummaryState:Create(stack, party, combatData)
     local panelIds = {"one", "two", "three"}
     for _, v in ipairs(this.mParty) do
         local panelId = panelIds[index]
-        print(panelId)
+        -- print(panelId)
         local summary = ActorXPSummary:Create(v, this.mLayout, panelId)
         -- local summaryTop = this.mLayout:Top(panelId)
         -- summary:SetPosition(summaryLeft, summaryTop)
@@ -150,15 +150,16 @@ end
 function XPSummaryState:GotoLootSummary()
     local lootSummaryState = LootSummaryState:Create(self.mStack, gWorld, self.mCombatData)
 
+    -- CombatState is on top, let's push the loot summary table behind it.
     local storyboard =
     {
         SOP.BlackScreen("black", 0),
         SOP.FadeInScreen("black", 0.2),
         SOP.ReplaceState(self, lootSummaryState),
-        SOP.Wait(0, 1),
+        SOP.Wait(0.1),
         SOP.FadeOutScreen("black", 0.2),
     }
-    local storyboard = Storyboard.Create(self.mStack, storyboard)
+    local storyboard = Storyboard:Create(self.mStack, storyboard)
     self.mStack:Push(storyboard)
 end
 

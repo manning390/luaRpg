@@ -50,7 +50,7 @@ function LootSummaryState:Create(stack, world, combatData)
     return this
 end
 
-function  LootSummaryState:RenderItem(renderer, x, y, item)
+function LootSummaryState:RenderItem(renderer, x, y, item)
     if not item then
         return
     end
