@@ -105,3 +105,28 @@ function Formula.IsCountered(state, attacker, target)
 	-- 0.99999 so that counter stat 1 is 100%
 	return math.random()*0.99999 < counter
 end
+
+function Formula.CanFlee(state, fleer)
+	local fc = 0.35 -- flee chance
+	local stats= fleer.mStats
+	local speed = stats:Get("speed")
+
+	-- Get the average speed of the enemies
+	local enemyCount = 0
+	local totalSpeed = 0
+	for k, v in ipairs(state.mActors['enemy']) do
+		local speed = v.mStats:Get("speed")
+		totalSpeed = totalSpeed + speed
+		enemyCount = enemyCount + 1
+	end
+
+	local avgSpeed = totalSpeed / enemyCount
+
+	if speed > avgSpeed then
+		fc = fc + 0.15
+	else
+		fc = fc - 0.15
+	end
+
+	return math.random() <= fc
+end

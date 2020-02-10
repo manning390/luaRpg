@@ -43,6 +43,9 @@ Actor = {
     {
         ["attack"] = "Attack",
         ["item"] = "Item",
+        ["flee"] = "Flee",
+        ["magic"] = "Magic",
+        ["special"] = "Special",
     },
 }
 Actor.__index = Actor

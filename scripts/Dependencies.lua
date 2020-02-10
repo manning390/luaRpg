@@ -89,4 +89,5 @@ Apply(function(v) Asset.Run(v) end,
 	"OddmentTable.lua",
 	"CombatFormula.lua",
 	"CombatTextFx.lua",
+	"CEFlee.lua",
 })

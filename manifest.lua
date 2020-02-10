@@ -136,5 +136,6 @@ manifest = {
         ['Inspect.lua'] = { path = 'scripts/Inspect.lua' },
 		['CombatFormula.lua'] = { path = 'scripts/CombatFormula.lua' },
 		['CombatTextFx.lua'] = { path = 'scripts/fx/CombatTextFx.lua' },
+		['CEFlee.lua'] = { path = 'scripts/combat_events/CEFlee.lua' },
     },
 }
