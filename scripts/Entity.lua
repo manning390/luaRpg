@@ -78,7 +78,7 @@ function Entity:GetSelectPosition()
     local x = pos:X()
     local y = pos:Y() + height / 2
 
-    local yPad = 16
+    local yPad = 0 -- 16 originally
 
     y = y + yPad
 

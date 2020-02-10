@@ -57,3 +57,7 @@ function NextLevel(level)
     local baseXP = 1000
     return math.floor(baseXP * (level ^ exponent))
 end
+
+function Clamp(value, min, max)
+    return math.max(min, math.min(value, max))
+end

@@ -24,8 +24,8 @@ function JumpingNumbers:Update(dt)
     self.mVelocityY = self.mVelocityY - (self.mGravity * dt)
 
     if self.mCurrentY <= self.mY then
-        local fade01 = math.min(1, (self.mY - self.mCurrentY) / self.mFadeDistance)
-        self.mColor:SetW(1 - fade01)
+        local fade = math.min(1, (self.mY - self.mCurrentY) / self.mFadeDistance)
+        self.mColor:SetW(1 - fade)
     end
 end
 

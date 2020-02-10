@@ -1,8 +1,6 @@
 CEAttack = {}
 CEAttack.__index = CEAttack
 function CEAttack:Create(state, owner, def, targets)
-    print("Target", target)
-
     local this =
     {
         mState = state,
@@ -83,14 +81,35 @@ function CEAttack:Update() end
 function CEAttack:DoAttack()
     for _, target in ipairs(self.mTargets) do
         self:AttackTarget(target)
+
+        if not self.mDef.counter then
+            self:CounterTarget(target)
+        end
+    end
+end
+
+function CEAttack:CounterTarget(target)
+    local countered = Formula.IsCountered(self.mState, self.mOwner, target)
+    if countered then
+        self.mState:ApplyCounter(target, self.mOwner)
     end
 end
 
 function CEAttack:AttackTarget(target)
-    local damage = Formula.MeleeAttack(self.mState, self.mOwner, target)
+    -- hit result lets us know the status of this attack
+    local damage, hitResult = Formula.MeleeAttack(self.mState, self.mOwner, target)
     local entity = self.mState.mActorCharMap[target].mEntity
 
-    self.mState:ApplyDamage(target, damage)
+    if hitResult == HitResult.Miss then
+        self.mState:ApplyMiss(target)
+        return
+    elseif hitResult == HitResult.Dodge then
+        self.mState:ApplyDodge(target)
+    else
+        local isCrit = (hitResult == HitResult.Critical)
+        self.mState:ApplyDamage(target, damage, isCrit)
+    end
+
 
     local x = entity.mX
     local y = entity.mY
