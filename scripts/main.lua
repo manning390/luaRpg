@@ -27,6 +27,13 @@ gCombatDef = {
 gStack:Push(ExploreState:Create(gStack, CreateArenaMap(), Vector.Create(30, 18, 1)))
 gStack:Push(CombatState:Create(gStack, gCombatDef))
 
+gWorld:AddItem(1) -- bone blade
+gWorld:AddItem(2) -- bone armor
+gWorld:AddItem(3) -- Ring of Titan
+gWorld:AddItem(10, 2) -- potion x2
+gWorld:AddItem(11) -- Life Salve
+gWorld:AddItem(12) -- mana potion
+
 function update()
     local dt = GetDeltaTime()
     gStack:Update(dt)

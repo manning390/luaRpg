@@ -11,6 +11,7 @@ function CombatChoiceState:Create(context, actor)
         mUpArrow = gWorld.mIcons:Get('uparrow'),
         mDownArrow = gWorld.mIcons:Get('downarrow'),
         mMarker = Sprite.Create(),
+        mHide = false,
     }
 
     this.mMarker:SetTexture(Texture.Find('continue_caret.png'))
@@ -33,6 +34,14 @@ function CombatChoiceState:Create(context, actor)
     this:CreateChoiceDialog()
 
     return this
+end
+
+function CombatChoiceState:Hide()
+    self.mHide = true
+end
+
+function CombatChoiceState:Show()
+    self.mHide = false
 end
 
 function CombatChoiceState:SetArrowPosition()
@@ -112,6 +121,8 @@ function CombatChoiceState:OnSelect(index, data)
         local event = CEFlee:Create(self.mCombatState, self.mActor)
         local tp = event:TimePoints(queue)
         queue:Add(event, tp)
+    elseif data == "item" then
+        self:OnItemAction()
     end
 end
 
@@ -147,6 +158,11 @@ function CombatChoiceState:Update(dt)
 end
 
 function CombatChoiceState:Render(renderer)
+
+    if self.mHide then
+        return
+    end
+
     self.mTextbox:Render(renderer)
 
     self:SetArrowPosition()
@@ -163,4 +179,104 @@ end
 
 function CombatChoiceState:HandleInput()
     self.mSelection:HandleInput()
+end
+
+function CombatChoiceState:OnItemAction()
+    -- `1. Get the filtered item list
+    local filter = function(def)
+        return def.type == "useable"
+    end
+    local filteredItems = gWorld:FilterItems(filter)
+
+    -- 2. Create the selection box
+    local x = self.mTextbox.mSize.left - 64
+    local y = self.mTextbox.mSize.top
+    self.mSelection:HideCursor()
+
+    local Onfocus = function(item)
+        local text =""
+        if item then
+            local def = ItemDB[item.id]
+            text = def.description
+        end
+        self.mCombatState:ShowTip(text)
+    end
+
+    local OnExit = function()
+        self.mCombatState:HideTip("")
+        self.mSelection:ShowCursor()
+    end
+
+    local OnRenderItem = function(self, renderer, x, y, item)
+        local text = '--'
+        if item then
+            local def = ItemDB[item.id]
+            text = def.name
+            if item.count > 1 then
+                text = string.format("%s x%00d", def.name, item.count)
+            end
+        end
+        renderer:DrawText2d(x, y, text)
+    end
+
+    local OnSelection = function(selection, index, item)
+        if not item then
+            return
+        end
+
+        local def = ItemDB[item.id]
+        local targeter = self:CreateItemTargeter(def, selection)
+        self.mStack:Push(targeter)
+    end
+
+    local state = BrowseListState:Create
+    {
+        stack = self.mStack,
+        title= "ITEMS",
+        x = x,
+        y = y,
+        data = filteredItems,
+        OnExit = OnExit,
+        OnRenderItem = OnRenderItem,
+        OnFocus = OnFocus,
+        OnSelection = OnSelection,
+    }
+    self.mStack:Push(state)
+
+end
+
+function CombatChoiceState:CreateItemTargeter(def, browseState)
+    local targetDef = def.use.target
+
+    self.mCombatState:ShowTip(def.use.hint)
+    browseState:Hide()
+    self:Hide()
+
+    local OnSelect = function(targets)
+        self.mStack:Pop() -- target state
+        self.mStack:Pop() -- item box state
+        self.mStack:Pop() -- action state
+
+        local queue = self.mCombatState.mEventQueue
+        local event = CEUseItem:Create(self.mCombatState,
+                                       self.mActor,
+                                       def,
+                                       targets)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
+    end
+
+    local OnExit = function()
+        browseState:Show()
+        self:Show()
+    end
+
+    return CombatTargetState:Create(self.mCombatState,
+    {
+        targetType = targetDef.type,
+        defaultSelector = CombatSelector[targetDef.selector],
+        switchSides = targetDef.switch_sides,
+        OnSelect = OnSelect,
+        OnExit = OnExit
+    })
 end

@@ -138,3 +138,15 @@ function World:DrawItem(menu, renderer, x, y, item)
         renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ")
     end
 end
+
+function World:FilterItems(Predicate)
+    local list = {}
+    for k, v in ipairs(self.mItems) do
+        local def = ItemDB[v.id]
+
+        if Predicate(def) then
+            table.insert(list, v)
+        end
+    end
+    return list
+end

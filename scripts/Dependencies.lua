@@ -90,4 +90,7 @@ Apply(function(v) Asset.Run(v) end,
 	"CombatFormula.lua",
 	"CombatTextFx.lua",
 	"CEFlee.lua",
+	"BrowseListState.lua",
+    "CombatActions.lua",
+	"CEUseItem.lua",
 })

@@ -37,7 +37,10 @@ manifest = {
         ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
         ['goblin.png'] = { path = "sprites/goblin.png" },
         ['combat_slash.png'] = { path = "sprites/combat_slash.png" },
-        ['combat_claw.png'] = { path = "sprites/combat_claw.png" },
+        ['fx_use_item.png'] = { path = "sprites/fx_use_item.png" },
+        ['fx_restore_hp.png'] = { path = "sprites/fx_restore_hp.png" },
+        ['fx_restore_mp.png'] = { path = "sprites/fx_restore_mp.png" },
+        ['fx_revive.png'] = { path = "sprites/fx_revive.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },
@@ -137,5 +140,8 @@ manifest = {
 		['CombatFormula.lua'] = { path = 'scripts/CombatFormula.lua' },
 		['CombatTextFx.lua'] = { path = 'scripts/fx/CombatTextFx.lua' },
 		['CEFlee.lua'] = { path = 'scripts/combat_events/CEFlee.lua' },
+		['BrowseListState.lua'] = { path = 'scripts/BrowseListState.lua' },
+		['CEUseItem.lua'] = { path = 'scripts/combat_events/CEUseItem.lua' },
+		['CombatActions.lua'] = { path = 'scripts/CombatActions.lua' },
     },
 }
