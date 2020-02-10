@@ -9,27 +9,30 @@ CLASS=${NAME##*\/}
 FILE=$PROJECT/$SCRIPTS/$NAME.lua
 DIRS=${FILE%$CLASS\.lua}
 
+overwrite() { echo -e "\r\033[1A\033[0K$@"; }
+
 # Maybe one day
 # echo "Tarnishing the spoons.."
 # unalias spoon 2>/dev/null
 # alias spoon="$PROJECT/spoon.sh"
 
-# echo "Creating directories..?"
+echo "Creating directories..?"
 mkdir -p $DIRS
 
-# echo "Creating $NAME.lua file.."
+overwrite "Creating $NAME.lua file.."
 touch $FILE
 echo "$CLASS = {}" >> $FILE
 echo "$CLASS.__index = $CLASS" >> $FILE
 
-# echo "Adding to manifest.."
+overwrite "Adding to manifest.."
 sed -i "$(expr $(wc -l < $PROJECT/manifest.lua) - 1)i\\\t\t['$CLASS.lua'] = { path = '$SCRIPTS/$NAME.lua' }," $PROJECT/manifest.lua
 
-# echo "Adding to $DEP.."
+overwrite "Adding to $DEP.."
 sed -i "$(wc -l < $PROJECT/$SCRIPTS/$DEP)i\\\t\"$CLASS.lua\"," $PROJECT/$SCRIPTS/$DEP
 
 # now open it
 subl $FILE
+overwrite "Spooned $NAME.lua!"
 
 # Command for total line count
 # find . -name '*.lua' -not -path './tutFiles/*' | xargs wc -l | sort
