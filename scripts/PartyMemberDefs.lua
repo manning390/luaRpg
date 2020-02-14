@@ -74,5 +74,6 @@ gPartyMemberDefs =
         portrait = "mage_portrait.png",
         name = "Ermis",
         actions = { "attack", "magic", "item", "flee" },
+        magic = {"fire", "burn"}
     },
 }
