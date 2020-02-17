@@ -126,7 +126,7 @@ function CombatChoiceState:OnSelect(index, data)
     elseif data == "magic" then
         self:OnMagicAction()
     elseif data == "special" then
-        -- Todo
+        self:OnSpecialAction()
     end
 end
 
@@ -384,4 +384,80 @@ function CombatChoiceState:CreateActionTargeter(def, browseState, combatEvent)
         OnSelect = OnSelect,
         OnExit = OnExit
     })
+end
+
+function CombatChoiceState:OnSpecialAction()
+    local actor = self.mActor
+
+    -- Create the selection box
+    local x = self.mTextbox.mSize.left - 64
+    local y = self.mTextbox.mSize.top
+    self.mSelection:HideCursor()
+
+    local OnRenderItem = function(self, renderer, x, y, item)
+        local text = "--"
+        local cost = "0"
+        local canPerform = false
+        local mp = actor.mStats:Get("mp_now")
+
+        local color = Vector.Create(1,1,1,1)
+        if item then
+            local def = SpecialDB[item]
+            text = def.name
+            cost = string.format("%d", def.mp_cost)
+
+            if def.mp_cost > 0 then
+                canPerform = mp >= def.mp_cost
+
+                if not canPerform then
+                    color = Vector.Create(0.7, 0.7, 0.7, 1)
+                end
+                renderer:AlignText("right", "center")
+                renderer:DrawText2d(x + 96, y, cost, color)
+            end
+        end
+        renderer:AlignText("left", "center")
+        renderer:DrawText2d(x, y, text, color)
+    end
+
+    local OnExit = function()
+        self.mCombatState:HideTip("")
+        self.mSelection:ShowCursor()
+    end
+
+    local OnSelection = function(selection, index, item)
+        if not item then
+            return
+        end
+        local def = SpecialDB[item]
+        local mp = actor.mStats:Get("mp_now")
+
+        if mp < def.mp_cost then
+            return
+        end
+
+        -- Find associated event
+        local event = nil
+        if def.action == "slash" then
+            event = CESlash
+        elseif def.action == "steal" then
+            event = CESteal
+        end
+
+        local targeter = self:CreateActionTargeter(def, selection, event)
+        self.mStack:Push(targeter)
+    end
+
+    local state = BrowseListState:Create
+    {
+        stack = self.mStack,
+        title = "Special",
+        x = x,
+        y = y,
+        data = actor.mSpecial,
+        OnExit = OnExit,
+        OnRenderItem = OnRenderItem,
+        OnSelection = OnSelection
+    }
+    self.mStack:Push(state)
 end

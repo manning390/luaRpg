@@ -95,4 +95,7 @@ Apply(function(v) Asset.Run(v) end,
 	"CEUseItem.lua",
 	"SpellDB.lua",
 	"CECastSpell.lua",
+	"SpecialDB.lua",
+	"CESlash.lua",
+	"CESteal.lua",
 })

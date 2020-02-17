@@ -15,6 +15,7 @@ gEnemyDefs =
         },
         name = "Arena Goblin",
         actions = { "attack" },
+        steal_item = 10,
         drop =
         {
             xp = 5,

@@ -147,6 +147,9 @@ manifest = {
 		['CEUseItem.lua'] = { path = 'scripts/combat_events/CEUseItem.lua' },
 		['CombatActions.lua'] = { path = 'scripts/CombatActions.lua' },
 		['SpellDB.lua'] = { path = 'scripts/SpellDB.lua' },
-		['CECastSpell.lua'] = { path = 'scripts/CECastSpell.lua' },
+		['CECastSpell.lua'] = { path = 'scripts/combat_events/CECastSpell.lua' },
+		['SpecialDB.lua'] = { path = 'scripts/SpecialDB.lua' },
+		['CESlash.lua'] = { path = 'scripts/combat_events/CESlash.lua' },
+		['CESteal.lua'] = { path = 'scripts/combat_events/CESteal.lua' },
     },
 }

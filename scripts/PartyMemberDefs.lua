@@ -24,6 +24,7 @@ gPartyMemberDefs =
         portrait = "hero_portrait.png",
         name = "Seven",
         actions = { "attack", "special", "item", "flee" },
+        special = { "slash"}
     },
     thief =
     {
@@ -49,6 +50,7 @@ gPartyMemberDefs =
         portrait = "thief_portrait.png",
         name = "Jude",
         actions = { "attack", "special", "item", "flee" },
+        special = { "steal"}
     },
     mage =
     {
