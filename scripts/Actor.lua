@@ -132,10 +132,9 @@ function Actor:CreateLevelUp()
         levelup.stats[id] = dice:Roll()
     end
 
-    -- Additional level up code
-    -- e.g. if you want to apply
-    -- a bonus every 4 levels
-    -- or heal the players MP/HP
+    local level = self.mLevel + levelup.level
+    local def = gPartyMemberDefs[self.mId]
+    levelup.actions = def.actionGrowth[level] or {}
 
     return levelup
 end
@@ -152,6 +151,16 @@ function Actor:ApplyLevel(levelup)
     end
 
     -- Unlock any special abilities etc.
+    for action, v in pairs(levelup.actions) do
+        self:UnlockMenuAction(action)
+        self:AddAction(action, v)
+    end
+
+    -- Restore HP and MP on level up
+    local maxHP = self.mStats:Get("hp_max")
+    local maxMP = self.mStats:Get("mp_max")
+    self.mStats:Set("mp_now", maxMP)
+    self.mStats:Set("hp_now", maxHP)
 end
 
 function Actor:RenderEquipment(menu, renderer, x, y, index)
@@ -277,4 +286,25 @@ function Actor:CreateStatLabelList()
     table.insert(list, "MP:")
 
     return list
+end
+
+function Actor:UnlockMenuAction(id)
+    for _, v in ipairs(self.mActions) do
+        if v == id then
+            return
+        end
+    end
+    table.insert(self.mActions, id)
+end
+
+function Actor:AddAction(action, entry)
+
+    local t = self.mSpecial
+    if action == 'magic' then
+        t = self.mMagic
+    end
+
+    for _, v in ipairs(entry) do
+        table.insert(t, v)
+    end
 end

@@ -74,8 +74,7 @@ function XPSummaryState:ApplyXpToParty(xp)
                 local levelNumber = actor.mLevel + levelup.level
                 summary:AddPopUp("Level Up!")
 
-                -- check levelup for any special messages
-                -- to display as popups here
+                self:UnlockPopUps(summary, levelup)
 
                 actor:ApplyLevel(levelup)
             end
@@ -189,5 +188,22 @@ function XPSummaryState:Render(renderer)
     for i = 1, #self.mPartySummary do
         self.mActorPanels[i]:Render(renderer)
         self.mPartySummary[i]:Render(renderer)
+    end
+end
+
+function XPSummaryState:UnlockPopUps(summary, actions)
+    for k, v in pairs(action) do
+        local color = Vector.Create(1, 0.843, 0, 1)
+        local db = SpecialDB
+        if k == 'magic' then
+            db = SpellDB
+            color = Vector.Create(0.57, 0.43, 0.85, 1)
+        end
+
+        for _, id in ipairs(v) do
+            local name = db[id].name
+            local msg = string.format("+ %s", name)
+            summary:AddPopUp(msg, color)
+        end
     end
 end

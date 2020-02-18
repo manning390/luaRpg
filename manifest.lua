@@ -151,5 +151,6 @@ manifest = {
 		['SpecialDB.lua'] = { path = 'scripts/SpecialDB.lua' },
 		['CESlash.lua'] = { path = 'scripts/combat_events/CESlash.lua' },
 		['CESteal.lua'] = { path = 'scripts/combat_events/CESteal.lua' },
+		['ArenaState.lua'] = { path = 'scripts/ArenaState.lua' },
     },
 }

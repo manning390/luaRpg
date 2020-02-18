@@ -98,4 +98,5 @@ Apply(function(v) Asset.Run(v) end,
 	"SpecialDB.lua",
 	"CESlash.lua",
 	"CESteal.lua",
+	"ArenaState.lua",
 })

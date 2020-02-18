@@ -56,6 +56,11 @@ function CreateArenaMap()
     end
   end
 
+  local EnterArena =
+  function(map, trigger, entity, x, y, layer)
+    gStack:Push(ArenaState:Create(gWorld, gStack))
+  end
+
 return
 {
   version = "1.1",
@@ -100,15 +105,24 @@ return
       id ="RunScript",
       params = { RecruitNPC }
     },
+    enter_arena =
+    {
+      id = "RunScript",
+      params = { EnterArena }
+    }
   },
   trigger_types =
   {
-    recruit = { OnUse = "talk_recruit" }
+    recruit = { OnUse = "talk_recruit" },
+    arena = { OnUse = "enter_arena" }
   },
   triggers =
   {
     { trigger = "recruit", x = 21, y = 14 },
     { trigger = "recruit", x = 35, y = 14 },
+    { trigger = "arena", x = 29, y = 13 },
+    { trigger = "arena", x = 30, y = 13 },
+    { trigger = "arena", x = 31, y = 13 },
   },
   tilesets = {
     {
