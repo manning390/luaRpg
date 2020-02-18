@@ -56,10 +56,12 @@ function CESteal:TeleportOut()
 	local entity = self.mState.mActorCharMap[target].mEntity
 	local width = entity.mTexture:GetWidth() + 32
 
+	-- Fix a bug where the original pos was the actual original pos and not the pos after running
+	self.mOriginalPos = self.mCharacter.mEntity.mSprite:GetPosition()
+
 	local pos = entity.mSprite:GetPosition()
-	print('pos!', pos)
 	pos:SetX(math.floor(pos:X() - width / 2))
-	print('pos?', pos)
+
 	self.mCharacter.mEntity.mSprite:SetPosition(pos)
 end
 
@@ -72,7 +74,6 @@ function CESteal:ShowResult()
 end
 
 function CESteal:TeleportIn()
-	print('pos~', self.mOriginalPos)
 	self.mCharacter.mEntity.mSprite:SetPosition(self.mOriginalPos)
 end
 
