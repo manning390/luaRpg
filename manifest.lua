@@ -13,6 +13,7 @@ manifest = {
         ['mage_portrait.png'] =  { path = "sprites/mage_portrait.png",  scale = "pixelart" },
         ['thief_portrait.png'] = { path = "sprites/thief_portrait.png", scale = "pixelart" },
         ['continue_caret.png'] = { path = "sprites/continue_caret.png", scale = "pixelart" },
+        ['up_caret.png'] = { path = "sprites/up_caret.png", scale = "pixelart" },
         ['cursor.png'] = { path = "sprites/cursor.png", scale = "pixelart" },
         ['foreground.png'] = { path = "sprites/foreground.png" },
         ['background.png'] = { path = "sprites/background.png" },
@@ -150,5 +151,6 @@ manifest = {
 		['ArenaState.lua'] = { path = 'scripts/ArenaState.lua' },
 		['ArenaCompleteState.lua'] = { path = 'scripts/ArenaCompleteState.lua' },
         ['map_town.lua'] = { path = 'map/map_town.lua' },
+		['ShopState.lua'] = { path = 'scripts/ShopState.lua' },
     },
 }

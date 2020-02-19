@@ -64,6 +64,17 @@ function World:AddLoot(loot)
     end
 end
 
+function World:ItemCount(itemId)
+
+    for _, v in ipairs(self.mItems) do
+        if itemId == v.id then
+            return v.count
+        end
+    end
+
+    return 0
+end
+
 function World:RemoveItem(itemId, amount)
     assert(ItemDB[itemId].type ~= "key")
     amount = amount or 1
@@ -121,6 +132,7 @@ function World:DrawKey(menu, renderer, x, y, item)
 end
 
 function World:DrawItem(menu, renderer, x, y, item)
+    color = color or Vector.Create(1,1,1,1)
     if item then
         local itemDef = ItemDB[item.id]
         local iconSprite = self.mIcons:Get(itemDef.icon or itemDef.type)
@@ -129,10 +141,14 @@ function World:DrawItem(menu, renderer, x, y, item)
             renderer:DrawSprite(iconSprite)
         end
         renderer:AlignText("left", "center")
-        renderer:DrawText2d(x + 18, y, itemDef.name)
-        local right = x + menu.mSpacingX - 64
-        renderer:AlignText("right", "center")
-        renderer:DrawText2d(right, y, string.format(":%02d", item.count))
+        renderer:DrawText2d(x + 18, y, itemDef.name, color)
+
+        if item.count then
+            local right = x + menu.mSpacingX - 64
+            renderer:AlignText("right", "center")
+            local countStr = string.format("%02d", item.count)
+            renderer:DrawText2d(right, y, countStr, color)
+        end
     else
         renderer:AlignText("center", "center")
         renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ")

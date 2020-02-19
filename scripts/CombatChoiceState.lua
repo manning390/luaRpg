@@ -188,7 +188,7 @@ end
 function CombatChoiceState:OnItemAction()
     -- 1. Get the filtered item list
     local filter = function(def)
-        return def.type == "useable"
+        return def.type == "usable"
     end
     local filteredItems = gWorld:FilterItems(filter)
 

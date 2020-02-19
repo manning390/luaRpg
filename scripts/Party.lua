@@ -29,3 +29,13 @@ function Party:ToArray()
     end
     return array
 end
+
+function Party:EquipCount(itemId)
+    local count = 0
+
+    for _, v in pairs(self.mMembers) do
+        count = count + v:EquipCount(itemId)
+    end
+
+    return count
+end

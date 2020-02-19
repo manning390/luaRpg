@@ -100,4 +100,5 @@ Apply(function(v) Asset.Run(v) end,
 	"ArenaCompleteState.lua",
     "map_town.lua",
     "MapDB.lua",
+	"ShopState.lua",
 })

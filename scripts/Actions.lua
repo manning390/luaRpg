@@ -98,4 +98,9 @@ Actions =
             map:AddFullTrigger(trigger, chest.mTileX, chest.mTileY, chest.mLayer)
         end
     end,
+    OpenShop = function(map, def)
+      return function(trigger, entity, tX, tY, tLayer)
+        gStack:Push(ShopState:Create(gStack, gWorld, def))
+      end
+    end,
 }

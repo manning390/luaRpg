@@ -308,3 +308,15 @@ function Actor:AddAction(action, entry)
         table.insert(t, v)
     end
 end
+
+function Actor:EquipCount(itemId)
+    local count = 0
+
+    for _, v in pairs(self.mEquipment) do
+        if v == itemId then
+            count = count + 1
+        end
+    end
+
+    return count
+end
