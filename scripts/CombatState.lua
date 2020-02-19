@@ -92,7 +92,15 @@ function CombatState:Create(stack, def)
         mFled = false,
 
         mIsFinishing = false,
+
+        mCanFlee = true,
+        OnDieCallback = def.OnDie, -- can be nil
+        OnWinCallback = def.OnWin, -- can be nil
     }
+
+    if def.canFlee ~= nil then
+        this.mCanFlee = def.canFlee
+    end
 
     -- Setup layout panel
     local layout = Layout:Create()
@@ -291,6 +299,18 @@ function CombatState:OnWin()
         SOP.Wait(0.3),
         SOP.FadeOutScreen("black", 0.3),
     }
+
+    if self.OnWinCallback then
+        storyboard =
+        {
+            SOP.UpdateState(self, 1.0), -- Let them dance for a sec
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black", 0.6),
+            SOP.ReplaceState(self, xpSummaryState),
+            SOP.Function(function() self.OnWinCallback() end),
+        }
+    end
+
     local storyboard = Storyboard:Create(self.mGameStack, storyboard)
     self.mGameStack:Push(storyboard)
     self.mIsFinishing = true
@@ -340,15 +360,30 @@ function CombatState:CalcCombatData()
 end
 
 function CombatState:OnLose()
-    local storyboard =
-    {
-        SOP.UpdateState(self, 1.5),
-        SOP.BlackScreen("black", 0),
-        SOP.FadeInScreen("black"),
-        SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
-        SOP.Wait(2),
-        SOP.FadeOutScreen("black"),
-    }
+    local storyboard
+    if self.OnDieCallback then
+        storyboard =
+        {
+            SOP.UpdateState(self, 1.5),
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black"),
+            SOP.RemoveState(self),
+            SOP.Function(self.OnDieCallback),
+            SOP.Wait(2),
+            SOP.FadeOutScreen("black")
+        }
+    else
+        storyboard =
+        {
+            SOP.UpdateState(self, 1.5),
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black"),
+            SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
+            SOP.Wait(2),
+            SOP.FadeOutScreen("black"),
+        }
+    end
+
     local storyboard = Storyboard:Create(self.mGameStack, storyboard)
     self.mGameStack:Push(storyboard)
     self.mIsFinishing = true
@@ -434,7 +469,7 @@ function CombatState:DrawHP(renderer, x, y, hp, max)
     if percent < 0.2 then
         hpColor = Vector.Create(1,0,0,1)
     elseif percent < 0.45 then
-        hpColor = Vecotr.Create(1,1,0,1)
+        hpColor = Vector.Create(1,1,0,1)
     end
 
     local xPos = x

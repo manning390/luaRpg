@@ -85,6 +85,20 @@ gEntities =
         height = 32,
         startFrame = 1,
     },
+    dragon =
+    {
+        texture = "green_dragon.png",
+        startFrame = 1,
+        width = 128,
+        height = 64
+    },
+    ogre =
+    {
+        texture = "ogre.png",
+        startFrame = 1,
+        width = 64,
+        height = 64
+    },
     slash =
     {
         texture = "combat_slash.png",
@@ -296,6 +310,32 @@ gCharacters =
             "cs_die_enemy",
             "cs_hurt_enemy",
             "cs_move"
+        },
+        state = "cs_standby"
+    },
+    dragon =
+    {
+        entity = "dragon",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
+        },
+        state = "cs_standby"
+    },
+    ogre =
+    {
+        entity = "ogre",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
         },
         state = "cs_standby"
     }

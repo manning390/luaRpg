@@ -36,6 +36,8 @@ manifest = {
         ['combat_thief.png'] = { path = "sprites/combat_thief.png" },
         ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
         ['goblin.png'] = { path = "sprites/goblin.png" },
+        ['ogre.png'] = { path = "sprites/ogre.png" },
+        ['green_dragon.png'] = { path = "sprites/green_dragon.png" },
         ['combat_slash.png'] = { path = "sprites/combat_slash.png" },
         ['combat_claw.png'] = { path = "sprites/combat_claw.png" },
         ['fx_use_item.png'] = { path = "sprites/fx_use_item.png" },
@@ -152,5 +154,6 @@ manifest = {
 		['CESlash.lua'] = { path = 'scripts/combat_events/CESlash.lua' },
 		['CESteal.lua'] = { path = 'scripts/combat_events/CESteal.lua' },
 		['ArenaState.lua'] = { path = 'scripts/ArenaState.lua' },
+		['ArenaCompleteState.lua'] = { path = 'scripts/ArenaCompleteState.lua' },
     },
 }

@@ -9,23 +9,47 @@ function ArenaState:Create(world, stack)
 		{
 			{
 				mName = "Round 1",
-				mLocked = false
+				mLocked = false,
+				mEnemy =
+				{
+					gEnemyDefs.goblin,
+				}
 			},
 			{
 				mName = "Round 2",
-				mLocked = true
+				mLocked = true,
+				mEnemy =
+				{
+					gEnemyDefs.goblin,
+					gEnemyDefs.goblin,
+					gEnemyDefs.goblin,
+				}
 			},
 			{
 				mName = "Round 3",
-				mLocked = true
+				mLocked = true,
+				mEnemy =
+				{
+					gEnemyDefs.goblin,
+					gEnemyDefs.ogre,
+				}
 			},
 			{
 				mName = "Round 4",
-				mLocked = true
+				mLocked = true,
+				mEnemy =
+				{
+					gEnemyDefs.ogre,
+					gEnemyDefs.ogre,
+				}
 			},
 			{
 				mName = "Round 5",
-				mLocked = true
+				mLocked = true,
+				mEnemy =
+				{
+					gEnemyDefs.dragon,
+				}
 			},
 		}
 	}
@@ -117,7 +141,64 @@ function ArenaState:HandleInput()
 	self.mSelection:HandleInput()
 end
 
-function ArenaState:OnRoundSelected(index, item) end
+function ArenaState:OnRoundSelected(index, item)
+	if item.mLocked then
+		return -- can't play locked rounds
+	end
+
+	local enemyDefs = item.mEnemy or { gEnemyDefs.goblin}
+	local enemyList = {}
+	for k, v in ipairs(enemyDefs) do
+		enemyList[k] = Actor:Create(v)
+	end
+
+	local combatDef =
+	{
+		background = "arena_background.png",
+		actors =
+		{
+			party = self.mWorld.mParty:ToArray(),
+			enemy = enemyList
+		},
+		canFlee = false,
+		OnWin =
+		function()
+			self:WinRound(index, item)
+		end,
+		OnDie =
+		function()
+			self:LoseRound(index, item)
+		end,
+	}
+	local state = CombatState:Create(self.mStack, combatDef)
+	self.mStack:Push(state)
+end
+
 function ArenaState:Enter() end
 function ArenaState:Exit() end
 function ArenaState:Update(dt) end
+
+function ArenaState:LoseRound(index, item)
+	local party = self.mWorld.mParty.mMembers
+	for k, v in pairs(party) do
+		local hp = v.mStats:Get("hp_now")
+		hp = math.max(hp, 1)
+		v.mStats:Set("hp_now", hp)
+	end
+end
+
+function ArenaState:WinRound(index, item)
+	-- Check for win
+	if index == #self.mRounds then
+		self.mStack:Pop()
+		local state = ArenaCompleteState:Create()
+		self.mStack:Push(state)
+	end
+
+	-- Move the cursor to the next round if there is one
+	self.mSelection:MoveDown()
+
+	-- Unlock the newly selected round
+	local nextRound = self.mSelection:SelectedItem()
+	nextRound.mLocked = false
+end

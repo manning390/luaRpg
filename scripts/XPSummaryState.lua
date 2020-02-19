@@ -74,7 +74,7 @@ function XPSummaryState:ApplyXpToParty(xp)
                 local levelNumber = actor.mLevel + levelup.level
                 summary:AddPopUp("Level Up!")
 
-                self:UnlockPopUps(summary, levelup)
+                self:UnlockPopUps(summary, levelup.actions)
 
                 actor:ApplyLevel(levelup)
             end
@@ -192,7 +192,7 @@ function XPSummaryState:Render(renderer)
 end
 
 function XPSummaryState:UnlockPopUps(summary, actions)
-    for k, v in pairs(action) do
+    for k, v in pairs(actions) do
         local color = Vector.Create(1, 0.843, 0, 1)
         local db = SpecialDB
         if k == 'magic' then

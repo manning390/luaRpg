@@ -124,25 +124,25 @@ end
 
 function EventQueue:Render(x, y, renderer)
 
-    local yInc = 15
+    -- local yInc = 15
 
-    renderer:ScaleText(1, 1)
-    renderer:AlignText("left", "top")
-    renderer:DrawText2d(x, y, "EVENT QUEUE")
-    local current = self.mCurrentEvent or {}
-    y = y - yInc
-    renderer:DrawText2d(x, y, string.format("CURRENT: %s", tostring(current.mName or "None")))
+    -- renderer:ScaleText(1, 1)
+    -- renderer:AlignText("left", "top")
+    -- renderer:DrawText2d(x, y, "EVENT QUEUE")
+    -- local current = self.mCurrentEvent or {}
+    -- y = y - yInc
+    -- renderer:DrawText2d(x, y, string.format("CURRENT: %s", tostring(current.mName or "None")))
 
-    y = y - yInc * 1.5
+    -- y = y - yInc * 1.5
 
-    if not next(self.mQueue) then
-        renderer:DrawText2d(x, y, "EMPTY!")
-    end
+    -- if not next(self.mQueue) then
+    --     renderer:DrawText2d(x, y, "EMPTY!")
+    -- end
 
-    for k, v in ipairs(self.mQueue) do
-        local out = string.format("[%d] Event: [%d][%s]",
-                                  k, v.mCountDown, v.mName)
-        renderer:DrawText2d(x, y, out)
-        y = y - yInc
-    end
+    -- for k, v in ipairs(self.mQueue) do
+    --     local out = string.format("[%d] Event: [%d][%s]",
+    --                               k, v.mCountDown, v.mName)
+    --     renderer:DrawText2d(x, y, out)
+    --     y = y - yInc
+    -- end
 end
