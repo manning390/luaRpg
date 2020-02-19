@@ -6,8 +6,7 @@ gStack = StateStack:Create()
 gWorld = World:Create()
 
 gWorld.mParty:Add(Actor:Create(gPartyMemberDefs.hero))
-
-gStack:Push(ExploreState:Create(gStack, CreateArenaMap(), Vector.Create(30, 18, 1)))
+gStack:Push(ExploreState:Create(gStack, CreateTownMap(), Vector.Create(5, 9, 1)))
 
 function update()
     local dt = GetDeltaTime()

@@ -1,10 +1,12 @@
 -- assert(CreateHouseMap)
 -- assert(CreateJailMap)
 -- assert(CreateSewerMap)
-assert(CreateArenaMap)
+-- assert(CreateArenaMap)
+assert(CreateTownMap)
 MapDB = {
     -- ["player_house"] = CreateHouseMap,
     -- ["jail"] = CreateJailMap,
     -- ["sewer"] = CreateSewerMap,
-    ["arena"] = CreateArenaMap,
+    -- ["arena"] = CreateArenaMap,
+    ["town"] = CreateTownMap,
 }
