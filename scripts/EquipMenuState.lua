@@ -110,6 +110,8 @@ function EquipMenuState:Enter(actor)
 end
 
 function EquipMenuState:Exit()
+    self.mBetterSprite:SetColor(Vector.Create(1,1,1,1))
+    self.mWorseSprite:SetColor(Vector.Create(1,1,1,1))
 end
 
 function EquipMenuState:Update(dt)
