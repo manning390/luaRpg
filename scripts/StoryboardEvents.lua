@@ -403,7 +403,7 @@ end
 
 function SOP.Function(func)
     return function(storyboard)
-        func()
+        func(storyboard)
         return EmptyEvent
     end
 end

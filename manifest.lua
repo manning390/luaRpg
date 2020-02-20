@@ -150,7 +150,7 @@ manifest = {
 		['CESteal.lua'] = { path = 'scripts/combat_events/CESteal.lua' },
 		['ArenaState.lua'] = { path = 'scripts/ArenaState.lua' },
 		['ArenaCompleteState.lua'] = { path = 'scripts/ArenaCompleteState.lua' },
-        ['map_town.lua'] = { path = 'map/map_town.lua' },
+        ['map_town.lua'] = { path = 'assets/map_town.lua' },
 		['ShopState.lua'] = { path = 'scripts/ShopState.lua' },
     },
 }

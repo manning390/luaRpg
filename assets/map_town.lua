@@ -25,6 +25,16 @@ function CreateTownMap()
     },
     sell_filter = "arms"
   }
+  local innDef =
+  {
+    cost = 5
+  }
+  local TalkToMajor =
+  function(map, trigger, entity, x, y, layer)
+    local message = "Go to the mine and get the gem. Then we can talk."
+    local action = Actions.ShortText(map, message)
+    action(trigger, entity, x, y, layer)
+  end
 return {
   version = "1.1",
   luaversion = "5.1",
@@ -75,6 +85,16 @@ return {
 
     open_potion_shop = { id = "OpenShop", params = { shopDefPotions }},
     open_arms_shop =   { id = "OpenShop", params = { shopDefArms }},
+    open_inn = { id ="OpenInn", params = { innDef }},
+
+    npc_1_talk = { id = "ShortText", params = {
+      "The major was ill for a long time."
+    }},
+    npc_2_talk = { id = "ShortText", params =
+    {
+      "These stone columns are ancient. How old? No one knows."
+    }},
+    major_talk = { id = "RunScript", params = { TalkToMajor }},
   },
   trigger_types = {
     in_major    = { OnEnter = "map_to_major" },
@@ -90,6 +110,11 @@ return {
 
     potion_shop = { OnUse = "open_potion_shop" },
     arms_shop =   { OnUse = "open_arms_shop" },
+    inn = { OnUse = "open_inn"},
+
+    npc_1 = { OnUse = "npc_1_talk" },
+    npc_2 = { OnUse = "npc_2_talk" },
+    major = { OnUse = "major_talk" },
   },
   triggers = {
     { trigger = "in_major", x = 30, y = 97 },
@@ -112,6 +137,11 @@ return {
 
     { trigger = "potion_shop", x = 6, y = 44 },
     { trigger = "arms_shop", x = 57, y = 46 },
+    { trigger = "inn", x = 35, y = 25},
+
+    { trigger = "npc_1", x = 47, y = 101 },
+    { trigger = "npc_2", x = 35, y = 78 },
+    { trigger = "major", x = 5, y = 5}
   },
   tilesets = {
     {

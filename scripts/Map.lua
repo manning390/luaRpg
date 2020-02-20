@@ -356,3 +356,9 @@ function Map:AddFullTrigger(trigger, x, y, layer)
     local targetLayer = self.mTriggers[layer]
     targetLayer[self:CoordToIndex(x, y)] = trigger
 end
+
+function Map:TileToScreen(tX, tY)
+    local x = -self.mCamX + self.mX + tX * self.mTileWidth
+    local y = -self.mCamY + self.mY - tY * self.mTileHeight
+    return x, y
+end
