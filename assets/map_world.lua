@@ -1,4 +1,6 @@
-function CreateWorldMap()
+function CreateWorldMap(state)
+  local id = "world"
+  local worldState = state.maps[id]
 
   local encountersWorld =
   {
@@ -80,6 +82,8 @@ function CreateWorldMap()
 
   return
   {
+    id = id,
+    name = "World",
     version = "1.1",
     luaversion = "5.1",
     orientation = "orthogonal",

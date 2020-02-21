@@ -1,4 +1,6 @@
-function CreateCaveMap()
+function CreateCaveMap(state)
+    local id = "cave"
+    local caveState = state.maps[id]
 
     local gemstoneId = 14
     local keystoneId = 15
@@ -19,7 +21,10 @@ function CreateCaveMap()
         {
             background = "combat_bg_cave.png",
             enemy = { "cave_drake" },
-            canFlee = false
+            canFlee = false,
+            OnWin = function()
+              state.defeated_cave_drake = true
+            end
         }
 
         local sayDef = { textScale = 1.5 }
@@ -151,12 +156,18 @@ function CreateCaveMap()
     local SetupDoorPuzzle = function(map, trigger, entity, x, y, layer)
       local tileDoorPlateId = 182
 
+      local isFourthTileFilled = false
+
+      if caveState.completed_puzzle then
+        isFourthTileFilled = true
+      end
+
       local tileLocations =
       {
         { 39, 56, true },
         { 42, 56, true },
         { 38, 41, true },
-        { 41, 41, false },
+        { 41, 41, isFourthTileFilled },
       }
       local keyX = 56
       local keyY = 40
@@ -187,6 +198,14 @@ function CreateCaveMap()
           }
           map:AddFullTrigger(trigger, x, y, 1)
         end
+      end
+
+      if caveState.completed_puzzle then
+        -- Don't proceed after this point if the puzzle
+        -- is already solved.
+        -- This stops the keystone being added
+        -- the doors being added.
+        return
       end
 
       if not gWorld:HasKey(keystoneId) then
@@ -276,6 +295,8 @@ function CreateCaveMap()
     }
 
 return {
+  id = id,
+  name = "Cave",
   version = "1.1",
   luaversion = "5.1",
   orientation = "orthogonal",
@@ -284,7 +305,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-  encounters = encountersCave,
+  -- encounters = encountersCave,
   on_wake =
   {
       {

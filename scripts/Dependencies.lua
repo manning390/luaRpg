@@ -20,6 +20,7 @@ Apply(function(v) Asset.Run(v) end,
 {
     "Animation.lua",
     "Actions.lua",
+    "DefaultGameState.lua",
     "Map.lua",
     "Util.lua",
     "Entity.lua",

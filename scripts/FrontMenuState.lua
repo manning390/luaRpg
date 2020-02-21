@@ -38,7 +38,7 @@ function FrontMenuState:Create(parent, world)
             layout:CreatePanel("party"),
             layout:CreatePanel("menu"),
         },
-        mTopBarText = "Empty Room",
+        mTopBarText = parent.mMapDef.name,
         mInPartyMenu = false,
     }
 

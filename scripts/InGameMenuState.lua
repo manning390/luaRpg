@@ -1,12 +1,13 @@
 InGameMenuState = {}
 InGameMenuState.__index = InGameMenuState
-function InGameMenuState:Create(stack)
+function InGameMenuState:Create(stack, mapDef)
     local this =
     {
         mStack = stack,
         mTitleSize = 1.2,
         mLabelSize = 0.88,
         mTextSize = 1,
+        mMapDef = mapDef,
     }
     this.mStateMachine = StateMachine:Create
     {

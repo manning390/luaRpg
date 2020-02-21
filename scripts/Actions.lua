@@ -68,12 +68,25 @@ Actions =
     AddChest = function(map, entityId, loot, x, y, layer)
         layer = layer or 1
 
+        map.mContainerCount = map.mContainerCount or 0
+        map.mContainerCount = map.mContainerCount + 1
+        local containerId = map.mContainerCount
+        local mapId = map.mMapDef.id
+        local state = gWorld.mGameState.maps[mapId]
+        local isLooted = state.chests_looted[containerId] or false
+
         return function(trigger, entity, tX, tY, tLayer)
+
             local entityDef = gEntities[entityId]
             assert(entityDef ~= nil)
             local chest = Entity:Create(entityDef)
 
             chest:SetTilePos(x, y, layer, map)
+
+            if isLooted then
+                chest:SetFrame(entityDef.openFrame)
+                return
+            end
 
             local OnOpenChest = function()
                 if loot == nil or #loot == 0 then
@@ -96,6 +109,7 @@ Actions =
                 -- Remove the trigger
                 map:RemoveTrigger(chest.mTileX, chest.mTileY, chest.mLayer)
                 chest:SetFrame(entityDef.openFrame)
+                state.chests_looted[containerId] = true
             end
 
             local trigger = Trigger:Create( { OnUse = OnOpenChest } )

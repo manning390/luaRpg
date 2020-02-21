@@ -167,5 +167,6 @@ manifest = {
         ['map_world.lua'] = { path = 'assets/map_world.lua' },
         ['map_cave.lua'] = { path = 'assets/map_cave.lua' },
 		['ShopState.lua'] = { path = 'scripts/ShopState.lua' },
+		['DefaultGameState.lua'] = { path = 'scripts/DefaultGameState.lua' },
     },
 }

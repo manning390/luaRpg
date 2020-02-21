@@ -341,8 +341,9 @@ function SOP.ReplaceScene(name, params)
         local id = params.name or params.map
         storyboard.mStates[name] = nil
         storyboard.mStates[id] = state
-        local mapDef = MapDB[params.map]()
+        local mapDef = MapDB[params.map](gWorld.mGameState)
         state.mMap = Map:Create(mapDef)
+        state.mMapDef = mapDef -- update the mapdef
 
         state.mMap:GotoTile(params.focusX, params.focusY)
         state.mHero = Character:Create(gCharacters.hero, state.mMap)

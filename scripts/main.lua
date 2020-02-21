@@ -17,7 +17,10 @@ gWorld.mParty:Add(mage)
 
 gWorld.mGold = 500
 
-gStack:Push(ExploreState:Create(gStack, CreateCaveMap(), startPos))
+do
+	local caveMap = CreateCaveMap(gWorld.mGameState)
+	gStack:Push(ExploreState:Create(gStack, caveMap, startPos))
+end
 -- gStack:Push(ExploreState:Create(gStack, CreateTownMap(), startPos))
 
 local sayDef = { textScale = 1.3 }
