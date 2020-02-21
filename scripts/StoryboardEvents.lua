@@ -100,6 +100,32 @@ function TimedTextboxEvent:IsFinished()
     return not self:IsBlocking()
 end
 
+AnimateEvent = {}
+AnimateEvent.__index = AnimateEvent
+function AnimateEvent:Create(entity, anim)
+    local this =
+    {
+        mEntity = entity,
+        mAnimation = anim
+    }
+    setmetatable(this, self)
+    return this
+end
+
+function AnimateEvent:Update(dt)
+    self.mAnimation:Update(dt)
+    local frame = self.mAnimation:Frame()
+    self.mEntity:SetFrame(frame)
+end
+
+function AnimateEvent:Render() end
+function AnimateEvent:IsBlocking()
+    return true
+end
+function AnimateEvent:IsFinished()
+    return self.mAnimation:IsFinished()
+end
+
 local EmptyEvent = WaitEvent:Create(0)
 
 function SOP.Wait(seconds)
@@ -461,5 +487,12 @@ function SOP.RemoveState(state)
             end
         end
         return EmptyEvent
+    end
+end
+
+function SOP.Animate(entity, params)
+    return function(storyboard)
+        local animation = Animation:Create(unpack(params))
+        return AnimateEvent:Create(entity, animation)
     end
 end

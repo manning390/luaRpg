@@ -74,6 +74,12 @@ function Map:Create(mapDef)
         this.mTriggerTypes[k] = Trigger:Create(triggerParams)
     end
 
+    local encounterData = mapDef.encounters or {}
+    this.mEncounters = {}
+    for k, v in ipairs(encounterData) do
+        local oddTable = OddmentTable:Create(v)
+        this.mEncounters[k] = oddTable
+    end
 
     setmetatable(this, self)
 
@@ -362,3 +368,32 @@ function Map:TileToScreen(tX, tY)
     local y = -self.mCamY + self.mY - tY * self.mTileHeight
     return x, y
 end
+
+function Map:TryEncounter(x, y, layer)
+    -- Get the tile id from the collision layer (layer + 2)
+    local tile = self:GetTile(x, y, layer + 2)
+    if tile <= self.mBlockingTile then
+        return
+    end
+
+    -- Get the index to the counter table
+    local index = tile - self.mBlockingTile
+    local odd = self.mEncounters[index]
+
+    if not odd then
+        print("Encounter data missing!", index)
+        return
+    end
+
+    local encounter = odd:Pick()
+
+    -- Empty encounter
+    if not next(encounter) then
+        return
+    end
+
+    -- print("Encounter!", next(encounter))
+    local action = Actions.Combat(self, encounter)
+    action(nil,nil,x,y,layer)
+end
+

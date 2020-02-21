@@ -103,6 +103,10 @@ end
 
 function ExploreState:HandleInput()
 
+    if gWorld:IsInputLocked() then
+        return
+    end
+
     self.mHero.mController:Update(GetDeltaTime())
 
     if Keyboard.JustPressed(KEY_SPACE) then

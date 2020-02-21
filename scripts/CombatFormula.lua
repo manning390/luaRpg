@@ -107,28 +107,29 @@ function Formula.IsCountered(state, attacker, target)
 end
 
 function Formula.CanFlee(state, fleer)
-	local fc = 0.35 -- flee chance
-	local stats= fleer.mStats
-	local speed = stats:Get("speed")
+	return true
+	-- local fc = 0.35 -- flee chance
+	-- local stats= fleer.mStats
+	-- local speed = stats:Get("speed")
 
-	-- Get the average speed of the enemies
-	local enemyCount = 0
-	local totalSpeed = 0
-	for k, v in ipairs(state.mActors['enemy']) do
-		local speed = v.mStats:Get("speed")
-		totalSpeed = totalSpeed + speed
-		enemyCount = enemyCount + 1
-	end
+	-- -- Get the average speed of the enemies
+	-- local enemyCount = 0
+	-- local totalSpeed = 0
+	-- for k, v in ipairs(state.mActors['enemy']) do
+	-- 	local speed = v.mStats:Get("speed")
+	-- 	totalSpeed = totalSpeed + speed
+	-- 	enemyCount = enemyCount + 1
+	-- end
 
-	local avgSpeed = totalSpeed / enemyCount
+	-- local avgSpeed = totalSpeed / enemyCount
 
-	if speed > avgSpeed then
-		fc = fc + 0.15
-	else
-		fc = fc - 0.15
-	end
+	-- if speed > avgSpeed then
+	-- 	fc = fc + 0.15
+	-- else
+	-- 	fc = fc - 0.15
+	-- end
 
-	return math.random() <= fc
+	-- return math.random() <= fc
 end
 
 function Formula.IsHitMagic(state, attacker, target, spell)

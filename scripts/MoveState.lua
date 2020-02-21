@@ -12,7 +12,8 @@ function MoveState:Create(character, map)
         mMoveX = 0,
         mMoveY = 0,
         mTween = Tween:Create(0, 0, 1),
-        mMoveSpeed = 0.3,
+        -- mMoveSpeed = 0.3,
+        mMoveSpeed = 0.1,
     }
     this.mAnim = Animation:Create({ this.mEntity.mStartFrame })
 
@@ -62,6 +63,8 @@ function MoveState:Enter(data)
         local trigger = self.mMap:GetTrigger(x, y, layer)
         if trigger then
             trigger:OnExit(self.mEntity, x, y, layer)
+        else
+            self.mMap:TryEncounter(x, y, layer)
         end
     end
 

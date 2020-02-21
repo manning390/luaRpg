@@ -5,7 +5,8 @@ gRenderer = Renderer.Create()
 gStack = StateStack:Create()
 gWorld = World:Create()
 
-local startPos = Vector.Create(5, 9, 1)
+-- local startPos = Vector.Create(5, 9, 1)
+local startPos = Vector.Create(40, 60, 1)
 
 local hero = Actor:Create(gPartyMemberDefs.hero)
 local thief = Actor:Create(gPartyMemberDefs.thief)
@@ -16,7 +17,8 @@ gWorld.mParty:Add(mage)
 
 gWorld.mGold = 500
 
-gStack:Push(ExploreState:Create(gStack, CreateTownMap(), startPos))
+gStack:Push(ExploreState:Create(gStack, CreateCaveMap(), startPos))
+-- gStack:Push(ExploreState:Create(gStack, CreateTownMap(), startPos))
 
 local sayDef = { textScale = 1.3 }
 local intro =
@@ -87,8 +89,9 @@ local intro =
     SOP.HandOff("handin")
 }
 
-local storyboard = Storyboard:Create(gStack, intro, true)
-gStack:Push(storyboard)
+-- local storyboard = Storyboard:Create(gStack, intro, true)
+-- local storyboard = Storyboard:Create(gStack, {SOP.HandOff("handin")}, true)
+-- gStack:Push(storyboard)
 
 function update()
     local dt = GetDeltaTime()

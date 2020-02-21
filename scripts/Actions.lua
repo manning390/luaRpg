@@ -134,7 +134,7 @@ Actions =
             if gp >= cost then
                 gStack:PushFit(gRenderer, 0, 0, askMsg, false,
                 {
-                    choice =
+                    choices =
                     {
                         options = {"Yes", "No"},
                         OnSelection = OnSelection
@@ -150,6 +150,69 @@ Actions =
             tY = tY - 4
             local x, y = map:TileToScreen(tX, tY)
             gStack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
+        end
+    end,
+    ChangeMap = function(map, destinationId, dX, dY)
+        local storyboard =
+        {
+            SOP.BlackScreen("blackscreen", 0),
+            SOP.FadeInScreen("blackscreen", 0.5),
+            SOP.ReplaceScene(
+                "handin",
+                {
+                    map = destinationId,
+                    focusX = dX,
+                    focusY = dY,
+                    hideHero = false
+                }),
+            SOP.FadeOutScreen("blackscreen", 0.5),
+            SOP.Function(function() gWorld:UnlockInput() end),
+            SOP.HandOff(destinationId)
+        }
+        return function (trigger, entity, tX, tY, tLayer)
+            gWorld:LockInput()
+            local storyboard = Storyboard:Create(gStack, storyboard, true)
+            gStack:Push(storyboard)
+        end
+    end,
+    Combat = function(map, def)
+        return function(trigger, entity, tX, tY, tLayer)
+            def.background = def.background or "combat_bg_field.png"
+            def.enemy = def.enemy or { "goblin" }
+
+            -- convert id's to enemy actors
+            local enemyList = {}
+            for k, v in ipairs(def.enemy) do
+                local enemyDef = gEnemyDefs[v]
+                enemyList[k] = Actor:Create(enemyDef)
+            end
+
+            local combatState = CombatState:Create(gStack,
+            {
+                background = def.background,
+                actors =
+                {
+                    party = gWorld.mParty:ToArray(),
+                    enemy = enemyList,
+                },
+                canFlee = def.canFlee,
+                OnWin = def.OnWin,
+                OnDie = def.OnDie
+            })
+
+            local storyboard =
+            {
+                SOP.BlackScreen("blackscreen", 0),
+                SOP.FadeInScreen("blackscreen", 0.5),
+                SOP.Function(
+                    function()
+                        gStack:Push(combatState)
+                    end
+                )
+            }
+
+            local storyboard = Storyboard:Create(gStack, storyboard)
+            gStack:Push(storyboard)
         end
     end
 }

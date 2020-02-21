@@ -8,7 +8,8 @@ function World:Create()
         mItems = {},
         mKeyItems = {},
         mParty = Party:Create(),
-        mIcons = Icons:Create(Texture.Find("inventory_icons.png"))
+        mIcons = Icons:Create(Texture.Find("inventory_icons.png")),
+        mLockInput = false,
     }
     setmetatable(this, self)
     return this
@@ -165,4 +166,16 @@ function World:FilterItems(Predicate)
         end
     end
     return list
+end
+
+function World:IsInputLocked()
+    return self.mLockInput
+end
+
+function World:LockInput()
+    self.mLockInput = true
+end
+
+function World:UnlockInput()
+    self.mLockInput = false
 end

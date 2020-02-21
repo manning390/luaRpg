@@ -78,9 +78,44 @@ gEntities =
         height = 64,
         startFrame = 37,
     },
+    cave_drake =
+    {
+        texture = "cave_drake.png",
+        width = 128,
+        height = 64,
+        startFrame = 1,
+    },
+    cave_bat =
+    {
+        texture = "cave_bat.png",
+        width = 32,
+        height = 32,
+        startFrame = 1,
+    },
+    cave_shade =
+    {
+        texture = "cave_shade.png",
+        width = 64,
+        height = 64,
+        startFrame = 1,
+    },
     goblin =
     {
         texture = "goblin.png",
+        width = 32,
+        height = 32,
+        startFrame = 1,
+    },
+    goblin_field =
+    {
+        texture = "goblin_field.png",
+        width = 32,
+        height = 32,
+        startFrame = 1,
+    },
+    goblin_forest =
+    {
+        texture = "goblin_forest.png",
         width = 32,
         height = 32,
         startFrame = 1,
@@ -224,7 +259,30 @@ gEntities =
         tileX = 11,
         tileY = 3,
         layer = 1
-    }
+    },
+    door_left =
+    {
+        texture = "door.png",
+        width = 16,
+        height = 32,
+        startFrame = 1,
+        frames = {1, 3, 5, 7}
+    },
+    door_right =
+    {
+        texture = "door.png",
+        width = 16,
+        height = 32,
+        startFrame = 2,
+        frames = {2, 4, 6, 8}
+    },
+    sphere =
+    {
+        texture = "sphere.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+    },
 }
 
 gCharacters =
@@ -437,17 +495,80 @@ gCharacters =
     {
         entity = "goblin",
         controller = {
+            "cs_move",
             "cs_run_anim",
             "cs_standby",
             "cs_die_enemy",
             "cs_hurt_enemy",
-            "cs_move"
+        },
+        state = "cs_standby"
+    },
+    goblin_field =
+    {
+        entity = "goblin_field",
+        controller = {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
+        },
+        state = "cs_standby"
+    },
+    goblin_forest =
+    {
+        entity = "goblin_forest",
+        controller = {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
         },
         state = "cs_standby"
     },
     dragon =
     {
         entity = "dragon",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
+        },
+        state = "cs_standby"
+    },
+    cave_drake =
+    {
+        entity = "cave_drake",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
+        },
+        state = "cs_standby"
+    },
+    cave_bat =
+    {
+        entity = "cave_bat",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy",
+        },
+        state = "cs_standby"
+    },
+    cave_shade =
+    {
+        entity = "cave_shade",
         controller =
         {
             "cs_move",
