@@ -1,4 +1,6 @@
-Save = {}
+Save = {
+	mSaveGame = SaveGame.Create("save.dat")
+}
 
 function Save:Copy(source)
 	if type(source) == 'table' then
@@ -74,4 +76,22 @@ function Save:Patch(data, save, scheme, dataParent, id)
 	if scheme.meta_after_patch then
 		scheme.meta_after_patch(dataParent, save, scheme, dataParent, id)
 	end
+end
+
+function Save:DoesExist()
+	return not (self.mSaveGame:Read() == "")
+end
+
+function Save:Save()
+	local tmpSave = self:Extract(_G, SaveScheme)
+	self.mSaveGame:Write(Blob:Encode(tmpSave))
+end
+
+function Save:Load()
+	local tmpSave = self.mSaveGame:Read()
+	if tmpSave == "" then
+		return
+	end
+	tmpSave = Blob:Decode(tmpSave)
+	self:Patch(_G, tmpSave, SaveScheme)
 end

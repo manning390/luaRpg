@@ -14,6 +14,7 @@ Apply(function(v) LoadLibrary(v) end,
     "Vector",
     "Keyboard",
     "Sound",
+    "SaveGame"
 })
 
 Apply(function(v) Asset.Run(v) end,
@@ -106,4 +107,6 @@ Apply(function(v) Asset.Run(v) end,
 	"ShopState.lua",
 	"SaveScheme.lua",
 	"Save.lua",
+    "PrintTable.lua",
+    "Blob.lua",
 })

@@ -170,5 +170,7 @@ manifest = {
 		['DefaultGameState.lua'] = { path = 'scripts/DefaultGameState.lua' },
 		['SaveScheme.lua'] = { path = 'scripts/SaveScheme.lua' },
 		['Save.lua'] = { path = 'scripts/Save.lua' },
+        ['PrintTable.lua'] = { path = 'scripts/PrintTable.lua' },
+        ['Blob.lua'] = { path = 'scripts/Blob.lua' },
     },
 }
