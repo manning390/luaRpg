@@ -104,4 +104,6 @@ Apply(function(v) Asset.Run(v) end,
     "map_cave.lua",
     "MapDB.lua",
 	"ShopState.lua",
+	"SaveScheme.lua",
+	"Save.lua",
 })

@@ -1,6 +1,8 @@
 LoadLibrary("Asset")
 Asset.Run("Dependencies.lua")
 
+local inspect = require 'inspect'
+
 gRenderer = Renderer.Create()
 gStack = StateStack:Create()
 gWorld = World:Create()
@@ -96,9 +98,19 @@ local intro =
 -- local storyboard = Storyboard:Create(gStack, {SOP.HandOff("handin")}, true)
 -- gStack:Push(storyboard)
 
+local tmpSave = nil
 function update()
     local dt = GetDeltaTime()
     gStack:Update(dt)
     gStack:Render(gRenderer)
     gWorld:Update(dt)
+
+    if Keyboard.JustPressed(KEY_S) then
+    	tmpSave = Save:Extract(_G, SaveScheme)
+    end
+    if Keyboard.JustPressed(KEY_L) then
+    	if tmpSave then
+    		Save:Patch(_G, tmpSave, SaveScheme)
+    	end
+    end
 end

@@ -61,3 +61,15 @@ end
 function Clamp(value, min, max)
     return math.max(min, math.min(value, max))
 end
+
+function DeepClone(t)
+    local clone = {}
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            clone[k] = DeepClone(v)
+        else
+            clone[k] = v
+        end
+    end
+    return clone
+end
