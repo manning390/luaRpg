@@ -85,6 +85,11 @@ function SetupNewGame()
 	    ),
 	    SOP.FadeOutChar("handin", "mage"),
 	    SOP.RunAction("RemoveNPC", {"handin", "mage"}, {GetMapRef}),
+	    SOP.Function(
+        function()
+        	gWorld.mGameState.maps.town.quest_given = true
+        	gWorld.mGold = gWorld.mGold + 500
+        end),
 	    SOP.Wait(0.1),
 	    SOP.HandOff("handin")
 	}
@@ -106,11 +111,4 @@ function update()
     gStack:Update(dt)
     gStack:Render(gRenderer)
     gWorld:Update(dt)
-
-  --   if Keyboard.JustPressed(KEY_S) then
-  --   	Save:Save()
-  --   end
-  --   if Keyboard.JustPressed(KEY_L) then
-		-- Save:Load()
-  --   end
 end

@@ -34,6 +34,7 @@ manifest = {
         ['arena_background.png'] = { path = "sprites/arena_background.png" },
         ['combat_bg_field.png'] = { path = "sprites/combat_bg_field.png" },
         ['combat_bg_forest.png'] = { path = "sprites/combat_bg_forest.png" },
+        ['combat_bg_town.png'] = { path = "sprites/combat_bg_town.png" },
         ['combat_hero.png'] = { path = "sprites/combat_hero.png" },
         ['combat_thief.png'] = { path = "sprites/combat_thief.png" },
         ['combat_mage.png'] = { path = "sprites/combat_mage.png" },
@@ -60,6 +61,7 @@ manifest = {
         ['sphere.png'] = { path = "sprites/sphere.png" },
         ['teleport.png'] = { path = "sprites/teleport.png" },
         ['save_point.png'] = { path = "sprites/save_point.png" },
+        ['demon.png'] = { path = "sprites/demon.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },

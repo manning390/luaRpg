@@ -4,7 +4,9 @@ function GetDefaultGameState()
 		defeated_cave_drake = false,
 		maps =
 		{
-			town = {},
+			town = {
+				quest_given = false,
+			},
 			world = {},
 			cave =
 			{
