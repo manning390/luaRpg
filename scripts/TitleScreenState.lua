@@ -6,21 +6,32 @@ function TitleScreenState:Create(stack, storyboard)
         mTitleBanner = Sprite.Create(),
         mStack = stack,
         mStoryboard = storyboard,
-        mMenu = Selection:Create
-        {
-            data = {"Play", "Exit"},
-            spacingY = 32,
-            OnSelection = function(index)
-                this:OnSelection(index)
-            end
-        }
     }
     this.mTitleBanner:SetTexture(Texture.Find("title_screen.png"))
     this.mTitleBanner:SetPosition(0, 100)
 
+    this.mShowContinue = Save:DoesExist()
+    local data = {}
+    if this.mShowContinue then
+        table.insert(data, "Continue")
+    end
+    table.insert(data, "Play")
+    table.insert(data, "Exit")
+
+    this.mMenu = Selection:Create
+    {
+        data = data,
+        spacingY = 24,
+        OnSelection = function(index)
+            this:OnSelection(index)
+        end
+    }
+
+    -- Code to center the menu
     this.mMenu.mCursorWidth = 50
     this.mMenu.mX = -this.mMenu:GetWidth()/2 - this.mMenu.mCursorWidth
     this.mMenu.mY = -50
+
     setmetatable(this, self)
     return this
 end
@@ -30,10 +41,19 @@ function TitleScreenState:Exit() end
 function TitleScreenState:Update(dt) end
 
 function TitleScreenState:OnSelection(index)
+    if not self.mShowContinue then
+        index = index + 1
+    end
+
     if index == 1 then
+        Save:Load()
+    elseif index == 2 then
         self.mStack:Pop()
         self.mStack:Push(self.mStoryboard)
-    elseif index == 2 then
+        -- We're in the update function so update the storyboard
+        -- before it gets rendered.
+        self.mStoryboard:Update(0)
+    elseif index == 3 then
         System.Exit()
     end
 end
@@ -49,9 +69,9 @@ function TitleScreenState:Render(renderer)
 
     renderer:DrawSprite(self.mTitleBanner)
     renderer:AlignText("center", "center")
-    renderer:ScaleText(0.8, 0.8)
-    renderer:DrawText2d(0, 50, "A mini-rpg adventure.")
-    renderer:ScaleText(1, 1)
+    renderer:ScaleText(1.2, 1.2)
+    renderer:DrawText2d(0, 0, "A mini-rpg adventure.")
+    renderer:ScaleText(1.2, 1.2)
     renderer:AlignText("left", "center")
     self.mMenu:Render(renderer)
 end

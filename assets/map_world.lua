@@ -84,6 +84,7 @@ function CreateWorldMap(state)
   {
     id = id,
     name = "World",
+    can_save = true,
     version = "1.1",
     luaversion = "5.1",
     orientation = "orthogonal",

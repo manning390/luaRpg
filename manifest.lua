@@ -59,6 +59,7 @@ manifest = {
         ['door.png'] = { path = "sprites/door.png" },
         ['sphere.png'] = { path = "sprites/sphere.png" },
         ['teleport.png'] = { path = "sprites/teleport.png" },
+        ['save_point.png'] = { path = "sprites/save_point.png" },
     },
     ['fonts'] = {
         ["default"] = { path = "fonts/junction.ttf" },

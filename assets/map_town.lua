@@ -41,6 +41,7 @@ function CreateTownMap(state)
 return {
   id = id,
   name = "Town",
+  can_save = true,
   version = "1.1",
   luaversion = "5.1",
   orientation = "orthogonal",

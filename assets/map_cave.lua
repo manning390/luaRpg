@@ -297,6 +297,7 @@ function CreateCaveMap(state)
 return {
   id = id,
   name = "Cave",
+  can_save = false,
   version = "1.1",
   luaversion = "5.1",
   orientation = "orthogonal",
@@ -305,7 +306,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-  -- encounters = encountersCave,
+  encounters = encountersCave,
   on_wake =
   {
       {
@@ -323,6 +324,10 @@ return {
       {
           id = "AddChest",
           params = { "chest", { { id = 10 } }, 12, 27 },
+      },
+      {
+        id = "AddSavePoint",
+        params = { 26, 29, 1 }
       },
   },
   actions =
